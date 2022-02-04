@@ -32,3 +32,10 @@ class HeaderTextSerializer(serializers.ModelSerializer):
     class Meta:
         model = HeaderText
         fields = ('id', 'content', 'created_at', 'updated_at')
+
+
+class FilterSerializer(serializers.ModelSerializer):
+    sub_sub_category = SubSubCategorySerializer(required=False)
+    class Meta:
+        model = Filter
+        fields = ('id', 'title', 'created_at', 'updated_at', 'sub_sub_category')

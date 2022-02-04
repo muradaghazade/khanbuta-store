@@ -69,6 +69,27 @@ class SubSubCategory(models.Model):
         return self.title
 
 
+class Filter(models.Model):
+    title = models.CharField(max_length=200)
+    sub_sub_category = models.ForeignKey(SubSubCategory, on_delete=models.CASCADE, related_name='filters', blank=False, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    slug = models.SlugField(max_length=200, editable=False, null=True)
+
+    class Meta:
+        verbose_name = "Filter"
+        verbose_name_plural = "Filterler"
+        ordering = ['title']
+
+    def __str__(self):
+        return self.title
+
+    def save(self, *args, **kwargs):
+        super(Filter, self).save(*args, **kwargs)
+        self.slug = slugify(self.title)
+        super(Filter, self).save(*args, **kwargs)
+
+
 class Logo(models.Model):
     title = models.CharField(max_length=50, unique=True)
     image = models.ImageField('Image',upload_to='images/', null=False, blank=False)

@@ -1,6 +1,6 @@
 from rest_framework import viewsets
-from .models import Category, Logo, HeaderText, SubSubCategory, SubCategory
-from .serializers import LogoSerializer, CategorySerializer, HeaderTextSerializer, SubCategorySerializer, SubSubCategorySerializer
+from .models import Category, Logo, HeaderText, SubSubCategory, SubCategory, Filter
+from .serializers import LogoSerializer, CategorySerializer, HeaderTextSerializer, SubCategorySerializer, SubSubCategorySerializer, FilterSerializer
 from django.shortcuts import get_object_or_404
 from rest_framework.response import Response
 from rest_framework import status
@@ -77,4 +77,19 @@ class SubSubCategoryViewSet(viewsets.ViewSet):
     def retrieve(self, request, pk=None):
         category = get_object_or_404(self.queryset, slug=pk)
         serializers_class = SubSubCategorySerializer(category)
+        return Response(serializers_class.data)
+
+
+class FilterViewSet(viewsets.ViewSet):
+    queryset = Filter.objects.all()
+    serializer_class = FilterSerializer
+
+    def list(self, request):
+        self.queryset = Filter.objects.all()
+        serializers_class = FilterSerializer(self.queryset, many=True)
+        return Response(serializers_class.data)
+
+    def retrieve(self, request, pk=None):
+        f = get_object_or_404(self.queryset, slug=pk)
+        serializers_class = FilterSerializer(f)
         return Response(serializers_class.data)
