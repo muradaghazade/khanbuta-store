@@ -87,7 +87,7 @@ instance/
 docs/_build/
 doc/_build/
 
-media/
+# media/
 # PyBuilder
 target/
 
