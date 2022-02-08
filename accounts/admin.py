@@ -1,4 +1,4 @@
 from django.contrib import admin
-from accounts.models import User
+from accounts.models import User, OTPCode
 
-admin.site.register([User,])
+admin.site.register([User, OTPCode,])
