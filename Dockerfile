@@ -4,7 +4,9 @@ ENV PYTHONUNBUFFERED 1
 
 
 COPY requirements.txt /code/requirements.txt
+COPY manage.py /code/manage.py
+
 WORKDIR /code
 RUN pip install -r requirements.txt
-RUN ./manage.py loaddata data.json
+RUN python3 manage.py loaddata data.json
 ADD . .
