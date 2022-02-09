@@ -28,7 +28,7 @@ class SubCategory(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='sub_categories', blank=True, null=True)
     # parent = TreeForeignKey('self', on_delete=models.CASCADE, null=True, blank=True, related_name='children')
     slug = models.SlugField(max_length=200, editable=False, null=True)
-    icon = models.ImageField('Icon',upload_to='icons/', null=False, blank=False)
+    icon = models.ImageField('Icon',upload_to='icons/', null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -51,7 +51,7 @@ class SubSubCategory(models.Model):
     category = models.ForeignKey(SubCategory, on_delete=models.CASCADE, related_name='sub_sub_categories', blank=True, null=True)
     # parent = TreeForeignKey('self', on_delete=models.CASCADE, null=True, blank=True, related_name='children')
     slug = models.SlugField(max_length=200, editable=False, null=True)
-    icon = models.ImageField('Icon',upload_to='icons/', null=False, blank=False)
+    icon = models.ImageField('Icon',upload_to='icons/', null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
