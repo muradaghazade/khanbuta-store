@@ -20,5 +20,5 @@ urlpatterns = [
     path('categories/<slug:slug>/<slug:slug2>/<slug:slug3>/', CategoryBySubSubAPIView.as_view(), name='sub-sub'),
     path('logo/', LastLogoAPIView.as_view(), name='last-logo'),
     path('header-text/', LastHeaderTextAPIView.as_view(), name='last-text'),
-    path('filters-by-subsub/<slug:subsub>/', FiltersBySubSubAPIView.as_view(), name='filter-sub'),
+    path('filters-by-subsub/<int:id>/', FiltersBySubSubAPIView.as_view(), name='filter-sub'),
 ]

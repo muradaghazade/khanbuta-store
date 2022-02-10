@@ -39,6 +39,6 @@ class LastHeaderTextAPIView(APIView):
 
 class FiltersBySubSubAPIView(APIView):
     def get(self, request, *args, **kwargs):
-        f = Filter.objects.filter(sub_sub_category__slug=kwargs['subsub'])
+        f = Filter.objects.filter(sub_sub_category__pk=kwargs['id'])
         serializer = FilterSerializer(f, many=True)
         return Response(serializer.data)
