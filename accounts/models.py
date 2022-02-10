@@ -25,7 +25,7 @@ class User(AbstractUser):
     number = models.CharField(('Number'),max_length=100, unique=True, null=True, blank=True)
     slug = models.SlugField(max_length=255, null=True, blank=True)
     password2 = models.CharField(('password2'), max_length=200, editable=False)
-    is_active = models.BooleanField(default=False)
+    is_verified = models.BooleanField(default=False)
 
     USERNAME_FIELD = 'number'
     REQUIRED_FIELDS = []

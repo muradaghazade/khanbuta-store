@@ -33,7 +33,7 @@ class VerifyNumberView(APIView):
         db_user_code = User.objects.get(pk=user_id).code.code
         if user_code == db_user_code:
             user = User.objects.get(pk=user_id)
-            user.is_active = True
+            user.is_verified = True
             user.save()
         else:
             return JsonResponse({"Detail":"OTP code is wrong"})
