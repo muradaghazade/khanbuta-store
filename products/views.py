@@ -4,8 +4,32 @@ from rest_framework.views import APIView
 from rest_framework import status
 from django.shortcuts import get_object_or_404
 from rest_framework.response import Response
-from .models import Category, SubCategory, SubSubCategory, Logo, HeaderText, Filter
-from .serializers import FilterSerializer, SubCategorySerializer, SubSubCategorySerializer, LogoSerializer, HeaderTextSerializer, FilterSerializer
+from .models import Category, SubCategory, SubSubCategory, Logo, HeaderText, Filter, CategoryLine, Slider, Benefit, DisplayedCategory
+from .serializers import CategoryLineSerializer, FilterSerializer, SubCategorySerializer, SubSubCategorySerializer, LogoSerializer, HeaderTextSerializer, FilterSerializer, SliderSerializer, BenefitSerializer
+
+
+class BenefitAPIView(ListAPIView):
+    model = Benefit
+    serializer_class = BenefitSerializer
+    queryset = Benefit.objects.all()
+
+
+class SliderAPIView(ListAPIView):
+    model = Slider
+    serializer_class = SliderSerializer
+    queryset = Slider.objects.all()
+
+
+class CategoryLineAPI(ListAPIView):
+    model = CategoryLine
+    serializer_class = CategoryLineSerializer
+    queryset = CategoryLine.objects.all()
+
+
+class DisplayedCategoryAPI(ListAPIView):
+    model = DisplayedCategory
+    serializer_class = CategoryLineSerializer
+    queryset = DisplayedCategory.objects.all()
 
 
 class CategoryBySubAPIView(APIView):
@@ -14,7 +38,6 @@ class CategoryBySubAPIView(APIView):
         serializer = SubCategorySerializer(category)
         return Response(serializer.data)
        
-
 
 class CategoryBySubSubAPIView(APIView):
     def get(self, request, *args, **kwargs):

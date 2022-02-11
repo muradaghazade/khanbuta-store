@@ -8,6 +8,18 @@ class LogoSerializer(serializers.ModelSerializer):
         fields = ('id', 'title', 'image', 'created_at', 'updated_at')
 
 
+class SliderSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Slider
+        fields = ('id', 'title', 'description', 'image')
+
+
+class BenefitSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Benefit
+        fields = ('id', 'title', 'description', 'icon')
+
+
 class SubSubCategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = SubSubCategory
@@ -26,6 +38,13 @@ class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
         fields = ('id', 'title', 'icon', 'created_at', 'updated_at', 'sub_categories')
+
+
+class CategoryLineSerializer(serializers.ModelSerializer):
+    category = CategorySerializer(required=False)
+    class Meta:
+        model = Category
+        fields = ('id', 'category')
 
 
 class HeaderTextSerializer(serializers.ModelSerializer):

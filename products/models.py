@@ -2,6 +2,29 @@ from django.db import models
 from .common import slugify
 
 
+class CategoryLine(models.Model):
+    category = models.ForeignKey('Category', on_delete=models.CASCADE, related_name='categories', blank=True, null=True)
+
+    def __str__(self):
+        return self.category.title
+
+    class Meta:
+        verbose_name = 'Qara Lent Kategoriya'
+        verbose_name_plural = 'Qara Lent Kategoriyalari'
+        # ordering = ['title']
+
+
+class DisplayedCategory(models.Model):
+    category = models.ForeignKey('Category', on_delete=models.CASCADE, related_name='dis_categories', blank=True, null=True)
+
+    def __str__(self):
+        return self.category.title
+
+    class Meta:
+        verbose_name = 'Ana Sehife Kategoriya'
+        verbose_name_plural = 'Ana Sehife Kategoriyalari'
+
+
 class Category(models.Model):
     title = models.CharField(max_length=200, unique=True)
     icon = models.ImageField('Image',upload_to='icons/', null=False, blank=False)
@@ -123,3 +146,29 @@ class HeaderText(models.Model):
         verbose_name = 'Bashliq teksti'
         verbose_name_plural = 'Bashliq tekstleri'
         ordering = ['content']
+
+
+class Slider(models.Model):
+    title = models.CharField(max_length=50)
+    description = models.TextField('Description')
+    image = models.ImageField('Image',upload_to='images/', null=False, blank=False)
+
+    def __str__(self):
+        return self.title
+
+    class Meta:
+        verbose_name = 'Slider'
+        verbose_name_plural = 'Sliderler'
+
+
+class Benefit(models.Model):
+    title = models.CharField(max_length=50)
+    description = models.TextField('Description')
+    icon = models.ImageField('Image',upload_to='icons/', null=False, blank=False)
+
+    def __str__(self):
+        return self.title
+
+    class Meta:
+        verbose_name = 'Xidmetler'
+        verbose_name_plural = 'Xidmetler'
