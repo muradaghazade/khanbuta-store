@@ -1,4 +1,5 @@
 from django.shortcuts import render
+# from django.contrib.auth import authenticate
 from rest_framework.generics import CreateAPIView
 from rest_framework.views import APIView
 from accounts.seralizers import UserRegisterSerializer, UserSerializer, MyTokenObtainPairSerializer
@@ -7,6 +8,10 @@ from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from django.http import JsonResponse
+from rest_framework_jwt.settings import api_settings
+
+jwt_payload_handler = api_settings.JWT_PAYLOAD_HANDLER
+jwt_encode_handler = api_settings.JWT_ENCODE_HANDLER
 
 class RegisterUserAPI(CreateAPIView):
     model = User
@@ -31,6 +36,10 @@ class VerifyNumberView(APIView):
         user_id = request.data['id']
         user_code = request.data['code']
         db_user_code = User.objects.get(pk=user_id).code.code
+        user_p = User.objects.get(pk=user_id)
+        payload = jwt_payload_handler(user_p)
+        token = jwt_encode_handler(payload)
+        print(token)
         if user_code == db_user_code:
             user = User.objects.get(pk=user_id)
             user.is_verified = True
@@ -39,4 +48,4 @@ class VerifyNumberView(APIView):
             return JsonResponse({"Detail":"OTP code is wrong"})
         print(db_user_code)
         # serializer = UserSerializer(user)
-        return JsonResponse({"Success":"Number is verified!"})
+        return JsonResponse({"Success":"Number is verified!", "token":token})
