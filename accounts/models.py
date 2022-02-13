@@ -26,6 +26,8 @@ class User(AbstractUser):
     slug = models.SlugField(max_length=255, null=True, blank=True)
     password2 = models.CharField(('password2'), max_length=200, editable=False)
     is_verified = models.BooleanField(default=False)
+    is_vendor = models.BooleanField(default=False)
+    is_store = models.BooleanField(default=False)
 
     USERNAME_FIELD = 'number'
     REQUIRED_FIELDS = []
