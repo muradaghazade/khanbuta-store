@@ -209,8 +209,10 @@ class Product(models.Model):
     short_desc2 = models.CharField(max_length=1000)
     short_desc3 = models.CharField(max_length=1000)
     main_image = models.ImageField('Image',upload_to='images/', null=False, blank=False)
+    video = models.CharField(max_length=3000)
     sub_sub_category = models.ForeignKey(SubSubCategory, on_delete=models.CASCADE, related_name='products', blank=True, null=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, db_index=True, related_name='products', null=True, blank=True)
+    tag = models.ManyToManyField('Tag', db_index=True, related_name='products', null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -246,3 +248,17 @@ class Image(models.Model):
 
     def __str__(self):
         return self.product.title
+
+
+class Tag(models.Model):
+    title = models.CharField(max_length=50)
+    # product = models.ManyToManyField(Product, db_index=True, related_name='tags', null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = 'Tag'
+        verbose_name_plural = 'Taglar'
+
+    def __str__(self):
+        return self.title
