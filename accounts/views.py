@@ -44,3 +44,5 @@ class VerifyNumberView(APIView):
         print(db_user_code)
         # serializer = UserSerializer(user)
         return JsonResponse({"Success":"Number is verified!", "refresh":str(refresh), "access":str(refresh.access_token)})
+
+    
