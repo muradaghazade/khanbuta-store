@@ -1,5 +1,3 @@
-from email.mime import image
-from math import prod
 from django.shortcuts import render
 from rest_framework.generics import ListAPIView
 from rest_framework.views import APIView
