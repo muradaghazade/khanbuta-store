@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from rest_framework.generics import ListAPIView
+from rest_framework.generics import ListAPIView, CreateAPIView
 from rest_framework.views import APIView
 from rest_framework import status
 from django.shortcuts import get_object_or_404
@@ -67,24 +67,26 @@ class FiltersBySubSubAPIView(APIView):
         return Response(serializer.data)
 
 
-class ProductCreateAPIView(APIView):
-    def post(self, request, *args, **kwargs):
-        images = request.data["images"]
-        filter_values = request.data["filter_values"]
-        tags = request.data["tags"]
-        product = Product.objects.create(title=request.data["title"],description=request.data["description"],price=request.data["price"],short_desc1=request.data["short_desc1"],short_desc2=request.data["short_desc2"],short_desc3=request.data["short_desc3"],main_image=request.data["main_image"],user=request.user)
-        Image.objects.bulk_create(
-            [Image(image=i, product=product) for i in images]
-        )
-        FilterValue.objects.bulk_create(
-            [FilterValue(value=i["value"], the_filter=Filter.objects.get(pk=i["filter"]), product=product) for i in filter_values]
-        )
-        for tag in tags:
-            t = Tag(title=tag)
-            t.save()
-            product.tag.add(t)
-        serializer = ProductSerializer(product)
-        return Response(serializer.data)
+class ProductCreateAPIView(CreateAPIView):
+    model = Product
+    serializer_class = ProductSerializer
+    # def post(self, request, *args, **kwargs):
+    #     images = request.data["images"]
+    #     # filter_values = request.data["filter_values"]
+    #     # tags = request.data["tags"]
+    #     product = Product.objects.create(title=request.data["title"],description=request.data["description"],price=request.data["price"],short_desc1=request.data["short_desc1"],short_desc2=request.data["short_desc2"],short_desc3=request.data["short_desc3"],main_image=request.data["main_image"],user=request.user)
+    #     Image.objects.bulk_create(
+    #         [Image(image=i, product=product) for i in images]
+    #     )
+    #     # FilterValue.objects.bulk_create(
+    #     #     [FilterValue(value=i["value"], the_filter=Filter.objects.get(pk=i["filter"]), product=product) for i in filter_values]
+    #     # )
+    #     # for tag in tags:
+    #     #     t = Tag(title=tag)
+    #     #     t.save()
+    #     #     product.tag.add(t)
+    #     serializer = ProductSerializer(product)
+    #     return Response(serializer.data)
 
 
 class ProductUpdateDeleteAPIView(APIView):

@@ -1,3 +1,4 @@
+from traceback import print_tb
 from rest_framework import serializers
 from .models import *
 from drf_extra_fields.fields import Base64ImageField
@@ -69,6 +70,13 @@ class ImageSerializer(serializers.ModelSerializer):
 
 
 class FilterValueSerializer(serializers.ModelSerializer):
+    # the_filter = FilterSerializer(required=False)
+    class Meta:
+        model = FilterValue
+        fields = ('id', 'value', 'the_filter')
+
+
+class FilterValueShowSerializer(serializers.ModelSerializer):
     the_filter = FilterSerializer(required=False)
     class Meta:
         model = FilterValue
@@ -81,11 +89,57 @@ class TagSerializer(serializers.ModelSerializer):
         fields = ('id', 'title', 'created_at', 'updated_at')
 
 
-class ProductSerializer(serializers.ModelSerializer):
+class ProductShowSerializer(serializers.ModelSerializer):
+    main_image = Base64ImageField(required=False)
     sub_sub_category = SubSubCategorySerializer(required=False)
     images = ImageSerializer(many=True, required=False)
-    filter_values = FilterValueSerializer(many=True, required=False)
-    tag = TagSerializer(many=True, required=True)
+    filter_values = FilterValueShowSerializer(many=True, required=False)
+    tag = TagSerializer(many=True, required=False)
+
     class Meta:
         model = Product
         fields = ('id', 'title', 'description', 'price', 'short_desc1', 'short_desc2', 'short_desc3', 'main_image', 'sub_sub_category', 'images', 'filter_values', 'tag', 'created_at', 'updated_at')
+
+
+class ProductSerializer(serializers.ModelSerializer):
+    main_image = Base64ImageField(required=False)
+    sub_sub_category = SubSubCategorySerializer(required=False)
+    images = ImageSerializer(many=True, required=False)
+    filter_values = FilterValueSerializer(many=True, required=False)
+    tag = TagSerializer(many=True, required=False)
+
+    class Meta:
+        model = Product
+        fields = ('id', 'title', 'description', 'price', 'short_desc1', 'short_desc2', 'short_desc3', 'main_image', 'sub_sub_category', 'images', 'filter_values', 'tag', 'created_at', 'updated_at')
+
+    def create(self, validated_data):
+        print(validated_data['tag'])
+        product = Product.objects.create(
+            title = validated_data['title'],
+            description = validated_data['description'],
+            price = validated_data['price'],
+            short_desc1 = validated_data['short_desc1'],
+            short_desc2 = validated_data['short_desc2'],
+            short_desc3 = validated_data['short_desc3'],
+            main_image = validated_data['main_image'],
+
+        )
+
+        #images
+        for i in validated_data['images']:
+            image = Image(image=i['image'], product=product)
+            image.save()
+            product.images.add(image)
+
+        #filter
+        for i in validated_data['filter_values']:
+            f = FilterValue(value=i["value"], the_filter=i["the_filter"], product=product)
+            f.save()
+
+        #tags
+        for i in validated_data['tag']:
+            t = Tag(title=i['title'])
+            t.save()
+            product.tag.add(t)
+        product.save()
+        return product
