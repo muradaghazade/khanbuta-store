@@ -262,3 +262,15 @@ class Tag(models.Model):
 
     def __str__(self):
         return self.title
+
+
+class FAQ(models.Model):
+    question = models.TextField("Question")
+    answer = models.TextField("Answer")
+
+    class Meta:
+        verbose_name = 'Tez Tez verilen sual'
+        verbose_name_plural = 'Tez Tez verilen suallar'
+
+    def __str__(self):
+        return self.question

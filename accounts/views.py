@@ -1,17 +1,38 @@
+from pickle import TRUE
 from django.shortcuts import render
 # from django.contrib.auth import authenticate
 from rest_framework.generics import CreateAPIView
 from rest_framework.views import APIView
-from accounts.seralizers import UserRegisterSerializer, UserSerializer, MyTokenObtainPairSerializer
-from accounts.models import User
+from accounts.seralizers import UserRegisterSerializer, UserSerializer, MyTokenObtainPairSerializer, AvenueSerializer, StreetSerializer
+from accounts.models import Avenue, User, Street
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from django.http import JsonResponse
+from rest_framework import status
+from django.shortcuts import get_object_or_404
+from rest_framework.response import Response
+
 
 class RegisterUserAPI(CreateAPIView):
     model = User
     serializer_class = UserRegisterSerializer
+
+
+class UpdateUserView(APIView):
+    def patch(self, request, *args, **kwargs):
+        user = get_object_or_404(User, pk=kwargs['pk'])
+        serializer = UserSerializer(user, data=request.data, partial=True)
+        if serializer.is_valid():
+            user = serializer.save()
+            return Response(UserSerializer(user).data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+    def delete(self, request, *args, **kwargs):
+        user = get_object_or_404(User, pk=kwargs['pk'])
+        user.delete()
+        return Response("User deleted", status=status.HTTP_204_NO_CONTENT)
 
 
 class MyObtainTokenPairView(TokenObtainPairView):
@@ -45,4 +66,23 @@ class VerifyNumberView(APIView):
         # serializer = UserSerializer(user)
         return JsonResponse({"Success":"Number is verified!", "refresh":str(refresh), "access":str(refresh.access_token)})
 
+
+class AvenueByCityAPIView(APIView):
+    def get(self, request, *args, **kwargs):
+        avenue = Avenue.objects.filter(city__pk=kwargs['pk'])
+        serializer = AvenueSerializer(avenue, many=True)
+        return Response(serializer.data)
+
     
+class AvenueByRegionAPIView(APIView):
+    def get(self, request, *args, **kwargs):
+        avenue = Avenue.objects.filter(region__pk=kwargs['pk'])
+        serializer = AvenueSerializer(avenue, many=True)
+        return Response(serializer.data)
+
+
+class StreetByAvenueAPIView(APIView):
+    def get(self, request, *args, **kwargs):
+        street = Street.objects.filter(avenue__pk=kwargs['pk'])
+        serializer = StreetSerializer(street, many=True)
+        return Response(serializer.data)

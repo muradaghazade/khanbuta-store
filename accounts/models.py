@@ -4,6 +4,7 @@ from products.common import slugify
 from .managers import UserManager
 from django.contrib.auth.base_user import BaseUserManager
 import random
+# from products.models import Category
 
 
 class User(AbstractUser):
@@ -21,8 +22,12 @@ class User(AbstractUser):
         },
     )
     email = models.EmailField(('email adress'), unique=True, null=True, blank=True)
-    full_name = models.CharField(max_length=100)
+    name = models.CharField(max_length=100, null=True, blank=True)
     number = models.CharField(('Number'),max_length=100, unique=True, null=True, blank=True)
+    address = models.CharField(max_length=3000, null=True, blank=True)
+    address_addtional = models.CharField(max_length=300, null=True, blank=True)
+    cover_image = models.ImageField('Image',upload_to='images/', null=True, blank=True)
+    logo = models.ImageField('Image',upload_to='images/', null=True, blank=True)
     slug = models.SlugField(max_length=255, null=True, blank=True)
     password2 = models.CharField(('password2'), max_length=200, editable=False)
     is_verified = models.BooleanField(default=False)
@@ -65,3 +70,74 @@ class OTPCode(models.Model):
         super(OTPCode, self).save(*args, **kwargs)
 
     
+class City(models.Model):
+    title = models.CharField(max_length=50)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.title
+
+    class Meta:
+        verbose_name = 'Sheher'
+        verbose_name_plural = 'Sheherler'
+
+
+class Region(models.Model):
+    title = models.CharField(max_length=50)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.title
+
+    class Meta:
+        verbose_name = 'Rayon'
+        verbose_name_plural = 'Rayonlar'
+
+
+class Avenue(models.Model):
+    title = models.CharField(max_length=50)
+    city = models.ForeignKey(City, on_delete=models.CASCADE, related_name='avenues', blank=True, null=True)
+    region = models.ForeignKey(Region, on_delete=models.CASCADE, related_name='avenues', blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.title
+
+    class Meta:
+        verbose_name = 'Qesebe'
+        verbose_name_plural = 'Qesebeler'
+
+
+class Street(models.Model):
+    title = models.CharField(max_length=50)
+    avenue = models.ForeignKey(Avenue, on_delete=models.CASCADE, related_name='streets', blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.title
+
+    class Meta:
+        verbose_name = 'Kuce'
+        verbose_name_plural = 'Kuceler'
+
+
+class SocialMedia(models.Model):
+    title = models.CharField(max_length=100)
+    logo = models.ImageField('Logo',upload_to='images/', null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.title
+
+
+class SocialIcon(models.Model):
+    url = models.CharField(max_length=1000)
+    social_media = models.ForeignKey(SocialMedia, on_delete=models.CASCADE, related_name='social_icons', blank=True, null=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, db_index=True, related_name='social_icons', null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)

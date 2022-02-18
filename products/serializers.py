@@ -143,3 +143,9 @@ class ProductSerializer(serializers.ModelSerializer):
             product.tag.add(t)
         product.save()
         return product
+
+
+class FAQSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = FAQ
+        fields = ('id', 'question', 'answer')

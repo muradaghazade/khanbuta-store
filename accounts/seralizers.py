@@ -1,8 +1,8 @@
-from accounts.models import User
+from accounts.models import *
 from rest_framework import serializers
 from django.contrib.auth.password_validation import validate_password
-from django.contrib.auth.hashers import make_password
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+from drf_extra_fields.fields import Base64ImageField
 
 class UserRegisterSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True, required=True, validators=[validate_password])
@@ -31,11 +31,56 @@ class UserRegisterSerializer(serializers.ModelSerializer):
         return user
 
 
+class SocialMediaSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SocialMedia
+        fields = ('id', 'title', 'logo', 'created_at', 'updated_at')
+
+
+class SocialIconCreateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SocialIcon
+        fields = ('id', 'url', 'social_media', 'user', 'created_at', 'updated_at')
+
+
 class UserSerializer(serializers.ModelSerializer):
+    cover_image = Base64ImageField(required=False)
+    logo = Base64ImageField(required=False)
+    social_icons = SocialIconCreateSerializer(many=True, required=False)
+    
     class Meta:
         model = User
-        fields = ('id', 'number', 'full_name', 'is_vendor', 'is_store', 'email')
+        fields = ('id', 'number', 'name', 'is_vendor', 'is_store', 'email', 'address', 'address_addtional', 'social_icons', 'cover_image', "logo")
 
+    def update(self, instance, validated_data):
+        try:
+            social_icons = validated_data['social_icons']
+            icons = instance.social_icons.all()
+            # icons = list(icons)
+            # print(social_icons)
+            instance.name = validated_data.get('name', instance.name)
+            instance.number = validated_data.get('number', instance.number)
+            instance.email = validated_data.get('email', instance.email)
+            instance.address = validated_data.get('address', instance.address)
+            instance.address_addtional = validated_data.get('address_addtional', instance.address_addtional)
+            instance.cover_image = validated_data.get('cover_image', instance.cover_image)
+            instance.logo = validated_data.get('logo', instance.logo)
+            instance.save()
+
+            for icon in social_icons:
+                if len(icons) == 0:
+                    social_icon = SocialIcon(url=social_icons[icon]['url'], social_media=social_icons[icon]['social_media'], user=instance)
+                    social_icon.save()
+        except:
+            instance.name = validated_data.get('name', instance.name)
+            instance.address = validated_data.get('address', instance.address)
+            instance.number = validated_data.get('number', instance.number)
+            instance.email = validated_data.get('email', instance.email)
+            instance.address_addtional = validated_data.get('address_addtional', instance.address_addtional)
+            instance.cover_image = validated_data.get('cover_image', instance.cover_image)
+            instance.logo = validated_data.get('logo', instance.logo)
+            instance.save()
+        return instance
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
 
@@ -50,3 +95,38 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
         print(token['username'])
         print("qwe")
         return token
+
+
+class StreetSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Street
+        fields = ('id', 'title', 'created_at', 'updated_at')
+
+
+class AvenueSerializer(serializers.ModelSerializer):
+    streets = StreetSerializer(many=True, required=False)
+    class Meta:
+        model = Avenue
+        fields = ('id', 'title', 'streets', 'created_at', 'updated_at')
+
+
+class CitySerializer(serializers.ModelSerializer):
+    avenues = AvenueSerializer(many=True, required=False)
+    class Meta:
+        model = City
+        fields = ('id', 'title', 'avenues', 'created_at', 'updated_at')
+
+
+class RegionSerializer(serializers.ModelSerializer):
+    avenues = AvenueSerializer(many=True, required=False)
+    class Meta:
+        model = Region
+        fields = ('id', 'title', 'avenues', 'created_at', 'updated_at')
+
+
+class SocialIconSerializer(serializers.ModelSerializer):
+    social_media = SocialMediaSerializer(required=False)
+    user = UserSerializer(required=False)
+    class Meta:
+        model = SocialIcon
+        fields = ('id', 'url', 'social_media', 'user', 'created_at', 'updated_at')
