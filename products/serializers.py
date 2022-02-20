@@ -149,3 +149,29 @@ class FAQSerializer(serializers.ModelSerializer):
     class Meta:
         model = FAQ
         fields = ('id', 'question', 'answer')
+
+
+class AboutUsServiceSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = AboutUsService
+        fields = ('id', 'title', 'description')
+
+
+class AboutUsCarouselSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = AboutUsCarousel
+        fields = ('id', 'title', 'amount', 'description')
+
+
+class AboutUsSerializer(serializers.ModelSerializer):
+    corousel = AboutUsCarouselSerializer(many=True, required=False)
+    services = AboutUsServiceSerializer(many=True, required=False)
+    class Meta:
+        model = AboutUs
+        fields = ('id', 'content', 'service_title', 'service_image', 'services', 'corousel', 'banner_title', 'banner_text', 'banner_button_text', 'banner_button_link',)
+
+    
+class UserMessageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserMessage
+        fields = ('id', 'name', 'email', 'message')

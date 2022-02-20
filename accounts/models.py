@@ -4,7 +4,7 @@ from products.common import slugify
 from .managers import UserManager
 from django.contrib.auth.base_user import BaseUserManager
 import random
-# from products.models import Category
+# from products.models import UserCategory
 
 
 class User(AbstractUser):
@@ -44,6 +44,73 @@ class User(AbstractUser):
 
     def __str__(self):
         return f"{self.number}"
+
+
+class UserCategory(models.Model):
+    title = models.CharField(max_length=200, unique=True)
+    icon = models.ImageField('Image',upload_to='icons/', null=False, blank=False)
+    slug = models.SlugField(max_length=200, null=True, editable=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.title
+
+    def save(self, *args, **kwargs):
+        super(UserCategory, self).save(*args, **kwargs)
+        self.slug = slugify(self.title)
+        super(UserCategory, self).save(*args, **kwargs)
+
+    class Meta:
+        verbose_name = 'Kateqoriya'
+        verbose_name_plural = 'Kateqoriyalar'
+        ordering = ['title']
+
+
+class UserSubCategory(models.Model):
+    title = models.CharField(max_length=200)
+    category = models.ForeignKey(UserCategory, on_delete=models.CASCADE, related_name='sub_categories', blank=True, null=True)
+    # parent = TreeForeignKey('self', on_delete=models.CASCADE, null=True, blank=True, related_name='children')
+    slug = models.SlugField(max_length=200, editable=False, null=True)
+    icon = models.ImageField('Icon',upload_to='icons/', null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = "Alt kateqoriya"
+        verbose_name_plural = "Alt kateqoriyalar"
+        ordering = ['title']
+
+    def save(self, *args, **kwargs):
+        super(UserSubCategory, self).save(*args, **kwargs)
+        self.slug = slugify(self.title)
+        super(UserSubCategory, self).save(*args, **kwargs)
+
+    def __str__(self):
+        return self.title
+
+
+class UserSubSubCategory(models.Model):
+    title = models.CharField(max_length=200)
+    category = models.ForeignKey(UserSubCategory, on_delete=models.CASCADE, related_name='sub_sub_categories', blank=True, null=True)
+    # parent = TreeForeignKey('self', on_delete=models.CASCADE, null=True, blank=True, related_name='children')
+    slug = models.SlugField(max_length=200, editable=False, null=True)
+    icon = models.ImageField('Icon',upload_to='icons/', null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = "Alt Alt kateqoriya"
+        verbose_name_plural = "Alt Alt kateqoriyalar"
+        ordering = ['title']
+
+    def save(self, *args, **kwargs):
+        super(UserSubSubCategory, self).save(*args, **kwargs)
+        self.slug = slugify(self.title)
+        super(UserSubSubCategory, self).save(*args, **kwargs)
+
+    def __str__(self):
+        return self.title
 
 
 class OTPCode(models.Model):

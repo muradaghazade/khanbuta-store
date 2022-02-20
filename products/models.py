@@ -1,7 +1,10 @@
+import email
+from email import message
 from django.db import models
 from .common import slugify
 from accounts.models import User
 import random
+from ckeditor_uploader.fields import RichTextUploadingField
 
 
 class CategoryLine(models.Model):
@@ -252,7 +255,6 @@ class Image(models.Model):
 
 class Tag(models.Model):
     title = models.CharField(max_length=50)
-    # product = models.ManyToManyField(Product, db_index=True, related_name='tags', null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -274,3 +276,51 @@ class FAQ(models.Model):
 
     def __str__(self):
         return self.question
+
+
+class AboutUs(models.Model):
+    content = RichTextUploadingField()
+    service_title = models.CharField(max_length=1000)
+    service_image = models.ImageField('Image',upload_to='images/', null=True, blank=True)
+    services = models.ManyToManyField('AboutUsService', db_index=True, related_name='aboutus', null=True, blank=True)
+    corousel = models.ManyToManyField('AboutUsCarousel', db_index=True, related_name='aboutus', null=True, blank=True)
+    banner_title = models.CharField(max_length=1000)
+    banner_text = models.TextField("Banner Text")
+    banner_button_text = models.CharField(max_length=1000)
+    banner_button_link = models.CharField(max_length=10000)
+
+    class Meta:
+        verbose_name = 'Haqqimizda'
+        verbose_name_plural = 'Haqqimizda'
+
+
+class AboutUsService(models.Model):
+    title = models.CharField(max_length=1000)
+    description = models.TextField("Description")
+
+    class Meta:
+        verbose_name = 'Haqqimizda Servisi'
+        verbose_name_plural = 'Haqqimizda Servisleri'
+
+
+class AboutUsCarousel(models.Model):
+    title = models.CharField(max_length=1000)
+    amount = models.IntegerField()
+    description = models.TextField("Description")
+
+    class Meta:
+        verbose_name = 'Haqqimizda Servisi'
+        verbose_name_plural = 'Haqqimizda Servisleri'
+
+
+class UserMessage(models.Model):
+    name = models.CharField(max_length=100)
+    email = models.EmailField(('email adress'), unique=False, null=True, blank=True)
+    message = models.TextField("Message")
+
+    class Meta:
+        verbose_name = 'Istifadeci mesaji'
+        verbose_name_plural = 'Istifadeci mesajlari'
+
+    def __str__(self):
+        return self.name

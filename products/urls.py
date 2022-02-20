@@ -1,6 +1,6 @@
 from rest_framework.routers import DefaultRouter
-from .viewsets import LogoViewSet, CategoryViewSet, HeaderTextViewSet, SubCategoryViewSet, SubSubCategoryViewSet, FilterViewSet, ProductViewSet, FAQViewSet
-from .views import CategoryBySubAPIView, CategoryBySubSubAPIView, LastLogoAPIView, LastHeaderTextAPIView, FiltersBySubSubAPIView, CategoryLineAPI, SliderAPIView, BenefitAPIView, DisplayedCategoryAPI, ProductCreateAPIView, ProductUpdateDeleteAPIView
+from .viewsets import LogoViewSet, CategoryViewSet, HeaderTextViewSet, SubCategoryViewSet, SubSubCategoryViewSet, FilterViewSet, ProductViewSet, FAQViewSet, UserMessageViewSet
+from .views import AboutUsAPIView, CategoryBySubAPIView, CategoryBySubSubAPIView, LastLogoAPIView, LastHeaderTextAPIView, FiltersBySubSubAPIView, CategoryLineAPI, SliderAPIView, BenefitAPIView, DisplayedCategoryAPI, ProductCreateAPIView, ProductUpdateDeleteAPIView
 from django.urls import path, include
 
 app_name = "products"
@@ -14,6 +14,7 @@ router.register('sub-sub-categories', SubSubCategoryViewSet, basename='sub-sub-c
 router.register('filters', FilterViewSet, basename='filter')
 router.register('products', ProductViewSet, basename='products')
 router.register('faq', FAQViewSet, basename='faq')
+router.register('user-messages', UserMessageViewSet, basename='user-message')
 
 # urlpatterns = router.urls
 
@@ -28,6 +29,7 @@ urlpatterns = [
     path('benefits/', BenefitAPIView.as_view(), name='benefit'),
     path('categories/<slug:slug>/<slug:slug2>/<slug:slug3>/', CategoryBySubSubAPIView.as_view(), name='sub-sub'),
     path('logo/', LastLogoAPIView.as_view(), name='last-logo'),
+    path('about-us/', AboutUsAPIView.as_view(), name='about-us'),
     path('header-text/', LastHeaderTextAPIView.as_view(), name='last-text'),
     path('filters-by-subsub/<int:id>/', FiltersBySubSubAPIView.as_view(), name='filter-sub'),
 ]

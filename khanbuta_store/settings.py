@@ -41,6 +41,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     #installed apps
+    'ckeditor',
+    'ckeditor_uploader',
     'rest_framework',
     'corsheaders',
 
@@ -107,6 +109,9 @@ DATABASES = {
     }
 }
 
+CKEDITOR_JQUERY_URL = 'http://libs.baidu.com/jquery/2.0.3/jquery.min.js'
+CKEDITOR_IMAGE_BACKEND = "pillow"
+CKEDITOR_UPLOAD_PATH = "uploads/"
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
@@ -144,7 +149,10 @@ USE_TZ = True
 
 AUTH_USER_MODEL = 'accounts.User'
 
-STATIC_URL = 'static/'
+
+STATIC_URL = '/static/'
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 MEDIA_URL = '/media/'
 

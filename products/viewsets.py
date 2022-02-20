@@ -1,6 +1,6 @@
 from rest_framework import viewsets
-from .models import Category, Logo, HeaderText, SubSubCategory, SubCategory, Filter, Product, FAQ
-from .serializers import LogoSerializer, CategorySerializer, HeaderTextSerializer, SubCategorySerializer, SubSubCategorySerializer, FilterSerializer, ProductShowSerializer, FAQSerializer
+from .models import Category, Logo, HeaderText, SubSubCategory, SubCategory, Filter, Product, FAQ, UserMessage
+from .serializers import LogoSerializer, CategorySerializer, HeaderTextSerializer, SubCategorySerializer, SubSubCategorySerializer, FilterSerializer, ProductShowSerializer, FAQSerializer, UserMessageSerializer
 from django.shortcuts import get_object_or_404
 from rest_framework.response import Response
 from rest_framework import status
@@ -123,3 +123,8 @@ class FAQViewSet(viewsets.ViewSet):
         faq = get_object_or_404(self.queryset, pk=pk)
         serializers_class = FAQSerializer(faq)
         return Response(serializers_class.data)
+
+
+class UserMessageViewSet(viewsets.ModelViewSet):
+    queryset = UserMessage.objects.all()
+    serializer_class = UserMessageSerializer

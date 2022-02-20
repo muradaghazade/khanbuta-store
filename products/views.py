@@ -4,8 +4,8 @@ from rest_framework.views import APIView
 from rest_framework import status
 from django.shortcuts import get_object_or_404
 from rest_framework.response import Response
-from .models import Category, SubCategory, SubSubCategory, Logo, HeaderText, Filter, CategoryLine, Slider, Benefit, DisplayedCategory, Product, Image, FilterValue, Tag
-from .serializers import CategoryLineSerializer, FilterSerializer, SubCategorySerializer, SubSubCategorySerializer, LogoSerializer, HeaderTextSerializer, FilterSerializer, SliderSerializer, BenefitSerializer, ProductSerializer, ImageSerializer
+from .models import AboutUs, Category, SubCategory, SubSubCategory, Logo, HeaderText, Filter, CategoryLine, Slider, Benefit, DisplayedCategory, Product, Image, FilterValue, Tag
+from .serializers import CategoryLineSerializer, FilterSerializer, SubCategorySerializer, SubSubCategorySerializer, LogoSerializer, HeaderTextSerializer, FilterSerializer, SliderSerializer, BenefitSerializer, ProductSerializer, ImageSerializer, AboutUsSerializer
 
 
 class BenefitAPIView(ListAPIView):
@@ -86,3 +86,10 @@ class ProductUpdateDeleteAPIView(APIView):
         product = get_object_or_404(Product, pk=kwargs['id'])
         product.delete()
         return Response("Product deleted", status=status.HTTP_204_NO_CONTENT)
+
+
+class AboutUsAPIView(APIView):
+    def get(self, request, *args, **kwargs):
+        aboutus = AboutUs.objects.order_by("-id").first()
+        serializer = AboutUsSerializer(aboutus)
+        return Response(serializer.data)
