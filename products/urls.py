@@ -1,6 +1,6 @@
 from rest_framework.routers import DefaultRouter
 from .viewsets import LogoViewSet, CategoryViewSet, HeaderTextViewSet, SubCategoryViewSet, SubSubCategoryViewSet, FilterViewSet, ProductViewSet, FAQViewSet, UserMessageViewSet
-from .views import AboutUsAPIView, CategoryBySubAPIView, CategoryBySubSubAPIView, LastLogoAPIView, LastHeaderTextAPIView, FiltersBySubSubAPIView, CategoryLineAPI, SliderAPIView, BenefitAPIView, DisplayedCategoryAPI, ProductCreateAPIView, ProductUpdateDeleteAPIView, ProductFilterAPIView, FAQView
+from .views import AboutUsAPIView, CategoryBySubAPIView, CategoryBySubSubAPIView, LastLogoAPIView, LastHeaderTextAPIView, FiltersBySubSubAPIView, CategoryLineAPI, SliderAPIView, BenefitAPIView, DisplayedCategoryAPI, ProductCreateAPIView, ProductUpdateDeleteAPIView, ProductFilterAPIView, FAQView, ProductByUserView
 from django.urls import path, include
 
 app_name = "products"
@@ -34,4 +34,5 @@ urlpatterns = [
     path('header-text/', LastHeaderTextAPIView.as_view(), name='last-text'),
     path('filters-by-subsub/<int:id>/', FiltersBySubSubAPIView.as_view(), name='filter-sub'),
     path('faq/', FAQView.as_view(), name='faq'),
+    path('product-by-user/', ProductByUserView.as_view(), name='product-by-user'),
 ]

@@ -10,6 +10,15 @@ from .serializers import CategoryLineSerializer, FAQCategorySerializer, FilterSe
 from django.db.models import Q
 
 
+class ProductByUserView(APIView):
+    def get(self, request, *args, **kwargs):
+        print(request.user)
+        products = Product.objects.filter(user=request.user)
+        # category = get_object_or_404(SubCategory, category__slug=kwargs['slug'], slug=kwargs['slug2'])
+        serializer = ProductSerializer(products, many=True)
+        return Response(serializer.data)
+
+
 class ProductFilterAPIView(ListAPIView):
     model = Product
     serializer_class = ProductSerializer

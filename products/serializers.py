@@ -1,6 +1,7 @@
 from traceback import print_tb
 from rest_framework import serializers
 from .models import *
+from accounts.seralizers import UserSerializer
 from drf_extra_fields.fields import Base64ImageField
 
 
@@ -107,10 +108,11 @@ class ProductSerializer(serializers.ModelSerializer):
     images = ImageSerializer(many=True, required=False)
     filter_values = FilterValueSerializer(many=True, required=False)
     tag = TagSerializer(many=True, required=False)
+    user = UserSerializer(required=False)
 
     class Meta:
         model = Product
-        fields = ('id', 'title', 'description', 'price', 'short_desc1', 'short_desc2', 'short_desc3', 'main_image', 'sub_sub_category', 'images', 'filter_values', 'tag', 'created_at', 'updated_at')
+        fields = ('id', 'title', 'description', 'price', 'short_desc1', 'short_desc2', 'short_desc3', 'main_image', 'sub_sub_category', 'images', 'filter_values', 'tag', 'user', 'created_at', 'updated_at')
 
     def create(self, validated_data):
         print(validated_data['tag'])
