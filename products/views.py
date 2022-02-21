@@ -1,11 +1,39 @@
+from pyexpat import model
 from django.shortcuts import render
 from rest_framework.generics import ListAPIView, CreateAPIView
 from rest_framework.views import APIView
 from rest_framework import status
 from django.shortcuts import get_object_or_404
 from rest_framework.response import Response
-from .models import AboutUs, Category, SubCategory, SubSubCategory, Logo, HeaderText, Filter, CategoryLine, Slider, Benefit, DisplayedCategory, Product, Image, FilterValue, Tag
-from .serializers import CategoryLineSerializer, FilterSerializer, SubCategorySerializer, SubSubCategorySerializer, LogoSerializer, HeaderTextSerializer, FilterSerializer, SliderSerializer, BenefitSerializer, ProductSerializer, ImageSerializer, AboutUsSerializer
+from .models import AboutUs, Category, FAQCategory, SubCategory, SubSubCategory, Logo, HeaderText, Filter, CategoryLine, Slider, Benefit, DisplayedCategory, Product, Image, FilterValue, Tag
+from .serializers import CategoryLineSerializer, FAQCategorySerializer, FilterSerializer, SubCategorySerializer, SubSubCategorySerializer, LogoSerializer, HeaderTextSerializer, FilterSerializer, SliderSerializer, BenefitSerializer, ProductSerializer, ImageSerializer, AboutUsSerializer
+from django.db.models import Q
+
+
+class ProductFilterAPIView(ListAPIView):
+    model = Product
+    serializer_class = ProductSerializer
+    queryset = Product.objects.all()
+
+    def get_queryset(self):
+        category = self.request.data.get('category')
+        brand = self.request.data.get('brand')
+        price_list = self.request.data.get('price')
+        queryset = Product.objects.all()
+        if category:
+            queryset = queryset.filter(sub_sub_category__title__icontains=category)
+
+        if brand:
+            queryset = queryset.filter(brand__icontains=brand)
+
+        if price_list:
+            queries = Q()
+            for price in price_list:
+                queries = Q(price__range=(price)) | queries
+            
+            queryset = queryset.filter(queries)
+        
+        return queryset
 
 
 class BenefitAPIView(ListAPIView):
@@ -93,3 +121,9 @@ class AboutUsAPIView(APIView):
         aboutus = AboutUs.objects.order_by("-id").first()
         serializer = AboutUsSerializer(aboutus)
         return Response(serializer.data)
+
+
+class FAQView(ListAPIView):
+    model = FAQCategory
+    serializer_class = FAQCategorySerializer
+    queryset = FAQCategory.objects.all()

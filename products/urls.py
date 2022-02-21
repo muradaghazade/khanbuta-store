@@ -1,6 +1,6 @@
 from rest_framework.routers import DefaultRouter
 from .viewsets import LogoViewSet, CategoryViewSet, HeaderTextViewSet, SubCategoryViewSet, SubSubCategoryViewSet, FilterViewSet, ProductViewSet, FAQViewSet, UserMessageViewSet
-from .views import AboutUsAPIView, CategoryBySubAPIView, CategoryBySubSubAPIView, LastLogoAPIView, LastHeaderTextAPIView, FiltersBySubSubAPIView, CategoryLineAPI, SliderAPIView, BenefitAPIView, DisplayedCategoryAPI, ProductCreateAPIView, ProductUpdateDeleteAPIView
+from .views import AboutUsAPIView, CategoryBySubAPIView, CategoryBySubSubAPIView, LastLogoAPIView, LastHeaderTextAPIView, FiltersBySubSubAPIView, CategoryLineAPI, SliderAPIView, BenefitAPIView, DisplayedCategoryAPI, ProductCreateAPIView, ProductUpdateDeleteAPIView, ProductFilterAPIView, FAQView
 from django.urls import path, include
 
 app_name = "products"
@@ -13,7 +13,7 @@ router.register('sub-categories', SubCategoryViewSet, basename='sub-category')
 router.register('sub-sub-categories', SubSubCategoryViewSet, basename='sub-sub-category')
 router.register('filters', FilterViewSet, basename='filter')
 router.register('products', ProductViewSet, basename='products')
-router.register('faq', FAQViewSet, basename='faq')
+# router.register('faq', FAQViewSet, basename='faq')
 router.register('user-messages', UserMessageViewSet, basename='user-message')
 
 # urlpatterns = router.urls
@@ -21,6 +21,7 @@ router.register('user-messages', UserMessageViewSet, basename='user-message')
 urlpatterns = [
     path('', include(router.urls)),
     path('product/', ProductCreateAPIView.as_view(), name='product-create'),
+    path('product-filter/', ProductFilterAPIView.as_view(), name='product-filter'),
     path('product/<int:pk>', ProductUpdateDeleteAPIView.as_view(), name='product-edit'),
     path('categories/<slug:slug>/<slug:slug2>/', CategoryBySubAPIView.as_view(), name='sub'),
     path('category-line/', CategoryLineAPI.as_view(), name='category-line'),
@@ -32,4 +33,5 @@ urlpatterns = [
     path('about-us/', AboutUsAPIView.as_view(), name='about-us'),
     path('header-text/', LastHeaderTextAPIView.as_view(), name='last-text'),
     path('filters-by-subsub/<int:id>/', FiltersBySubSubAPIView.as_view(), name='filter-sub'),
+    path('faq/', FAQView.as_view(), name='faq'),
 ]

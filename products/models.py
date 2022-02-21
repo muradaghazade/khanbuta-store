@@ -1,5 +1,3 @@
-import email
-from email import message
 from django.db import models
 from .common import slugify
 from accounts.models import User
@@ -211,6 +209,7 @@ class Product(models.Model):
     short_desc1 = models.CharField(max_length=1000)
     short_desc2 = models.CharField(max_length=1000)
     short_desc3 = models.CharField(max_length=1000)
+    brand = models.CharField(max_length=100, null=True, blank=True)
     main_image = models.ImageField('Image',upload_to='images/', null=False, blank=False)
     video = models.CharField(max_length=3000)
     sub_sub_category = models.ForeignKey(SubSubCategory, on_delete=models.CASCADE, related_name='products', blank=True, null=True)
@@ -266,9 +265,22 @@ class Tag(models.Model):
         return self.title
 
 
+class FAQCategory(models.Model):
+    title = models.CharField(max_length=500)
+
+    class Meta:
+        verbose_name = 'Tez Tez verilen sual Bolmesi'
+        verbose_name_plural = 'Tez Tez verilen suallar Bolmesi'
+
+    def __str__(self):
+        return self.title
+
+
+
 class FAQ(models.Model):
     question = models.TextField("Question")
     answer = models.TextField("Answer")
+    category = models.ForeignKey(FAQCategory, on_delete=models.CASCADE, db_index=True, related_name='faqs', null=True, blank=True)
 
     class Meta:
         verbose_name = 'Tez Tez verilen sual'
@@ -285,6 +297,7 @@ class AboutUs(models.Model):
     services = models.ManyToManyField('AboutUsService', db_index=True, related_name='aboutus', null=True, blank=True)
     corousel = models.ManyToManyField('AboutUsCarousel', db_index=True, related_name='aboutus', null=True, blank=True)
     banner_title = models.CharField(max_length=1000)
+    banner_image = models.ImageField('Image',upload_to='images/', null=True, blank=True)
     banner_text = models.TextField("Banner Text")
     banner_button_text = models.CharField(max_length=1000)
     banner_button_link = models.CharField(max_length=10000)

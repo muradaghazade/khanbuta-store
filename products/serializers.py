@@ -175,3 +175,10 @@ class UserMessageSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserMessage
         fields = ('id', 'name', 'email', 'message')
+
+
+class FAQCategorySerializer(serializers.ModelSerializer):
+    faqs = FAQSerializer(many=True, required=False)
+    class Meta:
+        model = FAQCategory
+        fields = ('id', 'title', 'faqs')
