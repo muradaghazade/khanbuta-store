@@ -1,3 +1,4 @@
+from dataclasses import field
 from traceback import print_tb
 from rest_framework import serializers
 from .models import *
@@ -89,6 +90,10 @@ class TagSerializer(serializers.ModelSerializer):
         model = Tag
         fields = ('id', 'title', 'created_at', 'updated_at')
 
+class CommentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Comment
+        fields = ('id', 'name', 'email', 'review', 'product')
 
 class ProductShowSerializer(serializers.ModelSerializer):
     main_image = Base64ImageField(required=False)
@@ -96,10 +101,11 @@ class ProductShowSerializer(serializers.ModelSerializer):
     images = ImageSerializer(many=True, required=False)
     filter_values = FilterValueShowSerializer(many=True, required=False)
     tag = TagSerializer(many=True, required=False)
+    comments = CommentSerializer(many=True, required=False)
 
     class Meta:
         model = Product
-        fields = ('id', 'title', 'description', 'price', 'short_desc1', 'short_desc2', 'short_desc3', 'main_image', 'sub_sub_category', 'images', 'filter_values', 'tag', 'created_at', 'updated_at')
+        fields = ('id', 'title', 'description', 'price', 'short_desc1', 'short_desc2', 'short_desc3', 'main_image', 'rating', 'comments', 'sub_sub_category', 'images', 'filter_values', 'tag', 'created_at', 'updated_at')
 
 
 class ProductSerializer(serializers.ModelSerializer):
@@ -109,6 +115,7 @@ class ProductSerializer(serializers.ModelSerializer):
     filter_values = FilterValueSerializer(many=True, required=False)
     tag = TagSerializer(many=True, required=False)
     user = UserSerializer(required=False)
+    
 
     class Meta:
         model = Product
@@ -184,3 +191,12 @@ class FAQCategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = FAQCategory
         fields = ('id', 'title', 'faqs')
+
+
+class RatingSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Rating
+        fields = ('author','product','rating')
+        read_only_fields = ('author',)
+
+

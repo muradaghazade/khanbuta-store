@@ -1,6 +1,6 @@
 from rest_framework.routers import DefaultRouter
-from .viewsets import LogoViewSet, CategoryViewSet, HeaderTextViewSet, SubCategoryViewSet, SubSubCategoryViewSet, FilterViewSet, ProductViewSet, FAQViewSet, UserMessageViewSet
-from .views import AboutUsAPIView, CategoryBySubAPIView, CategoryBySubSubAPIView, LastLogoAPIView, LastHeaderTextAPIView, FiltersBySubSubAPIView, CategoryLineAPI, SliderAPIView, BenefitAPIView, DisplayedCategoryAPI, ProductCreateAPIView, ProductUpdateDeleteAPIView, ProductFilterAPIView, FAQView, ProductByUserView
+from .viewsets import LogoViewSet, CategoryViewSet, HeaderTextViewSet, SubCategoryViewSet, SubSubCategoryViewSet, FilterViewSet, ProductViewSet, FAQViewSet, UserMessageViewSet, CommentViewSet
+from .views import AboutUsAPIView, CategoryBySubAPIView, CategoryBySubSubAPIView, LastLogoAPIView, LastHeaderTextAPIView, FiltersBySubSubAPIView, CategoryLineAPI, SliderAPIView, BenefitAPIView, DisplayedCategoryAPI, ProductCreateAPIView, ProductUpdateDeleteAPIView, ProductFilterAPIView, FAQView, ProductByUserView, RatingListCreateAPIView
 from django.urls import path, include
 
 app_name = "products"
@@ -13,7 +13,7 @@ router.register('sub-categories', SubCategoryViewSet, basename='sub-category')
 router.register('sub-sub-categories', SubSubCategoryViewSet, basename='sub-sub-category')
 router.register('filters', FilterViewSet, basename='filter')
 router.register('products', ProductViewSet, basename='products')
-# router.register('faq', FAQViewSet, basename='faq')
+router.register('comments', CommentViewSet, basename='comments')
 router.register('user-messages', UserMessageViewSet, basename='user-message')
 
 # urlpatterns = router.urls
@@ -35,4 +35,5 @@ urlpatterns = [
     path('filters-by-subsub/<int:id>/', FiltersBySubSubAPIView.as_view(), name='filter-sub'),
     path('faq/', FAQView.as_view(), name='faq'),
     path('product-by-user/', ProductByUserView.as_view(), name='product-by-user'),
+    path('rating/',RatingListCreateAPIView.as_view(),name='rating-list'),
 ]

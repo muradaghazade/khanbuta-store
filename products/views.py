@@ -1,12 +1,12 @@
 from pyexpat import model
 from django.shortcuts import render
-from rest_framework.generics import ListAPIView, CreateAPIView
+from rest_framework.generics import ListAPIView, CreateAPIView, ListCreateAPIView
 from rest_framework.views import APIView
 from rest_framework import status
 from django.shortcuts import get_object_or_404
 from rest_framework.response import Response
-from .models import AboutUs, Category, FAQCategory, SubCategory, SubSubCategory, Logo, HeaderText, Filter, CategoryLine, Slider, Benefit, DisplayedCategory, Product, Image, FilterValue, Tag
-from .serializers import CategoryLineSerializer, FAQCategorySerializer, FilterSerializer, SubCategorySerializer, SubSubCategorySerializer, LogoSerializer, HeaderTextSerializer, FilterSerializer, SliderSerializer, BenefitSerializer, ProductSerializer, ImageSerializer, AboutUsSerializer
+from .models import AboutUs, Category, FAQCategory, SubCategory, SubSubCategory, Logo, HeaderText, Filter, CategoryLine, Slider, Benefit, DisplayedCategory, Product, Image, FilterValue, Tag, Rating
+from .serializers import CategoryLineSerializer, FAQCategorySerializer, FilterSerializer, SubCategorySerializer, SubSubCategorySerializer, LogoSerializer, HeaderTextSerializer, FilterSerializer, SliderSerializer, BenefitSerializer, ProductSerializer, ImageSerializer, AboutUsSerializer, RatingSerializer
 from django.db.models import Q
 
 
@@ -43,6 +43,21 @@ class ProductFilterAPIView(ListAPIView):
             queryset = queryset.filter(queries)
         
         return queryset
+
+
+class RatingListCreateAPIView(ListCreateAPIView):
+    serializer_class = RatingSerializer
+    queryset = Rating.objects.all()
+
+    def perform_create(self, serializer):
+        product = serializer.validated_data['product']
+        rat = Rating.objects.filter(product=product, author=self.request.user).first()
+        if not rat:
+            serializer.validated_data['author'] = self.request.user
+            serializer.save()
+        else:
+            rat.rating = serializer.validated_data['rating']
+            rat.save()
 
 
 class BenefitAPIView(ListAPIView):

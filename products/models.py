@@ -212,6 +212,7 @@ class Product(models.Model):
     brand = models.CharField(max_length=100, null=True, blank=True)
     main_image = models.ImageField('Image',upload_to='images/', null=False, blank=False)
     video = models.CharField(max_length=3000)
+    rating = models.PositiveSmallIntegerField('rating')
     sub_sub_category = models.ForeignKey(SubSubCategory, on_delete=models.CASCADE, related_name='products', blank=True, null=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, db_index=True, related_name='products', null=True, blank=True)
     tag = models.ManyToManyField('Tag', db_index=True, related_name='products', null=True, blank=True)
@@ -334,6 +335,46 @@ class UserMessage(models.Model):
     class Meta:
         verbose_name = 'Istifadeci mesaji'
         verbose_name_plural = 'Istifadeci mesajlari'
+
+    def __str__(self):
+        return self.name
+
+
+class Rating(models.Model):
+    RATING_CHOICES = (
+        (1,1),
+        (2,2),
+        (3,3),
+        (4,4),
+        (5,5)
+    )
+
+    author = models.ForeignKey(User,on_delete=models.CASCADE, db_index=True, related_name='ratings')
+    rating = models.PositiveSmallIntegerField('rating',choices=RATING_CHOICES)
+    product = models.ForeignKey("Product", on_delete=models.CASCADE, db_index=True, related_name='ratings')
+
+    def __str__(self):
+        return f'{self.author} > {self.product} rating'
+
+
+    def save(self, *args, **kwargs):
+        print(self.product)
+        rat_numbers = list(map(lambda e: e.rating, self.product.ratings.all()))
+        if rat_numbers:
+            print(sum(rat_numbers)//len(rat_numbers))
+            self.product.rating = sum(rat_numbers)//len(rat_numbers)
+            self.product.save()
+        super(Rating, self).save(*args, **kwargs)
+    
+    class Meta:
+        unique_together = ('author','product')
+
+
+class Comment(models.Model):
+    name = models.CharField(max_length=100)
+    email = models.EmailField(('email adress'), unique=False, null=True, blank=True)
+    review = models.TextField("Review")
+    product = models.ForeignKey("Product", on_delete=models.CASCADE, db_index=True, related_name='comments')
 
     def __str__(self):
         return self.name
