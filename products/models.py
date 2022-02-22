@@ -210,7 +210,7 @@ class Product(models.Model):
     short_desc2 = models.CharField(max_length=1000)
     short_desc3 = models.CharField(max_length=1000)
     brand = models.CharField(max_length=100, null=True, blank=True)
-    main_image = models.ImageField('Image',upload_to='images/', null=False, blank=False)
+    main_image = models.ImageField('Image',upload_to='images/', null=True, blank=True)
     video = models.CharField(max_length=3000)
     rating = models.PositiveSmallIntegerField('rating')
     sub_sub_category = models.ForeignKey(SubSubCategory, on_delete=models.CASCADE, related_name='products', blank=True, null=True)
