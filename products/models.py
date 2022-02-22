@@ -212,7 +212,7 @@ class Product(models.Model):
     brand = models.CharField(max_length=100, null=True, blank=True)
     # main_image = models.ImageField('Image',upload_to='images/', null=True, blank=True)
     video = models.CharField(max_length=3000)
-    rating = models.PositiveSmallIntegerField('rating')
+    rating = models.PositiveSmallIntegerField('rating', null=True, blank=True)
     sub_sub_category = models.ForeignKey(SubSubCategory, on_delete=models.CASCADE, related_name='products', blank=True, null=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, db_index=True, related_name='products', null=True, blank=True)
     tag = models.ManyToManyField('Tag', db_index=True, related_name='products', null=True, blank=True)
