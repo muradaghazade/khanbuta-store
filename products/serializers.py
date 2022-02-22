@@ -109,7 +109,7 @@ class ProductShowSerializer(serializers.ModelSerializer):
 
 
 class ProductSerializer(serializers.ModelSerializer):
-    main_image = Base64ImageField(required=False)
+    # main_image = Base64ImageField(required=False)
     sub_sub_category = SubSubCategorySerializer(required=False)
     images = ImageSerializer(many=True, required=False)
     filter_values = FilterValueSerializer(many=True, required=False)
