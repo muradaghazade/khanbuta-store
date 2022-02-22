@@ -243,6 +243,7 @@ class DiscountProduct(models.Model):
     discount_price = models.DecimalField('Price',max_digits=6, decimal_places=2)
     time_range = models.DateTimeField()
     product = models.ForeignKey(Product, on_delete=models.CASCADE, db_index=True, related_name='discount_products') 
+    is_verified = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

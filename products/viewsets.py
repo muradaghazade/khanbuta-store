@@ -137,5 +137,19 @@ class CommentViewSet(viewsets.ModelViewSet):
 
 
 class DiscountProductViewSet(viewsets.ModelViewSet):
-    queryset = DiscountProduct.objects.all()
+    queryset = DiscountProduct.objects.filter(is_verified=True)
     serializer_class = DiscountProductSerializer
+
+    def list(self, request):
+        self.queryset = DiscountProduct.objects.filter(is_verified=True)
+        serializers_class = DiscountProductSerializer(self.queryset, many=True)
+        return Response(serializers_class.data)
+
+    def retrieve(self, request, pk=None):
+        discount_product = get_object_or_404(self.queryset, pk=pk)
+        if discount_product.is_verified == True:
+            serializers_class = DiscountProductSerializer(discount_product)
+            return Response(serializers_class.data)
+        return Response({"Detail": "No verified Products found."})
+
+        

@@ -203,4 +203,4 @@ class RatingSerializer(serializers.ModelSerializer):
 class DiscountProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = DiscountProduct
-        fields = ('discount_price','product','time_range')
+        fields = ('id','discount_price','product','time_range')
