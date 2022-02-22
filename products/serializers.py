@@ -130,7 +130,7 @@ class ProductSerializer(serializers.ModelSerializer):
             short_desc1 = validated_data['short_desc1'],
             short_desc2 = validated_data['short_desc2'],
             short_desc3 = validated_data['short_desc3'],
-            main_image = validated_data['main_image'],
+            # main_image = validated_data['main_image'],
 
         )
 
@@ -200,3 +200,7 @@ class RatingSerializer(serializers.ModelSerializer):
         read_only_fields = ('author',)
 
 
+class DiscountProductSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = DiscountProduct
+        fields = ('discount_price','product','time_range')

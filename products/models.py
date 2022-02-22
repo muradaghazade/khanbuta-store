@@ -239,6 +239,22 @@ class Product(models.Model):
         super(Product, self).save(*args, **kwargs)
 
 
+class DiscountProduct(models.Model):
+    discount_price = models.DecimalField('Price',max_digits=6, decimal_places=2)
+    time_range = models.DateTimeField()
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, db_index=True, related_name='discount_products') 
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+
+    class Meta:
+        verbose_name = 'Endirimli mehsul'
+        verbose_name_plural = 'Endirimli mehsullar'
+
+    def __str__(self):
+        return self.product.title
+
+
 class Image(models.Model):
     image = models.ImageField('Image',upload_to='images/', null=True, blank=True)
     product = models.ForeignKey(Product, on_delete=models.CASCADE, db_index=True, related_name='images', null=True, blank=True)
@@ -378,3 +394,4 @@ class Comment(models.Model):
 
     def __str__(self):
         return self.name
+        
