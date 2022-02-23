@@ -135,7 +135,7 @@ class ProductUpdateDeleteAPIView(APIView):
 
 
     def delete(self, request, *args, **kwargs):
-        product = get_object_or_404(Product, pk=kwargs['id'])
+        product = get_object_or_404(Product, pk=kwargs['pk'])
         product.delete()
         return Response("Product deleted", status=status.HTTP_204_NO_CONTENT)
 
