@@ -130,7 +130,7 @@ class ProductSerializer(serializers.ModelSerializer):
             short_desc1 = validated_data['short_desc1'],
             short_desc2 = validated_data['short_desc2'],
             short_desc3 = validated_data['short_desc3'],
-            sub_sub_category = validated_data['sub_sub_category'],
+            # sub_sub_category = validated_data['sub_sub_category'],
 
         )
 
