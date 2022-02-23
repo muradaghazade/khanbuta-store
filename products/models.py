@@ -214,7 +214,7 @@ class Product(models.Model):
     wishlist = models.ForeignKey("Wishlist", on_delete=models.CASCADE, db_index=True, related_name='products', null=True, blank=True)
     video = models.CharField(max_length=3000)
     rating = models.PositiveSmallIntegerField('rating', null=True, blank=True)
-    sub_sub_category = models.ForeignKey(SubSubCategory, on_delete=models.CASCADE, related_name='products', blank=True, null=True)
+    # sub_sub_category = models.ForeignKey(SubSubCategory, on_delete=models.CASCADE, related_name='products', blank=True, null=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, db_index=True, related_name='products', null=True, blank=True)
     tag = models.ManyToManyField('Tag', db_index=True, related_name='products', null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
