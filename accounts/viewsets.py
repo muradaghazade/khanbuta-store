@@ -123,3 +123,6 @@ class SocialIconViewSet(viewsets.ModelViewSet):
         social_icon = get_object_or_404(self.queryset, pk=pk)
         serializers_class = SocialIconSerializer(social_icon)
         return Response(serializers_class.data)
+
+
+

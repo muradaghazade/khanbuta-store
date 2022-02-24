@@ -1,6 +1,6 @@
 from rest_framework.routers import DefaultRouter
 from .viewsets import LogoViewSet, CategoryViewSet, HeaderTextViewSet, SubCategoryViewSet, SubSubCategoryViewSet, FilterViewSet, ProductViewSet, FAQViewSet, UserMessageViewSet, CommentViewSet, DiscountProductViewSet
-from .views import AboutUsAPIView, CategoryBySubAPIView, CategoryBySubSubAPIView, LastLogoAPIView, LastHeaderTextAPIView, FiltersBySubSubAPIView, CategoryLineAPI, RemoveFromWishlist, SliderAPIView, BenefitAPIView, DisplayedCategoryAPI, ProductCreateAPIView, ProductUpdateDeleteAPIView, ProductFilterAPIView, FAQView, ProductByUserView, RatingListCreateAPIView, AddToWishlist, RemoveFromWishlist
+from .views import AboutUsAPIView, CategoryBySubAPIView, CategoryBySubSubAPIView, LastLogoAPIView, LastHeaderTextAPIView, FiltersBySubSubAPIView, CategoryLineAPI, RemoveFromWishlist, SliderAPIView, BenefitAPIView, DisplayedCategoryAPI, ProductCreateAPIView, ProductUpdateDeleteAPIView, ProductFilterAPIView, FAQView, ProductByUserView, RatingListCreateAPIView, AddToWishlist, RemoveFromWishlist, WishlistByUser
 from django.urls import path, include
 
 app_name = "products"
@@ -16,6 +16,7 @@ router.register('filters', FilterViewSet, basename='filter')
 router.register('products', ProductViewSet, basename='products')
 router.register('comments', CommentViewSet, basename='comments')
 router.register('user-messages', UserMessageViewSet, basename='user-message')
+# router.register('wishlist', WishlistViewSet, basename='wishlist')
 
 # urlpatterns = router.urls
 
@@ -39,4 +40,5 @@ urlpatterns = [
     path('rating/',RatingListCreateAPIView.as_view(),name='rating-list'),
     path('add-to-wishlist/', AddToWishlist.as_view(),name='add-to-wishlist'),
     path('remove-from-wishlist/', RemoveFromWishlist.as_view(),name='remove-from-wishlist'),
+    path('wishlist/<int:id>', WishlistByUser.as_view(),name='wishlist'),
 ]

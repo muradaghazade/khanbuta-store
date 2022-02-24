@@ -212,3 +212,11 @@ class DiscountProductShowSerializer(serializers.ModelSerializer):
     class Meta:
         model = DiscountProduct
         fields = ('id','discount_price','product','time_range')
+
+
+class WishlistShowSerializer(serializers.ModelSerializer):
+    products = ProductSerializer(required=False, many=True)
+    user = UserSerializer(required=False)
+    class Meta:
+        model = Wishlist
+        fields = ('id','user','products', 'created_at', 'updated_at')

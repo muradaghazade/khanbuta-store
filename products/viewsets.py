@@ -1,7 +1,7 @@
 from unicodedata import category
 from rest_framework import viewsets
-from .models import Category, Logo, HeaderText, SubSubCategory, SubCategory, Filter, Product, FAQ, UserMessage, Comment, DiscountProduct
-from .serializers import LogoSerializer, CategorySerializer, HeaderTextSerializer, SubCategorySerializer, SubSubCategorySerializer, FilterSerializer, ProductShowSerializer, FAQSerializer, UserMessageSerializer, CommentSerializer, DiscountProductSerializer, DiscountProductShowSerializer
+from .models import Category, Logo, HeaderText, SubSubCategory, SubCategory, Filter, Product, FAQ, UserMessage, Comment, DiscountProduct, Wishlist
+from .serializers import LogoSerializer, CategorySerializer, HeaderTextSerializer, SubCategorySerializer, SubSubCategorySerializer, FilterSerializer, ProductShowSerializer, FAQSerializer, UserMessageSerializer, CommentSerializer, DiscountProductSerializer, DiscountProductShowSerializer, WishlistShowSerializer
 from django.shortcuts import get_object_or_404
 from rest_framework.response import Response
 from rest_framework import status
@@ -152,4 +152,17 @@ class DiscountProductViewSet(viewsets.ModelViewSet):
             return Response(serializers_class.data)
         return Response({"Detail": "No verified Products found."})
 
-        
+
+# class WishlistViewSet(viewsets.ViewSet):
+#     serializer_class = WishlistShowSerializer
+#     queryset = Wishlist.objects.all()
+
+#     def list(self, request):
+#         self.queryset = Wishlist.objects.all()
+#         serializers_class = WishlistShowSerializer(self.queryset, many=True)
+#         return Response(serializers_class.data)
+
+#     def retrieve(self, request, pk=None):
+#         social_icon = get_object_or_404(self.queryset, pk=pk)
+#         serializers_class = WishlistShowSerializer(social_icon)
+#         return Response(serializers_class.data)
