@@ -152,17 +152,3 @@ class DiscountProductViewSet(viewsets.ModelViewSet):
             return Response(serializers_class.data)
         return Response({"Detail": "No verified Products found."})
 
-
-# class WishlistViewSet(viewsets.ViewSet):
-#     serializer_class = WishlistShowSerializer
-#     queryset = Wishlist.objects.all()
-
-#     def list(self, request):
-#         self.queryset = Wishlist.objects.all()
-#         serializers_class = WishlistShowSerializer(self.queryset, many=True)
-#         return Response(serializers_class.data)
-
-#     def retrieve(self, request, pk=None):
-#         social_icon = get_object_or_404(self.queryset, pk=pk)
-#         serializers_class = WishlistShowSerializer(social_icon)
-#         return Response(serializers_class.data)
