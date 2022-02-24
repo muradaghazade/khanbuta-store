@@ -205,3 +205,10 @@ class DiscountProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = DiscountProduct
         fields = ('id','discount_price','product','time_range')
+
+
+class DiscountProductShowSerializer(serializers.ModelSerializer):
+    product = ProductSerializer(required=False)
+    class Meta:
+        model = DiscountProduct
+        fields = ('id','discount_price','product','time_range')
