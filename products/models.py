@@ -399,7 +399,7 @@ class Comment(models.Model):
 
 class Wishlist(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, db_index=True, related_name='wishlist')
-    product = models.ManyToManyField(Product, verbose_name=("Product"), db_index=True, related_name='wishlist_product', null=True, blank=True)
+    product = models.ManyToManyField(Product, verbose_name=("Product"), db_index=True, related_name='wishlist', null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

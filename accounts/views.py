@@ -19,9 +19,10 @@ class RegisterUserAPI(CreateAPIView):
     model = User
     serializer_class = UserRegisterSerializer
 
-    # def perform_create(self, serializer):
-        # Wishlist.objects.create(user)
-        # return super().perform_create(serializer)
+    def perform_create(self, serializer):
+        user = serializer.save()
+        print(user)
+        Wishlist.objects.create(user=user)
 
 
 class UpdateUserView(APIView):
