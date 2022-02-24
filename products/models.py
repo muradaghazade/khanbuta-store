@@ -211,7 +211,6 @@ class Product(models.Model):
     short_desc3 = models.CharField(max_length=1000)
     brand = models.CharField(max_length=100, null=True, blank=True)
     main_image = models.ImageField('Image',upload_to='images/', null=True, blank=True)
-    wishlist = models.ForeignKey("Wishlist", on_delete=models.CASCADE, db_index=True, related_name='products', null=True, blank=True)
     video = models.CharField(max_length=3000)
     rating = models.PositiveSmallIntegerField('rating', null=True, blank=True)
     # sub_sub_category = models.ForeignKey(SubSubCategory, on_delete=models.CASCADE, related_name='products', blank=True, null=True)
@@ -400,6 +399,7 @@ class Comment(models.Model):
 
 class Wishlist(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, db_index=True, related_name='wishlist')
+    product = models.ManyToManyField(Product, verbose_name=("Product"), db_index=True, related_name='wishlist_product', null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -408,5 +408,5 @@ class Wishlist(models.Model):
         verbose_name_plural = 'Wishlists'
 
     def __str__(self):
-        return f"{self.user.email}'s Wishlist"
+        return f"{self.user.number}'s Wishlist"
         

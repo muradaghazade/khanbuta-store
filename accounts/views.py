@@ -12,11 +12,16 @@ from django.http import JsonResponse
 from rest_framework import status
 from django.shortcuts import get_object_or_404
 from rest_framework.response import Response
+from products.models import Wishlist
 
 
 class RegisterUserAPI(CreateAPIView):
     model = User
     serializer_class = UserRegisterSerializer
+
+    # def perform_create(self, serializer):
+        # Wishlist.objects.create(user)
+        # return super().perform_create(serializer)
 
 
 class UpdateUserView(APIView):

@@ -8,6 +8,7 @@ from rest_framework.response import Response
 from .models import AboutUs, Category, FAQCategory, SubCategory, SubSubCategory, Logo, HeaderText, Filter, CategoryLine, Slider, Benefit, DisplayedCategory, Product, Image, FilterValue, Tag, Rating
 from .serializers import CategoryLineSerializer, FAQCategorySerializer, FilterSerializer, SubCategorySerializer, SubSubCategorySerializer, LogoSerializer, HeaderTextSerializer, FilterSerializer, SliderSerializer, BenefitSerializer, ProductSerializer, ImageSerializer, AboutUsSerializer, RatingSerializer
 from django.db.models import Q
+from accounts.models import User
 
 
 class ProductByUserView(APIView):
@@ -151,3 +152,23 @@ class FAQView(ListAPIView):
     model = FAQCategory
     serializer_class = FAQCategorySerializer
     queryset = FAQCategory.objects.all()
+
+
+class AddToWishlist(APIView):
+    def post(self, request, *args, **kwargs):
+        product_id = self.request.data.get('product')
+        user_id = self.request.data.get('user')
+        product = Product.objects.get(pk=int(product_id))
+        user = User.objects.get(pk=int(user_id))
+        user.wishlist.product.add(product)
+        return Response("Added to Wishlist")
+
+
+class RemoveFromWishlist(APIView):
+    def post(self, request, *args, **kwargs):
+        product_id = self.request.data.get('product')
+        user_id = self.request.data.get('user')
+        product = Product.objects.get(pk=int(product_id))
+        user = User.objects.get(pk=int(user_id))
+        user.wishlist.product.remove(product)
+        return Response("Removed from Wishlist")
