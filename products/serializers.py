@@ -220,3 +220,9 @@ class WishlistShowSerializer(serializers.ModelSerializer):
     class Meta:
         model = Wishlist
         fields = ('id','user','products', 'created_at', 'updated_at')
+
+
+class PartnerSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Partner
+        fields = ('id','title','logo')
