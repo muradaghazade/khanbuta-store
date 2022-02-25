@@ -16,9 +16,7 @@ router.register('filters', FilterViewSet, basename='filter')
 router.register('products', ProductViewSet, basename='products')
 router.register('comments', CommentViewSet, basename='comments')
 router.register('user-messages', UserMessageViewSet, basename='user-message')
-# router.register('wishlist', WishlistViewSet, basename='wishlist')
 
-# urlpatterns = router.urls
 
 urlpatterns = [
     path('', include(router.urls)),

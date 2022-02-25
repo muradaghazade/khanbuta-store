@@ -1,22 +1,22 @@
 from rest_framework import viewsets
 from accounts.models import *
-from accounts.seralizers import UserSerializer, CitySerializer, SocialMediaSerializer, SocialIconSerializer, SocialIconCreateSerializer, RegionSerializer, AvenueSerializer, StreetSerializer
+from accounts.seralizers import UserSerializer, CitySerializer, SocialMediaSerializer, SocialIconSerializer, SocialIconCreateSerializer, RegionSerializer, AvenueSerializer, StreetSerializer, BuyerSerializer
 from django.shortcuts import get_object_or_404
 from rest_framework.response import Response
 
 
 class UserViewSet(viewsets.ViewSet):
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
+    queryset = User.objects.filter(is_store=False, is_vendor=False)
+    serializer_class = BuyerSerializer
 
     def list(self, request):
-        self.queryset = User.objects.all()
-        serializers_class = UserSerializer(self.queryset, many=True)
+        self.queryset = User.objects.filter(is_store=False, is_vendor=False)
+        serializers_class = BuyerSerializer(self.queryset, many=True)
         return Response(serializers_class.data)
 
     def retrieve(self, request, pk=None):
         user = get_object_or_404(self.queryset, pk=pk)
-        serializers_class = UserSerializer(user)
+        serializers_class = BuyerSerializer(user)
         return Response(serializers_class.data)
 
 
@@ -125,4 +125,31 @@ class SocialIconViewSet(viewsets.ModelViewSet):
         return Response(serializers_class.data)
 
 
+class StoreViewSet(viewsets.ViewSet):
+    serializer_class = UserSerializer
+    queryset = User.objects.filter(is_store=True, is_vendor=False)
 
+    def list(self, request):
+        self.queryset = User.objects.filter(is_store=True, is_vendor=False)
+        serializers_class = UserSerializer(self.queryset, many=True)
+        return Response(serializers_class.data)
+
+    def retrieve(self, request, pk=None):
+        social_icon = get_object_or_404(self.queryset, pk=pk)
+        serializers_class = UserSerializer(social_icon)
+        return Response(serializers_class.data)
+
+
+class VendorViewSet(viewsets.ViewSet):
+    serializer_class = UserSerializer
+    queryset = User.objects.filter(is_store=False, is_vendor=True)
+
+    def list(self, request):
+        self.queryset = User.objects.filter(is_store=True, is_vendor=False)
+        serializers_class = UserSerializer(self.queryset, many=True)
+        return Response(serializers_class.data)
+
+    def retrieve(self, request, pk=None):
+        social_icon = get_object_or_404(self.queryset, pk=pk)
+        serializers_class = UserSerializer(social_icon)
+        return Response(serializers_class.data)

@@ -1,9 +1,6 @@
-from pickle import TRUE
-from django.shortcuts import render
-# from django.contrib.auth import authenticate
 from rest_framework.generics import CreateAPIView
 from rest_framework.views import APIView
-from accounts.seralizers import UserRegisterSerializer, UserSerializer, MyTokenObtainPairSerializer, AvenueSerializer, StreetSerializer
+from accounts.seralizers import UserRegisterSerializer, UserSerializer, MyTokenObtainPairSerializer, AvenueSerializer, StreetSerializer, BuyerSerializer
 from accounts.models import Avenue, User, Street
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework_simplejwt.tokens import RefreshToken
@@ -21,7 +18,6 @@ class RegisterUserAPI(CreateAPIView):
 
     def perform_create(self, serializer):
         user = serializer.save()
-        print(user)
         Wishlist.objects.create(user=user)
 
 
@@ -92,3 +88,24 @@ class StreetByAvenueAPIView(APIView):
         street = Street.objects.filter(avenue__pk=kwargs['pk'])
         serializer = StreetSerializer(street, many=True)
         return Response(serializer.data)
+
+
+# class GetAllStores(APIView):
+#     def get(self, request, *args, **kwargs):
+#         users = User.objects.filter(is_store=True)
+#         serializer = UserSerializer(users, many=True)
+#         return Response(serializer.data)
+
+    
+# class GetAllVendors(APIView):
+#     def get(self, request, *args, **kwargs):
+#         users = User.objects.filter(is_vendor=True)
+#         serializer = UserSerializer(users, many=True)
+#         return Response(serializer.data)
+
+
+# class GetAllUsers(APIView):
+#     def get(self, request, *args, **kwargs):
+#         users = User.objects.filter(is_vendor=False, is_store=False)
+#         serializer = BuyerSerializer(users, many=True)
+#         return Response(serializer.data)

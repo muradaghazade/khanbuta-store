@@ -82,6 +82,13 @@ class UserSerializer(serializers.ModelSerializer):
             instance.save()
         return instance
 
+
+class BuyerSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ('id', 'number', 'name', 'is_vendor', 'is_store', 'email', 'address', 'address_addtional')
+
+
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
 
     @classmethod

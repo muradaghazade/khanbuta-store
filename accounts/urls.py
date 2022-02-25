@@ -14,6 +14,8 @@ router.register('cities', CityViewSet, basename='city')
 router.register('regions', RegionViewSet, basename='region')
 router.register('avenues', AvenueViewSet, basename='avenues')
 router.register('streets', StreetViewSet, basename='street')
+router.register('stores', StoreViewSet, basename='stores')
+router.register('vendors', VendorViewSet, basename='vendors')
 router.register('social-medias', SocialMediaViewSet, basename='social-media')
 router.register('social-icons', SocialIconViewSet, basename='social-icon')
 
