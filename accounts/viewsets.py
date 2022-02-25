@@ -145,7 +145,7 @@ class VendorViewSet(viewsets.ViewSet):
     queryset = User.objects.filter(is_store=False, is_vendor=True)
 
     def list(self, request):
-        self.queryset = User.objects.filter(is_store=True, is_vendor=False)
+        self.queryset = User.objects.filter(is_store=False, is_vendor=True)
         serializers_class = UserSerializer(self.queryset, many=True)
         return Response(serializers_class.data)
 
