@@ -4,6 +4,27 @@ from django.contrib.auth.password_validation import validate_password
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from drf_extra_fields.fields import Base64ImageField
 
+
+class UserSubSubCategorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserSubSubCategory
+        fields = ('id', 'title', 'icon', 'created_at', 'updated_at')
+
+
+class UserSubCategorySerializer(serializers.ModelSerializer):
+    sub_sub_categories = UserSubSubCategorySerializer(many=True, required=False)
+    class Meta:
+        model = UserSubCategory
+        fields = ('id', 'title', 'icon', 'created_at', 'updated_at', 'sub_sub_categories')
+
+
+class UserCategorySerializer(serializers.ModelSerializer):
+    sub_categories = UserSubCategorySerializer(many=True, required=False)
+    class Meta:
+        model = UserCategory
+        fields = ('id', 'title', 'icon', 'created_at', 'updated_at', 'sub_categories')
+
+
 class UserRegisterSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True, required=True, validators=[validate_password])
     password2 = serializers.CharField(write_only=True, required=True, validators=[validate_password])

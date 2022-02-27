@@ -1,10 +1,10 @@
+from unicodedata import category
 from django.db import models
 from django.contrib.auth.models import AbstractUser, BaseUserManager, UnicodeUsernameValidator
 from products.common import slugify
 from .managers import UserManager
 from django.contrib.auth.base_user import BaseUserManager
 import random
-# from products.models import UserCategory
 
 
 class User(AbstractUser):
@@ -30,6 +30,9 @@ class User(AbstractUser):
     logo = models.ImageField('Image',upload_to='images/', null=True, blank=True)
     slug = models.SlugField(max_length=255, null=True, blank=True)
     password2 = models.CharField(('password2'), max_length=200, editable=False)
+    category = models.ForeignKey('UserCategory', on_delete=models.CASCADE, related_name='users', blank=True, null=True)
+    sub_category = models.ForeignKey('UserSubCategory', on_delete=models.CASCADE, related_name='users', blank=True, null=True)
+    sub_sub_category = models.ForeignKey('UserSubSubCategory', on_delete=models.CASCADE, related_name='users', blank=True, null=True)
     is_verified = models.BooleanField(default=False)
     is_vendor = models.BooleanField(default=False)
     is_store = models.BooleanField(default=False)

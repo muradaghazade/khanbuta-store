@@ -1,8 +1,38 @@
 from rest_framework import viewsets
 from accounts.models import *
-from accounts.seralizers import UserSerializer, CitySerializer, SocialMediaSerializer, SocialIconSerializer, SocialIconCreateSerializer, RegionSerializer, AvenueSerializer, StreetSerializer, BuyerSerializer
+from accounts.seralizers import UserSerializer, CitySerializer, SocialMediaSerializer, SocialIconSerializer, SocialIconCreateSerializer, RegionSerializer, AvenueSerializer, StreetSerializer, BuyerSerializer, UserCategorySerializer, UserSubCategorySerializer, UserSubSubCategorySerializer
 from django.shortcuts import get_object_or_404
 from rest_framework.response import Response
+
+
+class UserCategoryViewSet(viewsets.ViewSet):
+    queryset = UserCategory.objects.all()
+    serializer_class = UserCategorySerializer
+
+    def list(self, request):
+        self.queryset = UserCategory.objects.all()
+        serializers_class = UserCategorySerializer(self.queryset, many=True)
+        return Response(serializers_class.data)
+
+    def retrieve(self, request, pk=None):
+        category = get_object_or_404(self.queryset, slug=pk)
+        serializers_class = UserCategorySerializer(category)
+        return Response(serializers_class.data)
+
+
+class UserSubCategoryViewSet(viewsets.ViewSet):
+    queryset = UserSubCategory.objects.all()
+    serializer_class = UserSubCategorySerializer
+
+    def list(self, request):
+        self.queryset = UserSubCategory.objects.all()
+        serializers_class = UserSubCategorySerializer(self.queryset, many=True)
+        return Response(serializers_class.data)
+
+    def retrieve(self, request, pk=None):
+        category = get_object_or_404(self.queryset, slug=pk)
+        serializers_class = UserSubCategorySerializer(category)
+        return Response(serializers_class.data)
 
 
 class UserViewSet(viewsets.ViewSet):
@@ -129,10 +159,10 @@ class StoreViewSet(viewsets.ViewSet):
     serializer_class = UserSerializer
     queryset = User.objects.filter(is_store=True, is_vendor=False)
 
-    def list(self, request):
-        self.queryset = User.objects.filter(is_store=True, is_vendor=False)
-        serializers_class = UserSerializer(self.queryset, many=True)
-        return Response(serializers_class.data)
+    # def list(self, request):
+    #     self.queryset = User.objects.filter(is_store=True, is_vendor=False)
+    #     serializers_class = UserSerializer(self.queryset, many=True)
+    #     return Response(serializers_class.data)
 
     def retrieve(self, request, pk=None):
         social_icon = get_object_or_404(self.queryset, pk=pk)
@@ -144,10 +174,10 @@ class VendorViewSet(viewsets.ViewSet):
     serializer_class = UserSerializer
     queryset = User.objects.filter(is_store=False, is_vendor=True)
 
-    def list(self, request):
-        self.queryset = User.objects.filter(is_store=False, is_vendor=True)
-        serializers_class = UserSerializer(self.queryset, many=True)
-        return Response(serializers_class.data)
+    # def list(self, request):
+    #     self.queryset = User.objects.filter(is_store=False, is_vendor=True)
+    #     serializers_class = UserSerializer(self.queryset, many=True)
+    #     return Response(serializers_class.data)
 
     def retrieve(self, request, pk=None):
         social_icon = get_object_or_404(self.queryset, pk=pk)

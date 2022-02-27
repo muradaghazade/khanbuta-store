@@ -1,7 +1,7 @@
-from rest_framework.generics import CreateAPIView
+from rest_framework.generics import CreateAPIView, ListAPIView
 from rest_framework.views import APIView
-from accounts.seralizers import UserRegisterSerializer, UserSerializer, MyTokenObtainPairSerializer, AvenueSerializer, StreetSerializer, BuyerSerializer
-from accounts.models import Avenue, User, Street
+from accounts.seralizers import UserRegisterSerializer, UserSerializer, MyTokenObtainPairSerializer, AvenueSerializer, StreetSerializer, BuyerSerializer, UserSubSubCategorySerializer, UserCategorySerializer, UserSubCategorySerializer
+from accounts.models import Avenue, User, Street, UserSubSubCategory, UserCategory, UserSubCategory
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.permissions import AllowAny, IsAuthenticated
@@ -10,6 +10,21 @@ from rest_framework import status
 from django.shortcuts import get_object_or_404
 from rest_framework.response import Response
 from products.models import Wishlist
+from products.paginations import CustomPagination
+
+
+class CategoryBySubAPIView(APIView):
+    def get(self, request, *args, **kwargs):
+        category = UserSubCategory.objects.filter(category__id=kwargs['id'])
+        serializer = UserSubCategorySerializer(category, many=True)
+        return Response(serializer.data)
+       
+
+class CategoryBySubSubAPIView(APIView):
+    def get(self, request, *args, **kwargs):
+        category = UserSubSubCategory.objects.filter(category__id=kwargs['id'])
+        serializer = UserSubSubCategorySerializer(category, many=True)
+        return Response(serializer.data)
 
 
 class RegisterUserAPI(CreateAPIView):
@@ -90,22 +105,53 @@ class StreetByAvenueAPIView(APIView):
         return Response(serializer.data)
 
 
-# class GetAllStores(APIView):
-#     def get(self, request, *args, **kwargs):
-#         users = User.objects.filter(is_store=True)
-#         serializer = UserSerializer(users, many=True)
-#         return Response(serializer.data)
+class GetAllStores(ListAPIView):
+    model = User
+    serializer_class = UserSerializer
+    pagination_class = CustomPagination
+    queryset = User.objects.filter(is_store=True, is_vendor=False)
 
-    
-# class GetAllVendors(APIView):
-#     def get(self, request, *args, **kwargs):
-#         users = User.objects.filter(is_vendor=True)
-#         serializer = UserSerializer(users, many=True)
-#         return Response(serializer.data)
+    def get_queryset(self):
+        category = self.request.data.get('category')
+        sub_category = self.request.data.get('sub_category')
+        sub_sub_category = self.request.data.get('sub_sub_category')
+        queryset = User.objects.filter(is_store=True, is_vendor=False)
+        if category:
+            queryset = queryset.filter(category__title__icontains=category)
+
+        if sub_category:
+            queryset = queryset.filter(sub_category__title__icontains=category)
+
+        if sub_sub_category:
+            queryset = queryset.filter(sub_sub_category__title__icontains=category)
+        
+        return queryset
+
+    def post(self, request, *args, **kwargs):
+        return self.list(request, *args, **kwargs)
 
 
-# class GetAllUsers(APIView):
-#     def get(self, request, *args, **kwargs):
-#         users = User.objects.filter(is_vendor=False, is_store=False)
-#         serializer = BuyerSerializer(users, many=True)
-#         return Response(serializer.data)
+class GetAllVendors(ListAPIView):
+    model = User
+    serializer_class = UserSerializer
+    pagination_class = CustomPagination
+    queryset = User.objects.filter(is_store=False, is_vendor=True)
+
+    def get_queryset(self):
+        category = self.request.data.get('category')
+        sub_category = self.request.data.get('sub_category')
+        sub_sub_category = self.request.data.get('sub_sub_category')
+        queryset = User.objects.filter(is_store=False, is_vendor=True)
+        if category:
+            queryset = queryset.filter(category__title__icontains=category)
+
+        if sub_category:
+            queryset = queryset.filter(sub_category__title__icontains=category)
+
+        if sub_sub_category:
+            queryset = queryset.filter(sub_sub_category__title__icontains=category)
+        
+        return queryset
+
+    def post(self, request, *args, **kwargs):
+        return self.list(request, *args, **kwargs)

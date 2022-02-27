@@ -37,6 +37,9 @@ class ProductAPIView(ListAPIView):
             queryset = queryset.order_by('price')
         return queryset
 
+    def post(self, request, *args, **kwargs):
+        return self.list(request, *args, **kwargs)
+
 
 class ProductByUserView(APIView):
     def get(self, request, *args, **kwargs):
@@ -79,6 +82,9 @@ class ProductFilterAPIView(ListAPIView):
             queryset = queryset.filter(queries)
         
         return queryset
+
+    def post(self, request, *args, **kwargs):
+        return self.list(request, *args, **kwargs)
 
 
 class RatingListCreateAPIView(ListCreateAPIView):
