@@ -66,10 +66,10 @@ class ProductFilterAPIView(ListAPIView):
             queryset = queryset.filter(category__title__icontains=category)
 
         if sub_category:
-            queryset = queryset.filter(sub_category__title__icontains=category)
+            queryset = queryset.filter(sub_category__title__icontains=sub_category)
 
         if sub_sub_category:
-            queryset = queryset.filter(sub_sub_category__title__icontains=category)
+            queryset = queryset.filter(sub_sub_category__title__icontains=sub_sub_category)
 
         if brand:
             queryset = queryset.filter(brand__icontains=brand)
