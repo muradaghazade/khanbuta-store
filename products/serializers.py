@@ -1,4 +1,5 @@
 from dataclasses import field
+from pyexpat import model
 from traceback import print_tb
 from rest_framework import serializers
 from .models import *
@@ -232,3 +233,9 @@ class PartnerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Partner
         fields = ('id','title','logo')
+
+
+class CategoryBannerSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CategoryBanner
+        fields = ('id', 'image', 'button_text', 'button_link', 'created_at', 'updated_at')

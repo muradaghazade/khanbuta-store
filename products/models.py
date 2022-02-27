@@ -448,3 +448,18 @@ class Cart(models.Model):
     def __str__(self):
         return f"{self.user.number}'s Cart"
         
+
+class CategoryBanner(models.Model):
+    image = models.ImageField('Image',upload_to='images/', null=True, blank=True)
+    button_text = models.CharField(max_length=100)
+    button_link = models.CharField(max_length=100)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = 'Kateqoriya Reklam Banneri'
+        verbose_name_plural = 'Kateqoriya Reklam Bannerleri'
+    
+    def __str__(self):
+        return self.button_text
