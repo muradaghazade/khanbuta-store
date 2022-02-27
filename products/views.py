@@ -1,14 +1,41 @@
-from pyexpat import model
 from django.shortcuts import render
 from rest_framework.generics import ListAPIView, CreateAPIView, ListCreateAPIView
 from rest_framework.views import APIView
 from rest_framework import status
 from django.shortcuts import get_object_or_404
 from rest_framework.response import Response
-from .models import AboutUs, Category, FAQCategory, SubCategory, SubSubCategory, Logo, HeaderText, Filter, CategoryLine, Slider, Benefit, DisplayedCategory, Product, Image, FilterValue, Tag, Rating, Wishlist, Partner
+from .models import AboutUs, Category, FAQCategory, SubCategory, SubSubCategory, Logo, HeaderText, Filter, CategoryLine, Slider, Benefit, DisplayedCategory, Product, Image, FilterValue, Tag, Rating, Wishlist, Partner, ProductVersion
 from .serializers import CategoryLineSerializer, FAQCategorySerializer, FilterSerializer, SubCategorySerializer, SubSubCategorySerializer, LogoSerializer, HeaderTextSerializer, FilterSerializer, SliderSerializer, BenefitSerializer, ProductSerializer, ImageSerializer, AboutUsSerializer, RatingSerializer, WishlistShowSerializer, PartnerSerializer
 from django.db.models import Q
 from accounts.models import User
+from .paginations import CustomPagination
+
+
+class ProductAPIView(ListAPIView):
+    model = Product
+    serializer_class = ProductSerializer
+    pagination_class = CustomPagination
+    queryset = Product.objects.order_by('-id')
+
+    def get_queryset(self):
+        queryset = Product.objects.order_by('-id')
+        az = self.request.data.get('az')
+        za = self.request.data.get('za')
+        expensive = self.request.data.get('expensive')
+        cheap = self.request.data.get('cheap')
+
+        if az:
+            queryset = queryset.order_by('title')
+
+        if za:
+            queryset = queryset.order_by('-title')
+
+        if expensive:
+            queryset = queryset.order_by('-price')
+
+        if cheap:
+            queryset = queryset.order_by('price')
+        return queryset
 
 
 class ProductByUserView(APIView):
@@ -27,10 +54,18 @@ class ProductFilterAPIView(ListAPIView):
 
     def get_queryset(self):
         category = self.request.data.get('category')
+        sub_category = self.request.data.get('sub_category')
+        sub_sub_category = self.request.data.get('sub_sub_category')
         brand = self.request.data.get('brand')
         price_list = self.request.data.get('price')
         queryset = Product.objects.all()
         if category:
+            queryset = queryset.filter(category__title__icontains=category)
+
+        if sub_category:
+            queryset = queryset.filter(sub_category__title__icontains=category)
+
+        if sub_sub_category:
             queryset = queryset.filter(sub_sub_category__title__icontains=category)
 
         if brand:
@@ -185,3 +220,22 @@ class WishlistByUser(APIView):
         f = Wishlist.objects.filter(user__id=kwargs['id']).first()
         serializer = WishlistShowSerializer(f)
         return Response(serializer.data)
+
+
+class AddToCart(APIView):
+    def post(self, request, *args, **kwargs):
+        product_id = self.request.data.get('product')
+        user_id = self.request.data.get('user')
+        product = ProductVersion.objects.get(pk=int(product_id))
+        user = User.objects.get(pk=int(user_id))
+        user.user_cart.product_version.add(product)
+        return Response("Added to Cart")
+
+class RemoveFromCart(APIView):
+    def post(self, request, *args, **kwargs):
+        product_id = self.request.data.get('product')
+        user_id = self.request.data.get('user')
+        product = ProductVersion.objects.get(pk=int(product_id))
+        user = User.objects.get(pk=int(user_id))
+        user.user_cart.product_version.remove(product)
+        return Response("Removed from Cart")

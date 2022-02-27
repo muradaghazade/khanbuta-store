@@ -1,3 +1,4 @@
+from unicodedata import category
 from django.db import models
 from .common import slugify
 from accounts.models import User
@@ -213,7 +214,9 @@ class Product(models.Model):
     main_image = models.ImageField('Image',upload_to='images/', null=True, blank=True)
     video = models.CharField(max_length=3000)
     rating = models.PositiveSmallIntegerField('rating', null=True, blank=True)
-    # sub_sub_category = models.ForeignKey(SubSubCategory, on_delete=models.CASCADE, related_name='products', blank=True, null=True)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='products', blank=True, null=True)
+    sub_category = models.ForeignKey(SubCategory, on_delete=models.CASCADE, related_name='products', blank=True, null=True)
+    sub_sub_category = models.ForeignKey(SubSubCategory, on_delete=models.CASCADE, related_name='products', blank=True, null=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, db_index=True, related_name='products', null=True, blank=True)
     tag = models.ManyToManyField('Tag', db_index=True, related_name='products', null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -411,37 +414,37 @@ class Wishlist(models.Model):
         return f"{self.user.number}'s Wishlist"
 
 
-# class ProductVersion(models.Model):
-#     product = models.ForeignKey(Product, on_delete=models.CASCADE, db_index=True, related_name='product_version', null=False, blank=True)
-#     color = models.CharField(max_length=100)
-#     final_price = models.DecimalField('Price',max_digits=6, decimal_places=2)
-#     storage = models.CharField(max_length=100)
-#     quantity = models.IntegerField('Quantity',blank=True,null=False)
+class ProductVersion(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, db_index=True, related_name='product_version', null=False, blank=True)
+    color = models.CharField(max_length=100)
+    final_price = models.DecimalField('Price',max_digits=6, decimal_places=2)
+    storage = models.CharField(max_length=100)
+    quantity = models.IntegerField('Quantity',blank=True,null=False)
 
-#     class Meta:
-#         verbose_name = 'Product Version'
-#         verbose_name_plural = 'Product Versions'
+    class Meta:
+        verbose_name = 'Product Version'
+        verbose_name_plural = 'Product Versions'
 
-#     def __str__(self):
-#         return f"{self.product.title}"
+    def __str__(self):
+        return f"{self.product.title}"
 
-#     def save(self, *args, **kwargs):
-#         quantity = int(self.quantity)
-#         price = int(self.product.price)
-#         self.final_price =  quantity*price
-#         super(Rating, self).save(*args, **kwargs)
+    def save(self, *args, **kwargs):
+        quantity = int(self.quantity)
+        price = int(self.product.price)
+        self.final_price =  quantity*price
+        super(Rating, self).save(*args, **kwargs)
 
 
-# class Cart(models.Model):
-#     user = models.OneToOneField(User, on_delete=models.CASCADE, db_index=True, related_name='user_cart')
-#     product_version = models.ManyToManyField(ProductVersion, verbose_name=("Product Version"), db_index=True, related_name='cart_product', null=True, blank=True)
-#     created_at = models.DateTimeField(auto_now_add=True)
-#     updated_at = models.DateTimeField(auto_now=True)
+class Cart(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, db_index=True, related_name='user_cart')
+    product_version = models.ManyToManyField(ProductVersion, verbose_name=("Product Version"), db_index=True, related_name='cart_product', null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
-#     class Meta:
-#         verbose_name = 'Cart'
-#         verbose_name_plural = 'Carts'
+    class Meta:
+        verbose_name = 'Cart'
+        verbose_name_plural = 'Carts'
     
-#     def __str__(self):
-#         return f"{self.user.number}'s Cart"
+    def __str__(self):
+        return f"{self.user.number}'s Cart"
         

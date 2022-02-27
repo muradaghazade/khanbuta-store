@@ -110,7 +110,9 @@ class ProductShowSerializer(serializers.ModelSerializer):
 
 class ProductSerializer(serializers.ModelSerializer):
     main_image = Base64ImageField(required=False)
-    sub_sub_category = SubSubCategorySerializer(required=False)
+    # sub_sub_category = SubSubCategorySerializer(required=False)
+    # sub_category = SubCategorySerializer(required=False)
+    # category = CategorySerializer(required=False)
     images = ImageSerializer(many=True, required=False)
     filter_values = FilterValueSerializer(many=True, required=False)
     tag = TagSerializer(many=True, required=False)
@@ -119,7 +121,7 @@ class ProductSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Product
-        fields = ('id', 'title', 'description', 'price', 'short_desc1', 'short_desc2', 'short_desc3',  'main_image', 'sub_sub_category', 'images', 'filter_values', 'tag', 'user', 'created_at', 'updated_at')
+        fields = ('id', 'title', 'description', 'price', 'short_desc1', 'short_desc2', 'short_desc3',  'main_image', 'sub_sub_category', 'images', 'filter_values', 'tag', 'category', 'sub_category','sub_sub_category', 'user', 'created_at', 'updated_at')
 
     def create(self, validated_data):
         print(validated_data['tag'])
@@ -131,7 +133,9 @@ class ProductSerializer(serializers.ModelSerializer):
             short_desc2 = validated_data['short_desc2'],
             short_desc3 = validated_data['short_desc3'],
             main_image = validated_data['main_image'],
-            # sub_sub_category = validated_data['sub_sub_category'],
+            sub_sub_category = validated_data['sub_sub_category'],
+            category = validated_data['category'],
+            sub_category = validated_data['sub_category'],
 
         )
 

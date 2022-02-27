@@ -5,6 +5,7 @@ from .serializers import LogoSerializer, CategorySerializer, HeaderTextSerialize
 from django.shortcuts import get_object_or_404
 from rest_framework.response import Response
 from rest_framework import status
+from .paginations import CustomPagination
 
 class LogoViewSet(viewsets.ViewSet):
     queryset = Logo.objects.all()
@@ -99,11 +100,12 @@ class FilterViewSet(viewsets.ViewSet):
 class ProductViewSet(viewsets.ViewSet):
     queryset = Product.objects.all()
     serializer_class = ProductShowSerializer
+    # pagination_class = CustomPagination
 
-    def list(self, request):
-        self.queryset = Product.objects.all()
-        serializers_class = ProductShowSerializer(self.queryset, many=True)
-        return Response(serializers_class.data)
+    # def list(self, request):
+    #     self.queryset = Product.objects.all()
+    #     serializers_class = ProductShowSerializer(self.queryset, many=True)
+    #     return Response(serializers_class.data)
 
     def retrieve(self, request, pk=None):
         f = get_object_or_404(self.queryset, pk=pk)
