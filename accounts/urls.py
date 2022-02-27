@@ -10,6 +10,9 @@ app_name = "accounts"
 router = DefaultRouter()
 
 router.register('users', UserViewSet, basename='user')
+router.register('user-categories', UserCategoryViewSet, basename='user-category')
+router.register('user-subcategories', UserSubCategoryViewSet, basename='user-sub')
+router.register('user-subsubcategories', UserSubSubCategoryViewSet, basename='user-subsub')
 router.register('cities', CityViewSet, basename='city')
 router.register('regions', RegionViewSet, basename='region')
 router.register('avenues', AvenueViewSet, basename='avenues')

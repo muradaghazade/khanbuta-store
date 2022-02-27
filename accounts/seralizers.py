@@ -104,6 +104,15 @@ class UserSerializer(serializers.ModelSerializer):
         return instance
 
 
+class UserShowSerializer(serializers.ModelSerializer):
+    sub_sub_category = UserSubSubCategorySerializer(required=False)
+    sub_category = UserSubCategorySerializer(required=False)
+    category = UserCategorySerializer(required=False)
+    class Meta:
+        model = User
+        fields = ('id', 'number', 'name', 'is_vendor', 'is_store', 'email', 'address', 'address_addtional', 'social_icons', 'cover_image', 'logo', 'category', 'sub_category', 'sub_sub_category')
+
+
 class BuyerSerializer(serializers.ModelSerializer):
     class Meta:
         model = User

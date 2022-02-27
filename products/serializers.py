@@ -98,6 +98,8 @@ class CommentSerializer(serializers.ModelSerializer):
 class ProductShowSerializer(serializers.ModelSerializer):
     main_image = Base64ImageField(required=False)
     sub_sub_category = SubSubCategorySerializer(required=False)
+    sub_category = SubCategorySerializer(required=False)
+    category = CategorySerializer(required=False)
     images = ImageSerializer(many=True, required=False)
     filter_values = FilterValueShowSerializer(many=True, required=False)
     tag = TagSerializer(many=True, required=False)
@@ -105,7 +107,7 @@ class ProductShowSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Product
-        fields = ('id', 'title', 'description', 'price', 'short_desc1', 'short_desc2', 'short_desc3', 'main_image','rating', 'comments', 'sub_sub_category', 'images', 'filter_values', 'tag', 'created_at', 'updated_at')
+        fields = ('id', 'title', 'description', 'price', 'short_desc1', 'short_desc2', 'short_desc3', 'main_image','rating', 'comments', 'sub_sub_category', 'sub_category', 'category', 'images', 'filter_values', 'tag', 'created_at', 'updated_at')
 
 
 class ProductSerializer(serializers.ModelSerializer):

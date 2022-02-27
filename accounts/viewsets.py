@@ -35,6 +35,21 @@ class UserSubCategoryViewSet(viewsets.ViewSet):
         return Response(serializers_class.data)
 
 
+class UserSubSubCategoryViewSet(viewsets.ViewSet):
+    queryset = UserSubSubCategory.objects.all()
+    serializer_class = UserSubCategorySerializer
+
+    def list(self, request):
+        self.queryset = UserSubSubCategory.objects.all()
+        serializers_class = UserSubSubCategorySerializer(self.queryset, many=True)
+        return Response(serializers_class.data)
+
+    def retrieve(self, request, pk=None):
+        category = get_object_or_404(self.queryset, slug=pk)
+        serializers_class = UserSubSubCategorySerializer(category)
+        return Response(serializers_class.data)
+
+
 class UserViewSet(viewsets.ViewSet):
     queryset = User.objects.filter(is_store=False, is_vendor=False)
     serializer_class = BuyerSerializer
