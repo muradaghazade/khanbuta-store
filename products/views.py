@@ -60,6 +60,7 @@ class ProductFilterAPIView(ListAPIView):
 
     def get_queryset(self):
         print(self.request.data)
+        print(self.request.data.get('category'))
         category = self.request.data.get('category')
         sub_category = self.request.data.get('sub_category')
         sub_sub_category = self.request.data.get('sub_sub_category')
