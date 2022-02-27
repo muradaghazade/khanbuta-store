@@ -55,9 +55,11 @@ class ProductByUserView(APIView):
 class ProductFilterAPIView(ListAPIView):
     model = Product
     serializer_class = ProductShowSerializer
+    pagination_class = CustomPagination
     queryset = Product.objects.order_by('-id')
 
     def get_queryset(self):
+        print(self.request.data)
         category = self.request.data.get('category')
         sub_category = self.request.data.get('sub_category')
         sub_sub_category = self.request.data.get('sub_sub_category')
