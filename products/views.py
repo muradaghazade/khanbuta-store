@@ -128,15 +128,15 @@ class DisplayedCategoryAPI(ListAPIView):
 
 class CategoryBySubAPIView(APIView):
     def get(self, request, *args, **kwargs):
-        category = get_object_or_404(SubCategory, category__slug=kwargs['slug'], slug=kwargs['slug2'])
-        serializer = SubCategorySerializer(category)
+        category = SubCategory.objects.filter(category__id=kwargs['id'])
+        serializer = SubCategorySerializer(category, many=True)
         return Response(serializer.data)
        
 
 class CategoryBySubSubAPIView(APIView):
     def get(self, request, *args, **kwargs):
-        category = get_object_or_404(SubSubCategory, category__category__slug=kwargs['slug'], category__slug=kwargs['slug2'], slug=kwargs['slug3'])
-        serializer = SubSubCategorySerializer(category)
+        category = SubSubCategory.objects.filter(category__id=kwargs['id'])
+        serializer = SubSubCategorySerializer(category, many=True)
         return Response(serializer.data)
 
 
