@@ -1,3 +1,4 @@
+from urllib import request
 from django.shortcuts import render
 from rest_framework.generics import ListAPIView, CreateAPIView, ListCreateAPIView
 from rest_framework.views import APIView
@@ -18,6 +19,7 @@ class ProductAPIView(ListAPIView):
     queryset = Product.objects.order_by('-id')
 
     def get_queryset(self):
+        print(self.request.data)
         queryset = Product.objects.order_by('-id')
         az = self.request.data.get('az')
         za = self.request.data.get('za')
