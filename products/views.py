@@ -55,12 +55,59 @@ class ProductByUserView(APIView):
 
 class ProductByUserIDView(APIView):
     def get(self, request, *args, **kwargs):
-        print(request.user)
+        # print(request.user)
+        print(request.data.get('category'))
         products = Product.objects.filter(user__id=kwargs['id'])
         # category = get_object_or_404(SubCategory, category__slug=kwargs['slug'], slug=kwargs['slug2'])
         serializer = ProductSerializer(products, many=True)
         return Response(serializer.data)
 
+    def post(self, request, *args, **kwargs):
+        print(request.data.get('category'))
+        queryset = Product.objects.filter(user__id=kwargs['id'])
+        az = self.request.data.get('az')
+        za = self.request.data.get('za')
+        expensive = self.request.data.get('expensive')
+        cheap = self.request.data.get('cheap')
+        category = self.request.data.get('category')
+        sub_category = self.request.data.get('sub_category')
+        sub_sub_category = self.request.data.get('sub_sub_category')
+        brand = self.request.data.get('brand')
+        price_list = self.request.data.get('price')
+
+        if az:
+            queryset = queryset.order_by('title')
+
+        if za:
+            queryset = queryset.order_by('-title')
+
+        if expensive:
+            queryset = queryset.order_by('-price')
+
+        if cheap:
+            queryset = queryset.order_by('price')
+
+        if category:
+            queryset = queryset.filter(category__title__icontains=category)
+
+        if sub_category:
+            queryset = queryset.filter(sub_category__title__icontains=sub_category)
+
+        if sub_sub_category:
+            queryset = queryset.filter(sub_sub_category__title__in=sub_sub_category)
+
+        if brand:
+            queryset = queryset.filter(brand__icontains=brand)
+
+        if price_list:
+            queries = Q()
+            for price in price_list:
+                queries = Q(price__range=(price)) | queries
+            
+            queryset = queryset.filter(queries)
+        # category = get_object_or_404(SubCategory, category__slug=kwargs['slug'], slug=kwargs['slug2'])
+        serializer = ProductSerializer(queryset, many=True)
+        return Response(serializer.data)    
 
 class ProductFilterAPIView(ListAPIView):
     model = Product
