@@ -106,7 +106,7 @@ class ProductShowSerializer(serializers.ModelSerializer):
     filter_values = FilterValueShowSerializer(many=True, required=False)
     tag = TagSerializer(many=True, required=False)
     comments = CommentSerializer(many=True, required=False)
-    user = UserShowSerializer(required=False)
+    user = UserSerializer(required=False)
 
     class Meta:
         model = Product
