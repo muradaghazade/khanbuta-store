@@ -114,11 +114,19 @@ class GetAllStores(ListAPIView):
 
     def get_queryset(self):
         category = self.request.data.get('category')
+        city = self.request.data.get('city')
+        region = self.request.data.get('region')
         sub_category = self.request.data.get('sub_category')
         sub_sub_category = self.request.data.get('sub_sub_category')
         queryset = User.objects.filter(is_store=True, is_vendor=False)
         if category:
             queryset = queryset.filter(category__title__icontains=category)
+
+        if city:
+            queryset = queryset.filter(city__title__icontains=city)
+
+        if region:
+            queryset = queryset.filter(region__title__icontains=region)
 
         if sub_category:
             queryset = queryset.filter(sub_category__title__icontains=sub_category)
