@@ -9,7 +9,7 @@ from django.http import JsonResponse
 from rest_framework import status
 from django.shortcuts import get_object_or_404
 from rest_framework.response import Response
-from products.models import Wishlist
+from products.models import Cart, Wishlist
 from products.paginations import CustomPagination
 
 
@@ -34,6 +34,7 @@ class RegisterUserAPI(CreateAPIView):
     def perform_create(self, serializer):
         user = serializer.save()
         Wishlist.objects.create(user=user)
+        Cart.objects.create(user=user)
 
 
 class UpdateUserView(APIView):

@@ -1,4 +1,5 @@
 from urllib import request
+from rest_framework.permissions import IsAuthenticated
 from django.shortcuts import render
 from rest_framework.generics import ListAPIView, CreateAPIView, ListCreateAPIView
 from rest_framework.views import APIView
@@ -6,7 +7,7 @@ from rest_framework import status
 from django.shortcuts import get_object_or_404
 from rest_framework.response import Response
 from .models import AboutUs, Category, FAQCategory, SubCategory, SubSubCategory, Logo, HeaderText, Filter, CategoryLine, Slider, Benefit, DisplayedCategory, Product, Image, FilterValue, Tag, Rating, Wishlist, Partner, ProductVersion, CategoryBanner
-from .serializers import CategoryLineSerializer, FAQCategorySerializer, FilterSerializer, SubCategorySerializer, SubSubCategorySerializer, LogoSerializer, HeaderTextSerializer, FilterSerializer, SliderSerializer, BenefitSerializer, ProductSerializer, ImageSerializer, AboutUsSerializer, RatingSerializer, WishlistShowSerializer, PartnerSerializer, ProductShowSerializer, CategoryBannerSerializer
+from .serializers import CategoryLineSerializer, FAQCategorySerializer, FilterSerializer, SubCategorySerializer, SubSubCategorySerializer, LogoSerializer, HeaderTextSerializer, FilterSerializer, SliderSerializer, BenefitSerializer, ProductSerializer, ImageSerializer, AboutUsSerializer, RatingSerializer, WishlistShowSerializer, PartnerSerializer, ProductShowSerializer, CategoryBannerSerializer, ProductVersionSerializer
 from django.db.models import Q
 from accounts.models import User
 from .paginations import CustomPagination
@@ -176,6 +177,9 @@ class ProductCreateAPIView(CreateAPIView):
     model = Product
     serializer_class = ProductSerializer
 
+    def perform_create(self, serializer):
+        product_version = serializer.save(user=self.request.user)
+
 
 class ProductUpdateDeleteAPIView(APIView):
     def patch(self, request, *args, **kwargs):
@@ -233,15 +237,6 @@ class WishlistByUser(APIView):
         return Response(serializer.data)
 
 
-class AddToCart(APIView):
-    def post(self, request, *args, **kwargs):
-        product_id = self.request.data.get('product')
-        user_id = self.request.data.get('user')
-        product = ProductVersion.objects.get(pk=int(product_id))
-        user = User.objects.get(pk=int(user_id))
-        user.user_cart.product_version.add(product)
-        return Response("Added to Cart")
-
 class RemoveFromCart(APIView):
     def post(self, request, *args, **kwargs):
         product_id = self.request.data.get('product')
@@ -257,3 +252,15 @@ class CategoryBannerView(APIView):
         f = CategoryBanner.objects.order_by('-id').first()
         serializer = CategoryBannerSerializer(f)
         return Response(serializer.data)
+
+
+class ProductVersionCreateAPIView(CreateAPIView):
+    model = ProductVersion
+    serializer_class = ProductVersionSerializer
+    # permission_class = IsAuthenticated
+
+    def perform_create(self, serializer):
+        product_version = serializer.save()
+        user = self.request.user
+        user.user_cart.product_version.add(product_version)
+        # Wishlist.objects.create(user=user)

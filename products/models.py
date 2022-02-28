@@ -416,11 +416,11 @@ class Wishlist(models.Model):
 
 class ProductVersion(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, db_index=True, related_name='product_version', null=False, blank=True)
-    color = models.CharField(max_length=100)
-    final_price = models.DecimalField('Price',max_digits=6, decimal_places=2)
-    storage = models.CharField(max_length=100)
+    final_price = models.DecimalField('Price',max_digits=6, decimal_places=2, blank=True)
     quantity = models.IntegerField('Quantity',blank=True,null=False)
-
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    
     class Meta:
         verbose_name = 'Product Version'
         verbose_name_plural = 'Product Versions'
@@ -432,7 +432,7 @@ class ProductVersion(models.Model):
         quantity = int(self.quantity)
         price = int(self.product.price)
         self.final_price =  quantity*price
-        super(Rating, self).save(*args, **kwargs)
+        super(ProductVersion, self).save(*args, **kwargs)
 
 
 class Cart(models.Model):

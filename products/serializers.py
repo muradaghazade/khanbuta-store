@@ -1,9 +1,10 @@
 from dataclasses import field
+from itertools import product
 from pyexpat import model
 from traceback import print_tb
 from rest_framework import serializers
 from .models import *
-from accounts.seralizers import UserSerializer
+from accounts.seralizers import UserSerializer, UserShowSerializer
 from drf_extra_fields.fields import Base64ImageField
 
 
@@ -105,10 +106,11 @@ class ProductShowSerializer(serializers.ModelSerializer):
     filter_values = FilterValueShowSerializer(many=True, required=False)
     tag = TagSerializer(many=True, required=False)
     comments = CommentSerializer(many=True, required=False)
+    user = UserShowSerializer(required=False)
 
     class Meta:
         model = Product
-        fields = ('id', 'title', 'description', 'price', 'short_desc1', 'short_desc2', 'short_desc3', 'main_image','rating', 'comments', 'sub_sub_category', 'sub_category', 'category', 'images', 'filter_values', 'tag', 'created_at', 'updated_at')
+        fields = ('id', 'title', 'description', 'price', 'short_desc1', 'short_desc2', 'short_desc3', 'main_image','rating', 'comments', 'sub_sub_category', 'sub_category', 'category', 'user', 'images', 'filter_values', 'tag', 'created_at', 'updated_at')
 
 
 class ProductSerializer(serializers.ModelSerializer):
@@ -239,3 +241,17 @@ class CategoryBannerSerializer(serializers.ModelSerializer):
     class Meta:
         model = CategoryBanner
         fields = ('id', 'image', 'button_text', 'button_link', 'created_at', 'updated_at')
+
+
+class ProductVersionSerializer(serializers.ModelSerializer):
+    # product = ProductShowSerializer(required=False)
+    class Meta:
+        model = ProductVersion
+        fields = ('id', 'final_price', 'quantity', 'product', 'created_at', 'updated_at')
+
+
+class ProductVersionShowSerializer(serializers.ModelSerializer):
+    product = ProductShowSerializer(required=False)
+    class Meta:
+        model = ProductVersion
+        fields = ('id', 'final_price', 'quantity', 'product', 'created_at', 'updated_at')
