@@ -104,10 +104,19 @@ class UserSerializer(serializers.ModelSerializer):
         return instance
 
 
+class SocialIconSerializer(serializers.ModelSerializer):
+    social_media = SocialMediaSerializer(required=False)
+    user = UserSerializer(required=False)
+    class Meta:
+        model = SocialIcon
+        fields = ('id', 'url', 'social_media', 'user', 'created_at', 'updated_at')
+
+
 class UserShowSerializer(serializers.ModelSerializer):
     sub_sub_category = UserSubSubCategorySerializer(required=False)
     sub_category = UserSubCategorySerializer(required=False)
     category = UserCategorySerializer(required=False)
+    social_icons = SocialIconSerializer(required=False)
     class Meta:
         model = User
         fields = ('id', 'number', 'name', 'is_vendor', 'is_store', 'email', 'address', 'address_addtional', 'social_icons', 'cover_image', 'logo', 'category', 'sub_category', 'sub_sub_category')
@@ -161,9 +170,3 @@ class RegionSerializer(serializers.ModelSerializer):
         fields = ('id', 'title', 'avenues', 'created_at', 'updated_at')
 
 
-class SocialIconSerializer(serializers.ModelSerializer):
-    social_media = SocialMediaSerializer(required=False)
-    user = UserSerializer(required=False)
-    class Meta:
-        model = SocialIcon
-        fields = ('id', 'url', 'social_media', 'user', 'created_at', 'updated_at')
