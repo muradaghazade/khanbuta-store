@@ -13,6 +13,25 @@ from accounts.models import User
 from .paginations import CustomPagination
 
 
+class SearchAPIView(ListAPIView):
+    model = Product
+    serializer_class = ProductSerializer
+    pagination_class = CustomPagination
+    queryset = Product.objects.order_by('-id')
+
+    def get_queryset(self):
+        print(self.request.data)
+        queryset = Product.objects.order_by('-id')
+        title = self.request.data.get('title')
+
+        if title:
+            queryset = queryset.filter(title__icontains=title)
+        return queryset
+
+    def post(self, request, *args, **kwargs):
+        return self.list(request, *args, **kwargs)
+
+
 class ProductAPIView(ListAPIView):
     model = Product
     serializer_class = ProductSerializer
