@@ -138,14 +138,9 @@ class CommentViewSet(viewsets.ModelViewSet):
     serializer_class = CommentSerializer
 
 
-class DiscountProductViewSet(viewsets.ModelViewSet):
+class DiscountProductViewSet(viewsets.ViewSet):
     queryset = DiscountProduct.objects.filter(is_verified=True)
     serializer_class = DiscountProductSerializer
-
-    def list(self, request):
-        self.queryset = DiscountProduct.objects.filter(is_verified=True)
-        serializers_class = DiscountProductShowSerializer(self.queryset, many=True)
-        return Response(serializers_class.data)
 
     def retrieve(self, request, pk=None):
         discount_product = get_object_or_404(self.queryset, pk=pk)

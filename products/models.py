@@ -463,3 +463,17 @@ class CategoryBanner(models.Model):
     
     def __str__(self):
         return self.button_text
+
+
+class Number(models.Model):
+    number = models.CharField(max_length=100)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = 'Bize zeng edin nomresi'
+        verbose_name_plural = 'Bize zeng edin nomreleri'
+    
+    def __str__(self):
+        return self.number

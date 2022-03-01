@@ -6,8 +6,8 @@ from rest_framework.views import APIView
 from rest_framework import status
 from django.shortcuts import get_object_or_404
 from rest_framework.response import Response
-from .models import AboutUs, Category, FAQCategory, SubCategory, SubSubCategory, Logo, HeaderText, Filter, CategoryLine, Slider, Benefit, DisplayedCategory, Product, Image, FilterValue, Tag, Rating, Wishlist, Partner, ProductVersion, CategoryBanner
-from .serializers import CategoryLineSerializer, FAQCategorySerializer, FilterSerializer, SubCategorySerializer, SubSubCategorySerializer, LogoSerializer, HeaderTextSerializer, FilterSerializer, SliderSerializer, BenefitSerializer, ProductSerializer, ImageSerializer, AboutUsSerializer, RatingSerializer, WishlistShowSerializer, PartnerSerializer, ProductShowSerializer, CategoryBannerSerializer, ProductVersionSerializer
+from .models import AboutUs, Category, FAQCategory, SubCategory, SubSubCategory, Logo, HeaderText, Filter, CategoryLine, Slider, Benefit, DisplayedCategory, Product, Image, FilterValue, Tag, Rating, Wishlist, Partner, ProductVersion, CategoryBanner, DiscountProduct, Number
+from .serializers import CategoryLineSerializer, FAQCategorySerializer, FilterSerializer, SubCategorySerializer, SubSubCategorySerializer, LogoSerializer, HeaderTextSerializer, FilterSerializer, SliderSerializer, BenefitSerializer, ProductSerializer, ImageSerializer, AboutUsSerializer, RatingSerializer, WishlistShowSerializer, PartnerSerializer, ProductShowSerializer, CategoryBannerSerializer, ProductVersionSerializer, DiscountProductSerializer, DiscountProductShowSerializer, NumberSerializer
 from django.db.models import Q
 from accounts.models import User
 from .paginations import CustomPagination
@@ -339,3 +339,59 @@ class ProductVersionCreateAPIView(CreateAPIView):
         user = self.request.user
         user.user_cart.product_version.add(product_version)
         # Wishlist.objects.create(user=user)
+
+
+class DiscountProductCreateAPIView(CreateAPIView):
+    model = DiscountProduct
+    serializer_class = DiscountProductSerializer
+
+
+class DiscountProductsView(ListAPIView):
+    model = DiscountProduct
+    serializer_class = DiscountProductShowSerializer
+    pagination_class = CustomPagination
+    queryset = DiscountProduct.objects.order_by('-id')
+
+    def get_queryset(self):
+        print(self.request.data)
+        queryset = DiscountProduct.objects.order_by('-id')
+        title = self.request.data.get('title')
+        category = self.request.data.get('category')
+        sub_category = self.request.data.get('sub_category')
+        sub_sub_category = self.request.data.get('sub_sub_category')
+        brand = self.request.data.get('brand')
+        price_list = self.request.data.get('price')
+
+        if title:
+            queryset = queryset.filter(product__title__icontains=title)
+
+        if category:
+            queryset = queryset.filter(product__category__title__icontains=category)
+
+        if sub_category:
+            queryset = queryset.filter(product__sub_category__title__icontains=sub_category)
+
+        if sub_sub_category:
+            queryset = queryset.filter(product__sub_sub_category__title__in=sub_sub_category)
+
+        if brand:
+            queryset = queryset.filter(product__brand__icontains=brand)
+
+        if price_list:
+            queries = Q()
+            for price in price_list:
+                queries = Q(price__range=(price)) | queries
+            
+            queryset = queryset.filter(queries)
+
+        return queryset
+
+    def post(self, request, *args, **kwargs):
+        return self.list(request, *args, **kwargs)
+
+
+class NumberAPIView(APIView):
+    def get(self, request, *args, **kwargs):
+        number = Number.objects.order_by("-id").first()
+        serializer = NumberSerializer(number)
+        return Response(serializer.data)

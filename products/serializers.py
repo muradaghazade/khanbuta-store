@@ -255,3 +255,9 @@ class ProductVersionShowSerializer(serializers.ModelSerializer):
     class Meta:
         model = ProductVersion
         fields = ('id', 'final_price', 'quantity', 'product', 'created_at', 'updated_at')
+
+
+class NumberSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Number
+        fields = ('id', 'number', 'created_at', 'updated_at')
