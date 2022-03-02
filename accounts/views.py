@@ -108,7 +108,7 @@ class StreetByAvenueAPIView(APIView):
 
 class GetAllStores(ListAPIView):
     model = User
-    serializer_class = UserShowSerializer
+    serializer_class = UserSerializer
     pagination_class = CustomPagination
     queryset = User.objects.filter(is_store=True, is_vendor=False)
 
