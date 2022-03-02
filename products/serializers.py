@@ -257,6 +257,14 @@ class ProductVersionShowSerializer(serializers.ModelSerializer):
         fields = ('id', 'final_price', 'quantity', 'product', 'created_at', 'updated_at')
 
 
+class CartShowSerializer(serializers.ModelSerializer):
+    product_version = ProductVersionShowSerializer(required=False, many=True)
+    user = UserSerializer(required=False)
+    class Meta:
+        model = Cart
+        fields = ('id','user', 'product_version', 'created_at', 'updated_at')
+
+
 class NumberSerializer(serializers.ModelSerializer):
     class Meta:
         model = Number

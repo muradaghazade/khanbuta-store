@@ -6,8 +6,8 @@ from rest_framework.views import APIView
 from rest_framework import status
 from django.shortcuts import get_object_or_404
 from rest_framework.response import Response
-from .models import AboutUs, Category, FAQCategory, SubCategory, SubSubCategory, Logo, HeaderText, Filter, CategoryLine, Slider, Benefit, DisplayedCategory, Product, Image, FilterValue, Tag, Rating, Wishlist, Partner, ProductVersion, CategoryBanner, DiscountProduct, Number
-from .serializers import CategoryLineSerializer, FAQCategorySerializer, FilterSerializer, SubCategorySerializer, SubSubCategorySerializer, LogoSerializer, HeaderTextSerializer, FilterSerializer, SliderSerializer, BenefitSerializer, ProductSerializer, ImageSerializer, AboutUsSerializer, RatingSerializer, WishlistShowSerializer, PartnerSerializer, ProductShowSerializer, CategoryBannerSerializer, ProductVersionSerializer, DiscountProductSerializer, DiscountProductShowSerializer, NumberSerializer
+from .models import AboutUs, Cart, Category, FAQCategory, SubCategory, SubSubCategory, Logo, HeaderText, Filter, CategoryLine, Slider, Benefit, DisplayedCategory, Product, Image, FilterValue, Tag, Rating, Wishlist, Partner, ProductVersion, CategoryBanner, DiscountProduct, Number
+from .serializers import CategoryLineSerializer, FAQCategorySerializer, FilterSerializer, SubCategorySerializer, SubSubCategorySerializer, LogoSerializer, HeaderTextSerializer, FilterSerializer, SliderSerializer, BenefitSerializer, ProductSerializer, ImageSerializer, AboutUsSerializer, RatingSerializer, WishlistShowSerializer, PartnerSerializer, ProductShowSerializer, CategoryBannerSerializer, ProductVersionSerializer, DiscountProductSerializer, DiscountProductShowSerializer, NumberSerializer, CartShowSerializer
 from django.db.models import Q
 from accounts.models import User
 from .paginations import CustomPagination
@@ -339,6 +339,13 @@ class ProductVersionCreateAPIView(CreateAPIView):
         user = self.request.user
         user.user_cart.product_version.add(product_version)
         # Wishlist.objects.create(user=user)
+
+
+class CartByUser(APIView):
+    def get(self, request, *args, **kwargs):
+        f = Cart.objects.filter(user__id=kwargs['id']).first()
+        serializer = CartShowSerializer(f)
+        return Response(serializer.data)
 
 
 class DiscountProductCreateAPIView(CreateAPIView):

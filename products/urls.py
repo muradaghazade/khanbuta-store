@@ -1,6 +1,6 @@
 from rest_framework.routers import DefaultRouter
 from .viewsets import LogoViewSet, CategoryViewSet, HeaderTextViewSet, SubCategoryViewSet, SubSubCategoryViewSet, FilterViewSet, ProductViewSet, FAQViewSet, UserMessageViewSet, CommentViewSet, DiscountProductViewSet
-from .views import AboutUsAPIView, CategoryBySubAPIView, CategoryBySubSubAPIView, LastLogoAPIView, LastHeaderTextAPIView, FiltersBySubSubAPIView, CategoryLineAPI, NumberAPIView, RemoveFromWishlist, SliderAPIView, BenefitAPIView, DisplayedCategoryAPI, ProductCreateAPIView, ProductUpdateDeleteAPIView, ProductFilterAPIView, FAQView, ProductByUserView, RatingListCreateAPIView, AddToWishlist, RemoveFromWishlist, WishlistByUser, PartnerAPIView, ProductAPIView, CategoryBannerView, ProductVersionCreateAPIView, ProductByUserIDView, SearchAPIView, RemoveFromCart, DiscountProductCreateAPIView, DiscountProductsView
+from .views import AboutUsAPIView, CategoryBySubAPIView, CategoryBySubSubAPIView, LastLogoAPIView, LastHeaderTextAPIView, FiltersBySubSubAPIView, CategoryLineAPI, NumberAPIView, RemoveFromWishlist, SliderAPIView, BenefitAPIView, DisplayedCategoryAPI, ProductCreateAPIView, ProductUpdateDeleteAPIView, ProductFilterAPIView, FAQView, ProductByUserView, RatingListCreateAPIView, AddToWishlist, RemoveFromWishlist, WishlistByUser, PartnerAPIView, ProductAPIView, CategoryBannerView, ProductVersionCreateAPIView, ProductByUserIDView, SearchAPIView, RemoveFromCart, DiscountProductCreateAPIView, DiscountProductsView, CartByUser
 from django.urls import path, include
 
 app_name = "products"
@@ -25,6 +25,7 @@ urlpatterns = [
     path('discounts/', DiscountProductsView.as_view(), name='discounts'),
     path('discount-create/', DiscountProductCreateAPIView.as_view(), name='discount-create'),
     path('product-search/', SearchAPIView.as_view(), name='product-search'),
+    path('user-cart/<int:id>/', CartByUser.as_view(), name='user-cart'),
     path('add-to-cart/', ProductVersionCreateAPIView.as_view(), name='product-version'),
     path('remove-from-cart/', RemoveFromCart.as_view(), name='remove-from-cart'),
     path('category-banner/', CategoryBannerView.as_view(), name='category-banner'),
@@ -43,10 +44,10 @@ urlpatterns = [
     path('filters-by-subsub/<int:id>/', FiltersBySubSubAPIView.as_view(), name='filter-sub'),
     path('faq/', FAQView.as_view(), name='faq'),
     path('product-by-user/', ProductByUserView.as_view(), name='product-by-user'),
-    path('product-by-user-id/<int:id>', ProductByUserIDView.as_view(), name='product-by-user-id'),
+    path('product-by-user-id/<int:id>/', ProductByUserIDView.as_view(), name='product-by-user-id'),
     path('rating/',RatingListCreateAPIView.as_view(),name='rating-list'),
     path('add-to-wishlist/', AddToWishlist.as_view(),name='add-to-wishlist'),
     path('remove-from-wishlist/', RemoveFromWishlist.as_view(),name='remove-from-wishlist'),
-    path('wishlist/<int:id>', WishlistByUser.as_view(),name='wishlist'),
+    path('wishlist/<int:id>/', WishlistByUser.as_view(),name='wishlist'),
     path('number/', NumberAPIView.as_view(),name='number'),
 ]
