@@ -1,9 +1,33 @@
-from unicodedata import category
 from django.db import models
 from .common import slugify
 from accounts.models import User
 import random
 from ckeditor_uploader.fields import RichTextUploadingField
+
+
+class Order(models.Model):
+    first_name = models.CharField(max_length=200)
+    last_name = models.CharField(max_length=200)
+    company_name = models.CharField(max_length=200, null=True, blank=True)
+    address = models.CharField(max_length=3000)
+    zip_code = models.CharField(max_length=3000)
+    email = models.EmailField(('email adress'), null=True, blank=True)
+    number = models.CharField(('Number'),max_length=100, null=True, blank=True)
+    order_notes = models.TextField('Text', null=True, blank=True)
+    cart = models.ForeignKey('Cart', on_delete=models.CASCADE, db_index=True, related_name='orders', null=True, blank=True)
+    status = models.CharField(max_length=200)
+    # seller = models.ForeignKey(User, on_delete=models.CASCADE, db_index=True, related_name='orders', null=True, blank=True)
+    buyer = models.ForeignKey(User, on_delete=models.CASCADE, db_index=True, related_name='orders', null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f'{self.first_name} {self.last_name} in sifarishi'
+
+    class Meta:
+        verbose_name = 'Sifarish'
+        verbose_name_plural = 'Sifarishler'
+        # ordering = ['title']
 
 
 class CategoryLine(models.Model):

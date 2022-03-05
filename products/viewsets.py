@@ -1,7 +1,7 @@
 from unicodedata import category
 from rest_framework import viewsets
-from .models import Category, Logo, HeaderText, SubSubCategory, SubCategory, Filter, Product, FAQ, UserMessage, Comment, DiscountProduct, Wishlist
-from .serializers import LogoSerializer, CategorySerializer, HeaderTextSerializer, SubCategorySerializer, SubSubCategorySerializer, FilterSerializer, ProductShowSerializer, FAQSerializer, UserMessageSerializer, CommentSerializer, DiscountProductSerializer, DiscountProductShowSerializer, WishlistShowSerializer
+from .models import Category, Logo, HeaderText, SubSubCategory, SubCategory, Filter, Product, FAQ, UserMessage, Comment, DiscountProduct, Wishlist, Order
+from .serializers import LogoSerializer, CategorySerializer, HeaderTextSerializer, SubCategorySerializer, SubSubCategorySerializer, FilterSerializer, ProductShowSerializer, FAQSerializer, UserMessageSerializer, CommentSerializer, DiscountProductSerializer, DiscountProductShowSerializer, WishlistShowSerializer, OrderSerializer, OrderShowSerializer
 from django.shortcuts import get_object_or_404
 from rest_framework.response import Response
 from rest_framework import status
@@ -149,3 +149,17 @@ class DiscountProductViewSet(viewsets.ViewSet):
             return Response(serializers_class.data)
         return Response({"Detail": "No verified Products found."})
 
+
+class OrderViewSet(viewsets.ModelViewSet):
+    queryset = Order.objects.all()
+    serializer_class = OrderSerializer
+
+    def list(self, request):
+        self.queryset = Order.objects.all()
+        serializers_class = OrderShowSerializer(self.queryset, many=True)
+        return Response(serializers_class.data)
+
+    def retrieve(self, request, pk=None):
+        order = get_object_or_404(self.queryset, pk=pk)
+        serializers_class = OrderShowSerializer(order)
+        return Response(serializers_class.data)

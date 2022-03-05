@@ -217,7 +217,7 @@ class DiscountProductSerializer(serializers.ModelSerializer):
 
 
 class DiscountProductShowSerializer(serializers.ModelSerializer):
-    product = ProductSerializer(required=False)
+    product = ProductShowSerializer(required=False)
     class Meta:
         model = DiscountProduct
         fields = ('id','discount_price','product','time_range')
@@ -269,3 +269,17 @@ class NumberSerializer(serializers.ModelSerializer):
     class Meta:
         model = Number
         fields = ('id', 'number', 'created_at', 'updated_at')
+
+
+class OrderSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Order
+        fields = ('id', 'first_name', 'last_name', 'address', 'zip_code', 'email', 'number', 'order_notes', 'cart', 'status', 'buyer', 'company_name', 'created_at', 'updated_at')
+
+
+class OrderShowSerializer(serializers.ModelSerializer):
+    cart = CartShowSerializer(required=False)
+    buyer = UserShowSerializer(required=False)
+    class Meta:
+        model = Order
+        fields = ('id', 'first_name', 'last_name', 'address', 'zip_code', 'email', 'number', 'order_notes', 'cart', 'status', 'buyer', 'company_name', 'created_at', 'updated_at')
