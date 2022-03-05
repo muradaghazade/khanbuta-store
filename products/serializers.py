@@ -224,7 +224,7 @@ class DiscountProductShowSerializer(serializers.ModelSerializer):
 
 
 class WishlistShowSerializer(serializers.ModelSerializer):
-    product = ProductSerializer(required=False, many=True)
+    product = ProductShowSerializer(required=False, many=True)
     user = UserSerializer(required=False)
     class Meta:
         model = Wishlist
