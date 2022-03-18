@@ -11,6 +11,7 @@ from django.shortcuts import get_object_or_404
 from rest_framework.response import Response
 from products.models import Cart, Wishlist
 from products.paginations import CustomPagination
+from django.db.models import Q
 
 
 class CategoryBySubAPIView(APIView):
@@ -158,6 +159,39 @@ class GetAllVendors(ListAPIView):
         sub_sub_category = self.request.data.get('sub_sub_category')
         queryset = User.objects.filter(is_store=False, is_vendor=True)
 
+        if title:
+            queryset = queryset.filter(title__icontains=title)
+
+        if category:
+            queryset = queryset.filter(category__title__icontains=category)
+
+        if sub_category:
+            queryset = queryset.filter(sub_category__title__icontains=category)
+
+        if sub_sub_category:
+            queryset = queryset.filter(sub_sub_category__title__icontains=category)
+        
+        return queryset
+
+    def post(self, request, *args, **kwargs):
+        return self.list(request, *args, **kwargs)
+
+
+class GetMixedStoresVendors(ListAPIView):
+    model = User
+    serializer_class = UserSerializer
+    pagination_class = CustomPagination
+    queryset = User.objects.filter(Q(is_vendor=True) | 
+                               Q(is_store=True))
+
+    def get_queryset(self):
+        category = self.request.data.get('category')
+        title = self.request.data.get('title')
+        sub_category = self.request.data.get('sub_category')
+        sub_sub_category = self.request.data.get('sub_sub_category')
+        queryset = User.objects.filter(Q(is_vendor=True) | 
+                               Q(is_store=True))
+                               
         if title:
             queryset = queryset.filter(title__icontains=title)
 

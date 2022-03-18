@@ -1,7 +1,7 @@
 from unicodedata import category
 from rest_framework import viewsets
-from .models import Category, Logo, HeaderText, SubSubCategory, SubCategory, Filter, Product, FAQ, UserMessage, Comment, DiscountProduct, Wishlist, Order
-from .serializers import LogoSerializer, CategorySerializer, HeaderTextSerializer, SubCategorySerializer, SubSubCategorySerializer, FilterSerializer, ProductShowSerializer, FAQSerializer, UserMessageSerializer, CommentSerializer, DiscountProductSerializer, DiscountProductShowSerializer, WishlistShowSerializer, OrderSerializer, OrderShowSerializer
+from .models import Category, Logo, HeaderText, SubSubCategory, SubCategory, Filter, Product, FAQ, UserMessage, Comment, DiscountProduct, Wishlist, Order, Subscriber
+from .serializers import LogoSerializer, CategorySerializer, HeaderTextSerializer, SubCategorySerializer, SubSubCategorySerializer, FilterSerializer, ProductShowSerializer, FAQSerializer, UserMessageSerializer, CommentSerializer, DiscountProductSerializer, DiscountProductShowSerializer, WishlistShowSerializer, OrderSerializer, OrderShowSerializer, SubscriberSerializer
 from django.shortcuts import get_object_or_404
 from rest_framework.response import Response
 from rest_framework import status
@@ -162,4 +162,19 @@ class OrderViewSet(viewsets.ModelViewSet):
     def retrieve(self, request, pk=None):
         order = get_object_or_404(self.queryset, pk=pk)
         serializers_class = OrderShowSerializer(order)
+        return Response(serializers_class.data)
+
+
+class SubscriberViewSet(viewsets.ModelViewSet):
+    queryset = Subscriber.objects.all()
+    serializer_class = SubscriberSerializer
+
+    def list(self, request):
+        self.queryset = Subscriber.objects.all()
+        serializers_class = SubscriberSerializer(self.queryset, many=True)
+        return Response(serializers_class.data)
+
+    def retrieve(self, request, pk=None):
+        subscriber = get_object_or_404(self.queryset, pk=pk)
+        serializers_class = SubscriberSerializer(subscriber)
         return Response(serializers_class.data)

@@ -1,5 +1,5 @@
 from django.urls import path, include
-from accounts.views import RegisterUserAPI, MyObtainTokenPairView, GetUserDataByTokenView, VerifyNumberView, AvenueByCityAPIView, AvenueByRegionAPIView, StreetByAvenueAPIView, UpdateUserView, CategoryBySubAPIView, CategoryBySubSubAPIView, GetAllStores, GetAllVendors
+from accounts.views import RegisterUserAPI, MyObtainTokenPairView, GetUserDataByTokenView, VerifyNumberView, AvenueByCityAPIView, AvenueByRegionAPIView, StreetByAvenueAPIView, UpdateUserView, CategoryBySubAPIView, CategoryBySubSubAPIView, GetAllStores, GetAllVendors, GetMixedStoresVendors
 from rest_framework_simplejwt.views import TokenRefreshView
 from rest_framework.routers import DefaultRouter
 from accounts.viewsets import *
@@ -28,6 +28,7 @@ urlpatterns = [
     path('register/', RegisterUserAPI.as_view(), name='register'),
     path('stores/', GetAllStores.as_view(), name='store'),
     path('vendors/', GetAllVendors.as_view(), name='vendor'),
+    path('stores-vendors/', GetMixedStoresVendors.as_view(), name='stores-vendors'),
     path('user/<int:pk>', UpdateUserView.as_view(), name='user'),
     path('login/', MyObtainTokenPairView.as_view(), name='token_obtain_pair'),
     path('login/refresh/', TokenRefreshView.as_view(), name='token_refresh'),

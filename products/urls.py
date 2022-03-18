@@ -1,5 +1,5 @@
 from rest_framework.routers import DefaultRouter
-from .viewsets import LogoViewSet, CategoryViewSet, HeaderTextViewSet, SubCategoryViewSet, SubSubCategoryViewSet, FilterViewSet, ProductViewSet, FAQViewSet, UserMessageViewSet, CommentViewSet, DiscountProductViewSet, OrderViewSet
+from .viewsets import LogoViewSet, CategoryViewSet, HeaderTextViewSet, SubCategoryViewSet, SubSubCategoryViewSet, FilterViewSet, ProductViewSet, FAQViewSet, UserMessageViewSet, CommentViewSet, DiscountProductViewSet, OrderViewSet, SubscriberViewSet
 from .views import AboutUsAPIView, CategoryBySubAPIView, CategoryBySubSubAPIView, LastLogoAPIView, LastHeaderTextAPIView, FiltersBySubSubAPIView, CategoryLineAPI, NumberAPIView, RemoveFromWishlist, SliderAPIView, BenefitAPIView, DisplayedCategoryAPI, ProductCreateAPIView, ProductUpdateDeleteAPIView, ProductFilterAPIView, FAQView, ProductByUserView, RatingListCreateAPIView, AddToWishlist, RemoveFromWishlist, WishlistByUser, PartnerAPIView, ProductAPIView, CategoryBannerView, ProductVersionCreateAPIView, ProductByUserIDView, SearchAPIView, RemoveFromCart, DiscountProductCreateAPIView, DiscountProductsView, CartByUser
 from django.urls import path, include
 
@@ -7,6 +7,7 @@ app_name = "products"
 
 router = DefaultRouter()
 router.register('logos', LogoViewSet, basename='logo')
+router.register('subscribers', SubscriberViewSet, basename='subscriber')
 router.register('orders', OrderViewSet, basename='order')
 router.register('discounts', DiscountProductViewSet, basename='discount')
 router.register('categories', CategoryViewSet, basename='category')

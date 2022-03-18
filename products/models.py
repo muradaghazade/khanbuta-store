@@ -501,3 +501,17 @@ class Number(models.Model):
     
     def __str__(self):
         return self.number
+
+
+class Subscriber(models.Model):
+    email = models.EmailField(('email adress'), unique=False, null=True, blank=True)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = 'Subscriber'
+        verbose_name_plural = 'Subscribers'
+    
+    def __str__(self):
+        return self.email

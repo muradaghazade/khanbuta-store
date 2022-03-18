@@ -283,3 +283,9 @@ class OrderShowSerializer(serializers.ModelSerializer):
     class Meta:
         model = Order
         fields = ('id', 'first_name', 'last_name', 'address', 'zip_code', 'email', 'number', 'order_notes', 'cart', 'status', 'buyer', 'company_name', 'created_at', 'updated_at')
+
+
+class SubscriberSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Subscriber
+        fields = ('id', 'email', 'created_at', 'updated_at')
