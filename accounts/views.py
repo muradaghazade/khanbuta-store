@@ -1,3 +1,4 @@
+from itertools import product
 from rest_framework.generics import CreateAPIView, ListAPIView
 from rest_framework.views import APIView
 from accounts.seralizers import UserRegisterSerializer, UserSerializer, MyTokenObtainPairSerializer, AvenueSerializer, StreetSerializer, BuyerSerializer, UserSubSubCategorySerializer, UserCategorySerializer, UserSubCategorySerializer, UserShowSerializer
@@ -9,7 +10,7 @@ from django.http import JsonResponse
 from rest_framework import status
 from django.shortcuts import get_object_or_404
 from rest_framework.response import Response
-from products.models import Cart, Wishlist
+from products.models import Cart, Product, Wishlist
 from products.paginations import CustomPagination
 from django.db.models import Q
 
@@ -114,6 +115,10 @@ class GetAllStores(ListAPIView):
     queryset = User.objects.filter(is_store=True, is_vendor=False)
 
     def get_queryset(self):
+        az = self.request.data.get('az')
+        za = self.request.data.get('za')
+        min_rating = self.request.data.get('min_rating')
+        max_rating = self.request.data.get('max_rating')
         category = self.request.data.get('category')
         city = self.request.data.get('city')
         region = self.request.data.get('region')
@@ -139,6 +144,18 @@ class GetAllStores(ListAPIView):
 
         if sub_sub_category:
             queryset = queryset.filter(sub_sub_category__title__icontains=sub_sub_category)
+
+        if az:
+            queryset = queryset.order_by('title')
+
+        if za:
+            queryset = queryset.order_by('-title')
+
+        if min_rating:
+            queryset = queryset.order_by('rating')
+
+        if max_rating:
+            queryset = queryset.order_by('-rating')
         
         return queryset
 
@@ -153,6 +170,10 @@ class GetAllVendors(ListAPIView):
     queryset = User.objects.filter(is_store=False, is_vendor=True)
 
     def get_queryset(self):
+        az = self.request.data.get('az')
+        za = self.request.data.get('za')
+        min_rating = self.request.data.get('min_rating')
+        max_rating = self.request.data.get('max_rating')
         category = self.request.data.get('category')
         title = self.request.data.get('title')
         sub_category = self.request.data.get('sub_category')
@@ -170,6 +191,18 @@ class GetAllVendors(ListAPIView):
 
         if sub_sub_category:
             queryset = queryset.filter(sub_sub_category__title__icontains=category)
+
+        if az:
+            queryset = queryset.order_by('title')
+
+        if za:
+            queryset = queryset.order_by('-title')
+
+        if min_rating:
+            queryset = queryset.order_by('rating')
+
+        if max_rating:
+            queryset = queryset.order_by('-rating')
         
         return queryset
 

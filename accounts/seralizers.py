@@ -71,7 +71,7 @@ class UserSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = User
-        fields = ('id', 'number', 'name', 'is_vendor', 'is_store', 'email', 'address', 'address_addtional', 'social_icons', 'cover_image', "logo")
+        fields = ('id', 'number', 'name', 'is_vendor', 'is_store', 'email', 'rating', 'address', 'address_addtional', 'social_icons', 'cover_image', "logo")
 
     def update(self, instance, validated_data):
         try:
@@ -119,7 +119,7 @@ class UserShowSerializer(serializers.ModelSerializer):
     social_icons = SocialIconSerializer(required=False)
     class Meta:
         model = User
-        fields = ('id', 'number', 'name', 'is_vendor', 'is_store', 'email', 'address', 'address_addtional', 'social_icons', 'cover_image', 'logo', 'category', 'sub_category', 'sub_sub_category')
+        fields = ('id', 'number', 'name', 'is_vendor', 'is_store', 'email', 'rating', 'address', 'address_addtional', 'social_icons', 'cover_image', 'logo', 'category', 'sub_category', 'sub_sub_category')
 
 
 class BuyerSerializer(serializers.ModelSerializer):

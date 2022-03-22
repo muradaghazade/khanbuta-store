@@ -5,6 +5,28 @@ import random
 from ckeditor_uploader.fields import RichTextUploadingField
 
 
+class StoreOrder(models.Model):
+    first_name = models.CharField(max_length=200)
+    last_name = models.CharField(max_length=200)
+    company_name = models.CharField(max_length=200, null=True, blank=True)
+    address = models.CharField(max_length=3000)
+    zip_code = models.CharField(max_length=3000)
+    email = models.EmailField(('email adress'), null=True, blank=True)
+    number = models.CharField(('Number'),max_length=100, null=True, blank=True)
+    order_notes = models.TextField('Text', null=True, blank=True)
+    status = models.CharField(max_length=200)
+    store = models.ForeignKey(User, on_delete=models.CASCADE, db_index=True, related_name='store_orders', null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f'{self.first_name} {self.last_name} in sifarishi'
+
+    class Meta:
+        verbose_name = 'Maqazalar uchun Sifarish'
+        verbose_name_plural = 'Maqazalar uchun Sifarishler'
+
+
 class Order(models.Model):
     first_name = models.CharField(max_length=200)
     last_name = models.CharField(max_length=200)
@@ -16,7 +38,6 @@ class Order(models.Model):
     order_notes = models.TextField('Text', null=True, blank=True)
     cart = models.ForeignKey('Cart', on_delete=models.CASCADE, db_index=True, related_name='orders', null=True, blank=True)
     status = models.CharField(max_length=200)
-    # seller = models.ForeignKey(User, on_delete=models.CASCADE, db_index=True, related_name='orders', null=True, blank=True)
     buyer = models.ForeignKey(User, on_delete=models.CASCADE, db_index=True, related_name='orders', null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -24,10 +45,33 @@ class Order(models.Model):
     def __str__(self):
         return f'{self.first_name} {self.last_name} in sifarishi'
 
+    def save(self, *args, **kwargs):
+        for product_version in self.cart.product_version.all():
+            print(product_version.product.user)
+            store_order = StoreOrder.objects.create(
+                first_name = self.first_name,
+                last_name = self.last_name,
+                company_name = self.company_name,
+                address = self.address,
+                zip_code = self.zip_code,
+                email = self.email,
+                number = self.number,
+                order_notes = self.order_notes,
+                status = self.status,
+                store = product_version.product.user
+
+            )
+            store_order.save()
+            product_version.store_order = store_order
+            product_version.save()
+        # quantity = int(self.quantity)
+        # price = int(self.product.price)
+        # self.final_price =  quantity*price
+        super(Order, self).save(*args, **kwargs)
+
     class Meta:
         verbose_name = 'Sifarish'
         verbose_name_plural = 'Sifarishler'
-        # ordering = ['title']
 
 
 class CategoryLine(models.Model):
@@ -442,6 +486,7 @@ class ProductVersion(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, db_index=True, related_name='product_version', null=False, blank=True)
     final_price = models.DecimalField('Price',max_digits=6, decimal_places=2, blank=True)
     quantity = models.IntegerField('Quantity',blank=True,null=False)
+    store_order = models.ForeignKey(StoreOrder, on_delete=models.CASCADE, db_index=True, related_name='product_versions', null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     
@@ -515,3 +560,14 @@ class Subscriber(models.Model):
     
     def __str__(self):
         return self.email
+
+
+class SocialLink(models.Model):
+    title = models.CharField(max_length=100)
+    url = models.CharField(max_length=1000)
+    logo = models.ImageField('Logo',upload_to='images/', null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.title

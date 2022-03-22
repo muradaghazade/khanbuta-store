@@ -34,6 +34,7 @@ class User(AbstractUser):
     sub_category = models.ForeignKey('UserSubCategory', on_delete=models.CASCADE, related_name='users', blank=True, null=True)
     sub_sub_category = models.ForeignKey('UserSubSubCategory', on_delete=models.CASCADE, related_name='users', blank=True, null=True)
     city = models.ForeignKey('City', on_delete=models.CASCADE, related_name='users', blank=True, null=True)
+    rating = models.PositiveSmallIntegerField('rating', null=True, blank=True)
     is_verified = models.BooleanField(default=False)
     is_vendor = models.BooleanField(default=False)
     is_store = models.BooleanField(default=False)

@@ -1,3 +1,4 @@
+from math import floor
 from urllib import request
 from rest_framework.permissions import IsAuthenticated
 from django.shortcuts import render
@@ -6,11 +7,49 @@ from rest_framework.views import APIView
 from rest_framework import status
 from django.shortcuts import get_object_or_404
 from rest_framework.response import Response
-from .models import AboutUs, Cart, Category, FAQCategory, SubCategory, SubSubCategory, Logo, HeaderText, Filter, CategoryLine, Slider, Benefit, DisplayedCategory, Product, Image, FilterValue, Tag, Rating, Wishlist, Partner, ProductVersion, CategoryBanner, DiscountProduct, Number
-from .serializers import CategoryLineSerializer, FAQCategorySerializer, FilterSerializer, SubCategorySerializer, SubSubCategorySerializer, LogoSerializer, HeaderTextSerializer, FilterSerializer, SliderSerializer, BenefitSerializer, ProductSerializer, ImageSerializer, AboutUsSerializer, RatingSerializer, WishlistShowSerializer, PartnerSerializer, ProductShowSerializer, CategoryBannerSerializer, ProductVersionSerializer, DiscountProductSerializer, DiscountProductShowSerializer, NumberSerializer, CartShowSerializer
+from .models import AboutUs, Cart, Category, FAQCategory, SubCategory, SubSubCategory, Logo, HeaderText, Filter, CategoryLine, Slider, Benefit, DisplayedCategory, Product, Image, FilterValue, Tag, Rating, Wishlist, Partner, ProductVersion, CategoryBanner, DiscountProduct, Number, StoreOrder, SocialLink
+from .serializers import CategoryLineSerializer, FAQCategorySerializer, FilterSerializer, SubCategorySerializer, SubSubCategorySerializer, LogoSerializer, HeaderTextSerializer, FilterSerializer, SliderSerializer, BenefitSerializer, ProductSerializer, ImageSerializer, AboutUsSerializer, RatingSerializer, WishlistShowSerializer, PartnerSerializer, ProductShowSerializer, CategoryBannerSerializer, ProductVersionSerializer, DiscountProductSerializer, DiscountProductShowSerializer, NumberSerializer, CartShowSerializer, StoreOrderSerializer, SocialLinkSerializer
 from django.db.models import Q
 from accounts.models import User
 from .paginations import CustomPagination
+
+
+class FilterPricesAPIView(APIView):
+    def get(self, request, *args, **kwargs):
+        price_list = []
+        products = Product.objects.all()
+        for product in products:
+            price_list.append(product.price)
+        mini = floor(min(price_list))
+        maxi = floor(max(price_list))
+        ranges = [[i, i+5] for i in range(mini,maxi,5)]
+        print(ranges)
+        return Response(ranges)
+
+
+class SocialLinkAPIView(ListAPIView):
+    model = SocialLink
+    serializer_class = SocialLinkSerializer
+    queryset = SocialLink.objects.order_by('-id')
+
+
+class StoreOrderAPIView(ListAPIView):
+    model = StoreOrder
+    serializer_class = StoreOrderSerializer
+    pagination_class = CustomPagination
+    queryset = StoreOrder.objects.order_by('-id')
+
+    def get_queryset(self):
+        print(self.request.data)
+        queryset = StoreOrder.objects.order_by('-id')
+        id = self.request.data.get('id')
+
+        if id:
+            queryset = queryset.filter(store__id=id)
+        return queryset
+
+    def post(self, request, *args, **kwargs):
+        return self.list(request, *args, **kwargs)
 
 
 class SearchAPIView(ListAPIView):

@@ -289,3 +289,17 @@ class SubscriberSerializer(serializers.ModelSerializer):
     class Meta:
         model = Subscriber
         fields = ('id', 'email', 'created_at', 'updated_at')
+
+
+class StoreOrderSerializer(serializers.ModelSerializer):
+    store = UserSerializer(required=False)
+    product_versions = ProductVersionShowSerializer(required=False, many=True)
+    class Meta:
+        model = StoreOrder
+        fields = ('id', 'first_name', 'last_name', 'company_name', 'address', 'zip_code', 'email', 'number', 'order_notes', 'status', 'store', 'product_versions', 'created_at', 'updated_at')
+
+
+class SocialLinkSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SocialLink
+        fields = ('id', 'title', 'url', 'logo', 'created_at', 'updated_at')
