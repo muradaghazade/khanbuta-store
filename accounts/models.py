@@ -24,7 +24,7 @@ class User(AbstractUser):
     email = models.EmailField(('email adress'), unique=True, null=True, blank=True)
     name = models.CharField(max_length=100, null=True, blank=True)
     number = models.CharField(('Number'),max_length=100, unique=True, null=True, blank=True)
-    address = models.CharField(max_length=3000, null=True, blank=True)
+    # address = models.CharField(max_length=3000, null=True, blank=True)
     address_addtional = models.CharField(max_length=300, null=True, blank=True)
     cover_image = models.ImageField('Image',upload_to='images/', null=True, blank=True)
     logo = models.ImageField('Image',upload_to='images/', null=True, blank=True)
@@ -34,6 +34,9 @@ class User(AbstractUser):
     sub_category = models.ForeignKey('UserSubCategory', on_delete=models.CASCADE, related_name='users', blank=True, null=True)
     sub_sub_category = models.ForeignKey('UserSubSubCategory', on_delete=models.CASCADE, related_name='users', blank=True, null=True)
     city = models.ForeignKey('City', on_delete=models.CASCADE, related_name='users', blank=True, null=True)
+    region = models.ForeignKey('Region', on_delete=models.CASCADE, related_name='users', blank=True, null=True)
+    avenue = models.ForeignKey('Avenue', on_delete=models.CASCADE, related_name='users', blank=True, null=True)
+    street = models.ForeignKey('Street', on_delete=models.CASCADE, related_name='users', blank=True, null=True)
     rating = models.PositiveSmallIntegerField('rating', null=True, blank=True)
     is_verified = models.BooleanField(default=False)
     is_vendor = models.BooleanField(default=False)
@@ -157,6 +160,7 @@ class City(models.Model):
 
 class Region(models.Model):
     title = models.CharField(max_length=50)
+    city = models.ForeignKey(City, on_delete=models.CASCADE, related_name='regions', blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -170,7 +174,6 @@ class Region(models.Model):
 
 class Avenue(models.Model):
     title = models.CharField(max_length=50)
-    city = models.ForeignKey(City, on_delete=models.CASCADE, related_name='avenues', blank=True, null=True)
     region = models.ForeignKey(Region, on_delete=models.CASCADE, related_name='avenues', blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

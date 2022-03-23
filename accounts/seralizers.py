@@ -156,13 +156,6 @@ class AvenueSerializer(serializers.ModelSerializer):
         fields = ('id', 'title', 'streets', 'created_at', 'updated_at')
 
 
-class CitySerializer(serializers.ModelSerializer):
-    avenues = AvenueSerializer(many=True, required=False)
-    class Meta:
-        model = City
-        fields = ('id', 'title', 'avenues', 'created_at', 'updated_at')
-
-
 class RegionSerializer(serializers.ModelSerializer):
     avenues = AvenueSerializer(many=True, required=False)
     class Meta:
@@ -170,3 +163,8 @@ class RegionSerializer(serializers.ModelSerializer):
         fields = ('id', 'title', 'avenues', 'created_at', 'updated_at')
 
 
+class CitySerializer(serializers.ModelSerializer):
+    regions = RegionSerializer(many=True, required=False)
+    class Meta:
+        model = City
+        fields = ('id', 'title', 'regions', 'created_at', 'updated_at')
