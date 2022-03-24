@@ -64,7 +64,7 @@ class GetUserDataByTokenView(APIView):
     permission_classes = (IsAuthenticated, )
     def post(self, request, *args, **kwargs):
         user = request.user
-        serializer = UserSerializer(user)
+        serializer = UserShowSerializer(user)
         return JsonResponse(serializer.data)
 
 

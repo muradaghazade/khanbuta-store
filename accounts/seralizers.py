@@ -5,6 +5,16 @@ from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from drf_extra_fields.fields import Base64ImageField
 
 
+class ChangePasswordSerializer(serializers.Serializer):
+    model = User
+
+    """
+    Serializer for password change endpoint.
+    """
+    old_password = serializers.CharField(required=True)
+    new_password = serializers.CharField(required=True)
+
+
 class UserSubSubCategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = UserSubSubCategory
@@ -71,7 +81,7 @@ class UserSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = User
-        fields = ('id', 'number', 'name', 'is_vendor', 'is_store', 'email', 'rating', 'address_addtional', 'social_icons', 'cover_image', "logo")
+        fields = ('id', 'number', 'name', 'is_vendor', 'is_store', 'email', 'rating', 'address_addtional', 'social_icons', 'cover_image', 'logo', 'city', 'region', 'avenue', 'street')
 
     def update(self, instance, validated_data):
         try:
@@ -85,6 +95,10 @@ class UserSerializer(serializers.ModelSerializer):
             instance.address_addtional = validated_data.get('address_addtional', instance.address_addtional)
             instance.cover_image = validated_data.get('cover_image', instance.cover_image)
             instance.logo = validated_data.get('logo', instance.logo)
+            instance.city = validated_data.get('city', instance.city)
+            instance.region = validated_data.get('region', instance.region)
+            instance.avenue = validated_data.get('avenue', instance.avenue)
+            instance.street = validated_data.get('street', instance.street)
             instance.save()
 
             for icon in social_icons:
@@ -99,6 +113,10 @@ class UserSerializer(serializers.ModelSerializer):
             instance.address_addtional = validated_data.get('address_addtional', instance.address_addtional)
             instance.cover_image = validated_data.get('cover_image', instance.cover_image)
             instance.logo = validated_data.get('logo', instance.logo)
+            instance.city = validated_data.get('city', instance.city)
+            instance.region = validated_data.get('region', instance.region)
+            instance.avenue = validated_data.get('avenue', instance.avenue)
+            instance.street = validated_data.get('street', instance.street)
             instance.save()
         return instance
 
@@ -124,7 +142,7 @@ class UserShowSerializer(serializers.ModelSerializer):
 class BuyerSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ('id', 'number', 'name', 'is_vendor', 'is_store', 'email', 'address', 'address_addtional')
+        fields = ('id', 'number', 'name', 'is_vendor', 'is_store', 'email', 'address_addtional')
 
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
