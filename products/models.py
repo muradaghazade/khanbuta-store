@@ -88,6 +88,7 @@ class CategoryLine(models.Model):
 
 class DisplayedCategory(models.Model):
     category = models.ForeignKey('Category', on_delete=models.CASCADE, related_name='dis_categories', blank=True, null=True)
+    image = models.ImageField('Image',upload_to='images/', null=False, blank=False)
 
     def __str__(self):
         return self.category.title

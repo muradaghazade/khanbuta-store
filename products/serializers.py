@@ -53,6 +53,13 @@ class CategoryLineSerializer(serializers.ModelSerializer):
         fields = ('id', 'category')
 
 
+class DisplayedCategorySerializer(serializers.ModelSerializer):
+    category = CategorySerializer(required=False)
+    class Meta:
+        model = Category
+        fields = ('id', 'category', 'image')
+
+
 class HeaderTextSerializer(serializers.ModelSerializer):
     class Meta:
         model = HeaderText
