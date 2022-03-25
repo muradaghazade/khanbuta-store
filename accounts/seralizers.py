@@ -187,10 +187,6 @@ class CitySerializer(serializers.ModelSerializer):
         model = City
         fields = ('id', 'title', 'regions', 'created_at', 'updated_at')
 
-    
-class RedirectUrlParamsSerializer(serializers.Serializer):
-    redirect_url = serializers.CharField(validators=(url_field_validator, ))
-
 
 class ForgetPasswordSerializer(serializers.Serializer):
     number = serializers.CharField(max_length=15)
