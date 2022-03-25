@@ -56,7 +56,7 @@ class CategoryLineSerializer(serializers.ModelSerializer):
 class DisplayedCategorySerializer(serializers.ModelSerializer):
     category = CategorySerializer(required=False)
     class Meta:
-        model = Category
+        model = DisplayedCategory
         fields = ('id', 'category', 'image')
 
 
