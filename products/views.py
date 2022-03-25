@@ -22,7 +22,7 @@ class FilterPricesAPIView(APIView):
             price_list.append(product.price)
         mini = floor(min(price_list))
         maxi = floor(max(price_list))
-        ranges = [[i, i+5] for i in range(mini,maxi,5)]
+        ranges = [[i, i+5] for i in range(mini,maxi,maxi//5)]
         print(ranges)
         return Response(ranges)
 
