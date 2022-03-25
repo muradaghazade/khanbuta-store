@@ -1,4 +1,5 @@
 from accounts.models import *
+from accounts.tools import url_field_validator
 from rest_framework import serializers
 from django.contrib.auth.password_validation import validate_password
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
@@ -185,3 +186,33 @@ class CitySerializer(serializers.ModelSerializer):
     class Meta:
         model = City
         fields = ('id', 'title', 'regions', 'created_at', 'updated_at')
+
+    
+class RedirectUrlParamsSerializer(serializers.Serializer):
+    redirect_url = serializers.CharField(validators=(url_field_validator, ))
+
+
+class ForgetPasswordSerializer(serializers.Serializer):
+    number = serializers.CharField(max_length=15)
+
+    def validate_number(self, value):
+        if not User.objects.filter(number=value, is_active=True):
+            raise serializers.ValidationError("This number not found")
+        return value
+
+
+class ResetPasswordSerializer(serializers.Serializer):
+    number = serializers.CharField(max_length=15)
+    code = serializers.CharField(max_length=6)
+    password = serializers.CharField(max_length=255)
+    confirm_password = serializers.CharField(max_length=255)
+
+    def validate(self, data):
+        user = User.objects.filter(number=data['number'])
+
+        if not user:
+            raise serializers.ValidationError("This number not found")
+            
+        if data['password'] != data['confirm_password']:
+            raise serializers.ValidationError("Password and confirm password not match")
+        return data
