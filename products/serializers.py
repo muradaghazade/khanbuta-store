@@ -1,7 +1,3 @@
-from dataclasses import field
-from itertools import product
-from pyexpat import model
-from traceback import print_tb
 from rest_framework import serializers
 from .models import *
 from accounts.seralizers import UserSerializer, UserShowSerializer
@@ -17,7 +13,7 @@ class LogoSerializer(serializers.ModelSerializer):
 class SliderSerializer(serializers.ModelSerializer):
     class Meta:
         model = Slider
-        fields = ('id', 'title', 'description', 'image')
+        fields = ('id', 'title', 'description', 'image', 'button_text', 'button_link')
 
 
 class BenefitSerializer(serializers.ModelSerializer):

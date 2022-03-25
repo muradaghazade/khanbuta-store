@@ -237,6 +237,8 @@ class Slider(models.Model):
     title = models.CharField(max_length=50)
     description = models.TextField('Description')
     image = models.ImageField('Image',upload_to='images/', null=False, blank=False)
+    button_text = models.CharField(max_length=50)
+    button_link = models.CharField(max_length=200)
 
     def __str__(self):
         return self.title
