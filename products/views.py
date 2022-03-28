@@ -107,7 +107,7 @@ class ProductByUserView(APIView):
         print(request.user)
         products = Product.objects.filter(user=request.user)
         # category = get_object_or_404(SubCategory, category__slug=kwargs['slug'], slug=kwargs['slug2'])
-        serializer = ProductSerializer(products, many=True)
+        serializer = ProductShowSerializer(products, many=True)
         return Response(serializer.data)
 
 
@@ -117,7 +117,7 @@ class ProductByUserIDView(APIView):
         print(request.data.get('category'))
         products = Product.objects.filter(user__id=kwargs['id'])
         # category = get_object_or_404(SubCategory, category__slug=kwargs['slug'], slug=kwargs['slug2'])
-        serializer = ProductSerializer(products, many=True)
+        serializer = ProductShowSerializer(products, many=True)
         return Response(serializer.data)
 
     def post(self, request, *args, **kwargs):
