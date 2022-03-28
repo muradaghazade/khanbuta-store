@@ -329,8 +329,8 @@ class AddToWishlist(APIView):
     def post(self, request, *args, **kwargs):
         product_id = self.request.data.get('product')
         user_id = self.request.data.get('user')
-        product = Product.objects.get(pk=int(product_id))
-        user = User.objects.get(pk=int(user_id))
+        product = get_object_or_404(Product, pk=int(product_id))
+        user = get_object_or_404(User, pk=int(user_id))
         user.wishlist.product.add(product)
         return Response("Added to Wishlist")
 
@@ -339,8 +339,8 @@ class RemoveFromWishlist(APIView):
     def post(self, request, *args, **kwargs):
         product_id = self.request.data.get('product')
         user_id = self.request.data.get('user')
-        product = Product.objects.get(pk=int(product_id))
-        user = User.objects.get(pk=int(user_id))
+        product = get_object_or_404(Product, pk=int(product_id))
+        user = get_object_or_404(User, pk=int(user_id))
         user.wishlist.product.remove(product)
         return Response("Removed from Wishlist")
 
@@ -356,8 +356,8 @@ class RemoveFromCart(APIView):
     def post(self, request, *args, **kwargs):
         product_id = self.request.data.get('product')
         user_id = self.request.data.get('user')
-        product = ProductVersion.objects.get(pk=int(product_id))
-        user = User.objects.get(pk=int(user_id))
+        product = get_object_or_404(ProductVersion, pk=int(product_id))
+        user = get_object_or_404(User, pk=int(user_id))
         user.user_cart.product_version.remove(product)
         return Response("Removed from Cart")
 
