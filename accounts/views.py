@@ -1,7 +1,7 @@
 from itertools import product
 from rest_framework.generics import CreateAPIView, ListAPIView
 from rest_framework.views import APIView
-from accounts.seralizers import UserRegisterSerializer, UserSerializer, MyTokenObtainPairSerializer, AvenueSerializer, StreetSerializer, BuyerSerializer, UserSubSubCategorySerializer, UserCategorySerializer, UserSubCategorySerializer, UserShowSerializer
+from accounts.seralizers import UserRegisterSerializer, UserSerializer, MyTokenObtainPairSerializer, AvenueSerializer, StreetSerializer, BuyerSerializer, UserSubSubCategorySerializer, UserCategorySerializer, UserSubCategorySerializer, UserShowSerializer, VendorSerializer
 from accounts.models import Avenue, User, Street, UserSubSubCategory, UserCategory, UserSubCategory
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework_simplejwt.tokens import RefreshToken
@@ -165,7 +165,7 @@ class GetAllStores(ListAPIView):
 
 class GetAllVendors(ListAPIView):
     model = User
-    serializer_class = UserSerializer
+    serializer_class = VendorSerializer
     pagination_class = CustomPagination
     queryset = User.objects.filter(is_store=False, is_vendor=True)
 

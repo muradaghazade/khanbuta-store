@@ -54,7 +54,7 @@ class StoreOrderAPIView(ListAPIView):
 
 class SearchAPIView(ListAPIView):
     model = Product
-    serializer_class = ProductShowSerializer
+    serializer_class = ProductSerializer
     pagination_class = CustomPagination
     queryset = Product.objects.order_by('-id')
 
