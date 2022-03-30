@@ -151,6 +151,7 @@ class ProductSerializer(serializers.ModelSerializer):
             sub_sub_category = validated_data['sub_sub_category'],
             category = validated_data['category'],
             sub_category = validated_data['sub_category'],
+            user = validated_data['user'],
 
         )
 
