@@ -293,6 +293,7 @@ class ProductCreateAPIView(CreateAPIView):
     serializer_class = ProductSerializer
 
     def perform_create(self, serializer):
+        print(self.request.user)
         product_version = serializer.save(user=self.request.user)
 
 

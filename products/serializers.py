@@ -131,7 +131,7 @@ class ProductSerializer(serializers.ModelSerializer):
     images = ImageSerializer(many=True, required=False)
     filter_values = FilterValueSerializer(many=True, required=False)
     tag = TagSerializer(many=True, required=False)
-    user = UserSerializer(required=False)
+    # user = UserSerializer(required=False)
     
 
     class Meta:
