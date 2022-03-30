@@ -7,8 +7,8 @@ from rest_framework.views import APIView
 from rest_framework import status
 from django.shortcuts import get_object_or_404
 from rest_framework.response import Response
-from .models import AboutUs, Cart, Category, FAQCategory, SubCategory, SubSubCategory, Logo, HeaderText, Filter, CategoryLine, Slider, Benefit, DisplayedCategory, Product, Image, FilterValue, Tag, Rating, Wishlist, Partner, ProductVersion, CategoryBanner, DiscountProduct, Number, StoreOrder, SocialLink
-from .serializers import CategoryLineSerializer, FAQCategorySerializer, FilterSerializer, SubCategorySerializer, SubSubCategorySerializer, LogoSerializer, HeaderTextSerializer, FilterSerializer, SliderSerializer, BenefitSerializer, ProductSerializer, ImageSerializer, AboutUsSerializer, RatingSerializer, WishlistShowSerializer, PartnerSerializer, ProductShowSerializer, CategoryBannerSerializer, ProductVersionSerializer, DiscountProductSerializer, DiscountProductShowSerializer, NumberSerializer, CartShowSerializer, StoreOrderSerializer, SocialLinkSerializer, DisplayedCategorySerializer
+from .models import AboutUs, Cart, Category, FAQCategory, SubCategory, SubSubCategory, Logo, HeaderText, Filter, CategoryLine, Slider, Benefit, DisplayedCategory, Product, Image, FilterValue, Tag, Rating, Wishlist, Partner, ProductVersion, CategoryBanner, DiscountProduct, Number, StoreOrder, SocialLink, CategoryReklam
+from .serializers import CategoryLineSerializer, FAQCategorySerializer, FilterSerializer, SubCategorySerializer, SubSubCategorySerializer, LogoSerializer, HeaderTextSerializer, FilterSerializer, SliderSerializer, BenefitSerializer, ProductSerializer, ImageSerializer, AboutUsSerializer, RatingSerializer, WishlistShowSerializer, PartnerSerializer, ProductShowSerializer, CategoryBannerSerializer, ProductVersionSerializer, DiscountProductSerializer, DiscountProductShowSerializer, NumberSerializer, CartShowSerializer, StoreOrderSerializer, SocialLinkSerializer, DisplayedCategorySerializer, CategoryReklamSerializer
 from django.db.models import Q
 from accounts.models import User
 from .paginations import CustomPagination
@@ -323,6 +323,14 @@ class FAQView(ListAPIView):
     model = FAQCategory
     serializer_class = FAQCategorySerializer
     queryset = FAQCategory.objects.all()
+
+
+class CategoryReklamAPIView(APIView):
+    def get(self, request, *args, **kwargs):
+        # category = get_object_or_404(Product, category__id=kwargs['id'])
+        category = CategoryReklam.objects.filter(category__id=kwargs['id']).first()
+        serializer = CategoryReklamSerializer(category)
+        return Response(serializer.data)
 
 
 class AddToWishlist(APIView):

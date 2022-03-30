@@ -240,6 +240,12 @@ class PartnerSerializer(serializers.ModelSerializer):
         fields = ('id','title','logo')
 
 
+class CategoryReklamSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CategoryReklam
+        fields = ('id','title','image','created_at', 'updated_at')
+
+
 class CategoryBannerSerializer(serializers.ModelSerializer):
     class Meta:
         model = CategoryBanner

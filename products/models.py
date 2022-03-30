@@ -98,6 +98,22 @@ class DisplayedCategory(models.Model):
         verbose_name_plural = 'Ana Sehife Kategoriyalari'
 
 
+class CategoryReklam(models.Model):
+    title = models.CharField(max_length=200, unique=True)
+    image = models.ImageField('Image',upload_to='image/', null=False, blank=False)
+    category = models.OneToOneField('Category', on_delete=models.CASCADE, db_index=True, related_name='category_reklam')
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.title
+
+    class Meta:
+        verbose_name = 'Kateqoriya Reklami'
+        verbose_name_plural = 'Kateqoriya Reklamlaru'
+        ordering = ['title']
+
+
 class Category(models.Model):
     title = models.CharField(max_length=200, unique=True)
     icon = models.ImageField('Image',upload_to='icons/', null=False, blank=False)
