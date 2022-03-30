@@ -35,11 +35,18 @@ class SubCategorySerializer(serializers.ModelSerializer):
         fields = ('id', 'title', 'icon', 'created_at', 'updated_at', 'sub_sub_categories')
 
 
+class CategoryReklamSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CategoryReklam
+        fields = ('id','title','image','created_at', 'updated_at')
+
+
 class CategorySerializer(serializers.ModelSerializer):
     sub_categories = SubCategorySerializer(many=True, required=False)
+    category_reklam = CategoryReklamSerializer(required=False)
     class Meta:
         model = Category
-        fields = ('id', 'title', 'icon', 'created_at', 'updated_at', 'sub_categories')
+        fields = ('id', 'title', 'icon', 'created_at', 'updated_at', 'sub_categories', 'category_reklam')
 
 
 class CategoryLineSerializer(serializers.ModelSerializer):
@@ -238,12 +245,6 @@ class PartnerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Partner
         fields = ('id','title','logo')
-
-
-class CategoryReklamSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = CategoryReklam
-        fields = ('id','title','image','created_at', 'updated_at')
 
 
 class CategoryBannerSerializer(serializers.ModelSerializer):

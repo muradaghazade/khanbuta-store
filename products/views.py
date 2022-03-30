@@ -325,12 +325,12 @@ class FAQView(ListAPIView):
     queryset = FAQCategory.objects.all()
 
 
-class CategoryReklamAPIView(APIView):
-    def get(self, request, *args, **kwargs):
-        # category = get_object_or_404(Product, category__id=kwargs['id'])
-        category = CategoryReklam.objects.filter(category__id=kwargs['id']).first()
-        serializer = CategoryReklamSerializer(category)
-        return Response(serializer.data)
+# class CategoryReklamAPIView(APIView):
+#     def get(self, request, *args, **kwargs):
+#         # category = get_object_or_404(Product, category__id=kwargs['id'])
+#         category = CategoryReklam.objects.filter(category__id=kwargs['id']).first()
+#         serializer = CategoryReklamSerializer(category)
+#         return Response(serializer.data)
 
 
 class AddToWishlist(APIView):
