@@ -325,4 +325,4 @@ class VendorSerializer(serializers.ModelSerializer):
     # social_icons = SocialIconSerializer(required=False)
     class Meta:
         model = User
-        fields = ('id', 'number', 'name', 'is_vendor', 'is_store', 'email', 'rating', 'address_addtional', 'cover_image', 'logo', 'category', 'products')
+        fields = ('id', 'number', 'name', 'is_vendor', 'is_verified_by_admin', 'email', 'rating', 'address_addtional', 'cover_image', 'logo', 'category', 'products')

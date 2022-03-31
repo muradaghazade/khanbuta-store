@@ -38,7 +38,8 @@ class User(AbstractUser):
     avenue = models.ForeignKey('Avenue', on_delete=models.CASCADE, related_name='users', blank=True, null=True)
     street = models.ForeignKey('Street', on_delete=models.CASCADE, related_name='users', blank=True, null=True)
     rating = models.PositiveSmallIntegerField('rating', null=True, blank=True)
-    is_verified = models.BooleanField(default=False)
+    is_verified_by_admin = models.BooleanField(default=False)
+    is_verified = models.BooleanField(default=False, editable=False)
     is_vendor = models.BooleanField(default=False)
     is_store = models.BooleanField(default=False)
 

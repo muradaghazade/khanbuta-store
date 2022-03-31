@@ -81,7 +81,7 @@ class UserSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = User
-        fields = ('id', 'number', 'name', 'is_vendor', 'is_store', 'email', 'rating', 'address_addtional', 'social_icons', 'cover_image', 'logo', 'city', 'category', 'region', 'avenue', 'street')
+        fields = ('id', 'number', 'name', 'is_vendor', 'is_store',  'email', 'rating', 'address_addtional', 'social_icons', 'cover_image', 'logo', 'city', 'category', 'region', 'avenue', 'street')
 
     def update(self, instance, validated_data):
         try:
@@ -136,13 +136,13 @@ class UserShowSerializer(serializers.ModelSerializer):
     social_icons = SocialIconSerializer(required=False)
     class Meta:
         model = User
-        fields = ('id', 'number', 'name', 'is_vendor', 'is_store', 'email', 'rating', 'address_addtional', 'social_icons', 'cover_image', 'logo', 'category', 'sub_category', 'sub_sub_category')
+        fields = ('id', 'number', 'name', 'is_vendor', 'is_verified', 'email', 'rating', 'address_addtional', 'social_icons', 'cover_image', 'logo', 'category', 'sub_category', 'sub_sub_category')
 
 
 class BuyerSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ('id', 'number', 'name', 'is_vendor', 'is_store', 'email', 'address_addtional')
+        fields = ('id', 'number', 'name', 'is_vendor', 'is_verified_by_admin', 'email', 'address_addtional')
 
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
