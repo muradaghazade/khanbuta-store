@@ -139,16 +139,6 @@ class UserShowSerializer(serializers.ModelSerializer):
         fields = ('id', 'number', 'name', 'is_vendor', 'is_store', 'email', 'rating', 'address_addtional', 'social_icons', 'cover_image', 'logo', 'category', 'sub_category', 'sub_sub_category')
 
 
-class VendorSerializer(serializers.ModelSerializer):
-    # sub_sub_category = UserSubSubCategorySerializer(required=False)
-    # sub_category = UserSubCategorySerializer(required=False)
-    category = UserCategorySerializer(required=False)
-    # social_icons = SocialIconSerializer(required=False)
-    class Meta:
-        model = User
-        fields = ('id', 'number', 'name', 'is_vendor', 'is_store', 'email', 'rating', 'address_addtional', 'cover_image', 'logo', 'category')
-
-
 class BuyerSerializer(serializers.ModelSerializer):
     class Meta:
         model = User

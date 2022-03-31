@@ -1,7 +1,7 @@
 from itertools import product
 from rest_framework.generics import CreateAPIView, ListAPIView
 from rest_framework.views import APIView
-from accounts.seralizers import UserRegisterSerializer, UserSerializer, MyTokenObtainPairSerializer, AvenueSerializer, StreetSerializer, BuyerSerializer, UserSubSubCategorySerializer, UserCategorySerializer, UserSubCategorySerializer, UserShowSerializer, VendorSerializer
+from accounts.seralizers import UserRegisterSerializer, UserSerializer, MyTokenObtainPairSerializer, AvenueSerializer, StreetSerializer, BuyerSerializer, UserSubSubCategorySerializer, UserCategorySerializer, UserSubCategorySerializer, UserShowSerializer
 from accounts.models import Avenue, User, Street, UserSubSubCategory, UserCategory, UserSubCategory
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework_simplejwt.tokens import RefreshToken
@@ -13,6 +13,7 @@ from rest_framework.response import Response
 from products.models import Cart, Product, Wishlist
 from products.paginations import CustomPagination
 from django.db.models import Q
+from products.serializers import VendorSerializer
 
 
 class CategoryBySubAPIView(APIView):
