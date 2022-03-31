@@ -102,7 +102,7 @@ class UserSerializer(serializers.ModelSerializer):
         instance.street = validated_data.get('street', instance.street)
         instance.save()
 
-        for icon in social_icons:
+        for icon in range(social_icons):
             if len(icons) == 0:
                 social_icon = SocialIcon(url=social_icons[icon]['url'], social_media=social_icons[icon]['social_media'], user=instance)
                 social_icon.save()
