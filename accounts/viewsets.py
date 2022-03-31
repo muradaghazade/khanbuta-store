@@ -50,7 +50,7 @@ class UserSubSubCategoryViewSet(viewsets.ViewSet):
         return Response(serializers_class.data)
 
 
-class UserViewSet(viewsets.ViewSet):
+class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.filter(is_store=False, is_vendor=False)
     serializer_class = BuyerSerializer
 
