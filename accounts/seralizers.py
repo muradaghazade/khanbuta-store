@@ -85,8 +85,8 @@ class UserSerializer(serializers.ModelSerializer):
 
     def update(self, instance, validated_data):
         # try:
-        print(social_icons)
         social_icons = validated_data['social_icons']
+        print(social_icons)
         icons = instance.social_icons.all()
         # icons = list(icons)
         # print(social_icons)
