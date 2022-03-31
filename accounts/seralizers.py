@@ -85,6 +85,7 @@ class UserSerializer(serializers.ModelSerializer):
 
     def update(self, instance, validated_data):
         try:
+            print(social_icon)
             social_icons = validated_data['social_icons']
             icons = instance.social_icons.all()
             # icons = list(icons)
@@ -107,7 +108,7 @@ class UserSerializer(serializers.ModelSerializer):
                     social_icon.save()
         except:
             instance.name = validated_data.get('name', instance.name)
-            instance.address = validated_data.get('address', instance.address)
+            # instance.address = validated_data.get('address', instance.address)
             instance.number = validated_data.get('number', instance.number)
             instance.email = validated_data.get('email', instance.email)
             instance.address_addtional = validated_data.get('address_addtional', instance.address_addtional)
