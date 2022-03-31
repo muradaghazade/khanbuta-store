@@ -84,41 +84,41 @@ class UserSerializer(serializers.ModelSerializer):
         fields = ('id', 'number', 'name', 'is_vendor', 'is_store',  'email', 'rating', 'address_addtional', 'social_icons', 'cover_image', 'logo', 'city', 'category', 'region', 'avenue', 'street')
 
     def update(self, instance, validated_data):
-        try:
-            print(social_icons)
-            social_icons = validated_data['social_icons']
-            icons = instance.social_icons.all()
-            # icons = list(icons)
-            # print(social_icons)
-            instance.name = validated_data.get('name', instance.name)
-            instance.number = validated_data.get('number', instance.number)
-            instance.email = validated_data.get('email', instance.email)
-            instance.address_addtional = validated_data.get('address_addtional', instance.address_addtional)
-            instance.cover_image = validated_data.get('cover_image', instance.cover_image)
-            instance.logo = validated_data.get('logo', instance.logo)
-            instance.city = validated_data.get('city', instance.city)
-            instance.region = validated_data.get('region', instance.region)
-            instance.avenue = validated_data.get('avenue', instance.avenue)
-            instance.street = validated_data.get('street', instance.street)
-            instance.save()
+        # try:
+        print(social_icons)
+        social_icons = validated_data['social_icons']
+        icons = instance.social_icons.all()
+        # icons = list(icons)
+        # print(social_icons)
+        instance.name = validated_data.get('name', instance.name)
+        instance.number = validated_data.get('number', instance.number)
+        instance.email = validated_data.get('email', instance.email)
+        instance.address_addtional = validated_data.get('address_addtional', instance.address_addtional)
+        instance.cover_image = validated_data.get('cover_image', instance.cover_image)
+        instance.logo = validated_data.get('logo', instance.logo)
+        instance.city = validated_data.get('city', instance.city)
+        instance.region = validated_data.get('region', instance.region)
+        instance.avenue = validated_data.get('avenue', instance.avenue)
+        instance.street = validated_data.get('street', instance.street)
+        instance.save()
 
-            for icon in social_icons:
-                if len(icons) == 0:
-                    social_icon = SocialIcon(url=social_icons[icon]['url'], social_media=social_icons[icon]['social_media'], user=instance)
-                    social_icon.save()
-        except:
-            instance.name = validated_data.get('name', instance.name)
-            # instance.address = validated_data.get('address', instance.address)
-            instance.number = validated_data.get('number', instance.number)
-            instance.email = validated_data.get('email', instance.email)
-            instance.address_addtional = validated_data.get('address_addtional', instance.address_addtional)
-            instance.cover_image = validated_data.get('cover_image', instance.cover_image)
-            instance.logo = validated_data.get('logo', instance.logo)
-            instance.city = validated_data.get('city', instance.city)
-            instance.region = validated_data.get('region', instance.region)
-            instance.avenue = validated_data.get('avenue', instance.avenue)
-            instance.street = validated_data.get('street', instance.street)
-            instance.save()
+        for icon in social_icons:
+            if len(icons) == 0:
+                social_icon = SocialIcon(url=social_icons[icon]['url'], social_media=social_icons[icon]['social_media'], user=instance)
+                social_icon.save()
+        # except:
+        #     instance.name = validated_data.get('name', instance.name)
+        #     # instance.address = validated_data.get('address', instance.address)
+        #     instance.number = validated_data.get('number', instance.number)
+        #     instance.email = validated_data.get('email', instance.email)
+        #     instance.address_addtional = validated_data.get('address_addtional', instance.address_addtional)
+        #     instance.cover_image = validated_data.get('cover_image', instance.cover_image)
+        #     instance.logo = validated_data.get('logo', instance.logo)
+        #     instance.city = validated_data.get('city', instance.city)
+        #     instance.region = validated_data.get('region', instance.region)
+        #     instance.avenue = validated_data.get('avenue', instance.avenue)
+        #     instance.street = validated_data.get('street', instance.street)
+        #     instance.save()
         return instance
 
 
