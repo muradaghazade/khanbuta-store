@@ -321,7 +321,7 @@ class VendorSerializer(serializers.ModelSerializer):
     # sub_sub_category = UserSubSubCategorySerializer(required=False)
     # sub_category = UserSubCategorySerializer(required=False)
     category = UserCategorySerializer(required=False)
-    products = ProductSerializer(required=False, many=True)
+    products = ProductShowSerializer(required=False, many=True)
     # social_icons = SocialIconSerializer(required=False)
     class Meta:
         model = User
