@@ -179,7 +179,7 @@ class GetAllVendors(ListAPIView):
         title = self.request.data.get('title')
         sub_category = self.request.data.get('sub_category')
         sub_sub_category = self.request.data.get('sub_sub_category')
-        queryset = User.objects.filter(is_store=False, is_vendor=True)
+        queryset = User.objects.filter(is_store=False, is_vendor=True).order_by("-id")
 
         if title:
             queryset = queryset.filter(title__icontains=title)
