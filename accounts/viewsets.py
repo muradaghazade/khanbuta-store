@@ -1,6 +1,7 @@
 from rest_framework import viewsets
 from accounts.models import *
 from accounts.seralizers import UserSerializer, CitySerializer, SocialMediaSerializer, SocialIconSerializer, SocialIconCreateSerializer, RegionSerializer, AvenueSerializer, StreetSerializer, BuyerSerializer, UserCategorySerializer, UserSubCategorySerializer, UserSubSubCategorySerializer
+from products.serializers import VendorSerializer
 from django.shortcuts import get_object_or_404
 from rest_framework.response import Response
 
@@ -186,7 +187,7 @@ class StoreViewSet(viewsets.ViewSet):
 
 
 class VendorViewSet(viewsets.ViewSet):
-    serializer_class = UserSerializer
+    serializer_class = VendorSerializer
     queryset = User.objects.filter(is_store=False, is_vendor=True)
 
     # def list(self, request):
@@ -196,5 +197,5 @@ class VendorViewSet(viewsets.ViewSet):
 
     def retrieve(self, request, pk=None):
         social_icon = get_object_or_404(self.queryset, pk=pk)
-        serializers_class = UserSerializer(social_icon)
+        serializers_class = VendorSerializer(social_icon)
         return Response(serializers_class.data)
