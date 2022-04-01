@@ -52,7 +52,8 @@ class User(AbstractUser):
         verbose_name_plural = 'Istifadeciler'
 
     def __str__(self):
-        return f"{self.number}"
+        if self.is_vendor:
+            return f"{self.name}"
 
 
 class UserCategory(models.Model):
