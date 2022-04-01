@@ -168,7 +168,7 @@ class GetAllVendors(ListAPIView):
     model = User
     serializer_class = VendorSerializer
     pagination_class = CustomPagination
-    queryset = User.objects.filter(is_store=False, is_vendor=True)
+    queryset = User.objects.filter(is_store=False, is_vendor=True).order_by("-id")
 
     def get_queryset(self):
         az = self.request.data.get('az')
