@@ -325,7 +325,7 @@ class Product(models.Model):
             code_items.append(num)
 
         code = "".join(str(item) for item in code_items)
-        self.code = f'{code}{self.id}'
+        self.code = f'{code}'
         super(Product, self).save(*args, **kwargs)
 
 
