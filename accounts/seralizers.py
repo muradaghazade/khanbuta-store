@@ -69,6 +69,7 @@ class SocialMediaSerializer(serializers.ModelSerializer):
 
 
 class SocialIconCreateSerializer(serializers.ModelSerializer):
+    social_media = SocialMediaSerializer(required=False)
     class Meta:
         model = SocialIcon
         fields = ('id', 'url', 'social_media', 'user', 'created_at', 'updated_at')

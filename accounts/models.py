@@ -52,7 +52,7 @@ class User(AbstractUser):
         verbose_name_plural = 'Istifadeciler'
 
     def __str__(self):
-        if self.is_vendor == True:
+        if self.name:
             return f"{self.name}"
         else:
             return f"{self.number}"
