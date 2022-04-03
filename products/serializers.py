@@ -325,4 +325,4 @@ class VendorSerializer(serializers.ModelSerializer):
     avenue = AvenueSerializer(required=False)
     class Meta:
         model = User
-        fields = ('id', 'number', 'name', 'is_vendor', 'is_verified_by_admin', 'email', 'rating', 'city', 'region', 'avenue', 'street', 'address_addtional', 'cover_image', 'logo', 'category', 'products')
+        fields = ('id', 'number', 'name', 'is_vendor', 'is_verified_by_admin', 'email', 'rating', 'city', 'region', 'avenue', 'street', 'address_addtional', 'cover_image', 'logo', 'created_at', 'updated_at', 'category', 'products')
