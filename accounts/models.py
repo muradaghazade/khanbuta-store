@@ -42,6 +42,8 @@ class User(AbstractUser):
     is_verified = models.BooleanField(default=False, editable=False)
     is_vendor = models.BooleanField(default=False)
     is_store = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     USERNAME_FIELD = 'number'
     REQUIRED_FIELDS = []
