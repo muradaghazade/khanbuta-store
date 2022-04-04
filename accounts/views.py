@@ -1,13 +1,13 @@
 from itertools import product
 from rest_framework.generics import CreateAPIView, ListAPIView
 from rest_framework.views import APIView
-from accounts.seralizers import UserRegisterSerializer, UserSerializer, MyTokenObtainPairSerializer, AvenueSerializer, StreetSerializer, BuyerSerializer, UserSubSubCategorySerializer, UserCategorySerializer, UserSubCategorySerializer, UserShowSerializer
-from accounts.models import Avenue, User, Street, UserSubSubCategory, UserCategory, UserSubCategory
+from accounts.seralizers import UserRegisterSerializer, UserSerializer, MyTokenObtainPairSerializer, AvenueSerializer, StreetSerializer, BuyerSerializer, UserSubSubCategorySerializer, UserCategorySerializer, UserSubCategorySerializer, UserShowSerializer, ResetPasswordSerializer
+from accounts.models import Avenue, User, Street, UserSubSubCategory, UserCategory, UserSubCategory, OTPCode
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from django.http import JsonResponse
-from rest_framework import status
+from rest_framework import generics, permissions, status
 from django.shortcuts import get_object_or_404
 from rest_framework.response import Response
 from products.models import Cart, Product, Wishlist
@@ -242,3 +242,26 @@ class GetMixedStoresVendors(ListAPIView):
 
     def post(self, request, *args, **kwargs):
         return self.list(request, *args, **kwargs)
+
+
+class ResetPasswordAPIView(generics.GenericAPIView):
+    permission_classes = (permissions.AllowAny,)
+    serializer_class = ResetPasswordSerializer
+
+    def post(self, request):
+        user = User.objects.filter(number=request.data.get('number')).first()
+        otp_code = OTPCode.objects.filter(user=user).first()
+        if otp_code.code != request.data.get('code'):
+            return Response({
+                'status': 'error',
+                'message': 'Invalid OTP'
+            }, status=status.HTTP_400_BAD_REQUEST)
+
+        serializer = self.serializer_class(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        user.set_password(request.data.get('password'))
+        user.save()
+        return Response({
+            'status': 'success',
+            'message': 'Password reset successfully'
+        }, status=status.HTTP_200_OK) 

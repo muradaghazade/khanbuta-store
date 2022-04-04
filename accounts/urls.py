@@ -1,5 +1,5 @@
 from django.urls import path, include
-from accounts.views import RegisterUserAPI, MyObtainTokenPairView, GetUserDataByTokenView, VerifyNumberView, AvenueByCityAPIView, AvenueByRegionAPIView, StreetByAvenueAPIView, UpdateUserView, CategoryBySubAPIView, CategoryBySubSubAPIView, GetAllStores, GetAllVendors, GetMixedStoresVendors
+from accounts.views import RegisterUserAPI, MyObtainTokenPairView, GetUserDataByTokenView, VerifyNumberView, AvenueByCityAPIView, AvenueByRegionAPIView, StreetByAvenueAPIView, UpdateUserView, CategoryBySubAPIView, CategoryBySubSubAPIView, GetAllStores, GetAllVendors, GetMixedStoresVendors, ResetPasswordAPIView
 from rest_framework_simplejwt.views import TokenRefreshView
 from rest_framework.routers import DefaultRouter
 from accounts.viewsets import *
@@ -39,5 +39,5 @@ urlpatterns = [
     path('avenue-by-city/<int:pk>', AvenueByCityAPIView.as_view(), name='avenue-by-city'),
     path('avenue-by-region/<int:pk>', AvenueByRegionAPIView.as_view(), name='avenue-by-region'),
     path('street-by-avenue/<int:pk>', StreetByAvenueAPIView.as_view(), name='street-by-avenue'),
-    
+    path('reset-password/', ResetPasswordAPIView.as_view(), name='reset-password'),
 ]
