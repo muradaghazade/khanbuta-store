@@ -250,12 +250,12 @@ class ResetPasswordAPIView(generics.GenericAPIView):
 
     def post(self, request):
         user = User.objects.filter(number=request.data.get('number')).first()
-        otp_code = OTPCode.objects.filter(user=user).first()
-        if otp_code.code != request.data.get('code'):
-            return Response({
-                'status': 'error',
-                'message': 'Invalid OTP'
-            }, status=status.HTTP_400_BAD_REQUEST)
+        # otp_code = OTPCode.objects.filter(user=user).first()
+        # if otp_code.code != request.data.get('code'):
+        #     return Response({
+        #         'status': 'error',
+        #         'message': 'Invalid OTP'
+        #     }, status=status.HTTP_400_BAD_REQUEST)
 
         serializer = self.serializer_class(data=request.data)
         serializer.is_valid(raise_exception=True)

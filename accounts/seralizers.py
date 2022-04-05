@@ -190,7 +190,7 @@ class CitySerializer(serializers.ModelSerializer):
 
 class ResetPasswordSerializer(serializers.Serializer):
     number = serializers.CharField(max_length=15)
-    code = serializers.CharField(max_length=6)
+    # code = serializers.CharField(max_length=6)
     password = serializers.CharField(max_length=255)
     confirm_password = serializers.CharField(max_length=255)
 
