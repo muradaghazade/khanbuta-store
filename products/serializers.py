@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from .models import *
-from accounts.seralizers import UserCategorySerializer, CitySerializer, RegionSerializer, AvenueSerializer, StreetSerializer
+from accounts.seralizers import UserCategorySerializer, CitySerializer, RegionSerializer, AvenueSerializer, StreetSerializer, BuyerSerializer
 from accounts.seralizers import UserSerializer, UserShowSerializer
 from drf_extra_fields.fields import Base64ImageField
 
@@ -291,7 +291,7 @@ class OrderSerializer(serializers.ModelSerializer):
 
 class OrderShowSerializer(serializers.ModelSerializer):
     cart = CartShowSerializer(required=False)
-    buyer = UserShowSerializer(required=False)
+    buyer = BuyerSerializer(required=False)
     class Meta:
         model = Order
         fields = ('id', 'first_name', 'last_name', 'address', 'zip_code', 'email', 'number', 'order_notes', 'cart', 'status', 'buyer', 'company_name', 'created_at', 'updated_at')
