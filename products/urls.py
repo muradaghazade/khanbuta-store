@@ -1,5 +1,5 @@
 from rest_framework.routers import DefaultRouter
-from .viewsets import LogoViewSet, CategoryViewSet, HeaderTextViewSet, SubCategoryViewSet, SubSubCategoryViewSet, FilterViewSet, ProductViewSet, FAQViewSet, UserMessageViewSet, CommentViewSet, DiscountProductViewSet, OrderViewSet, SubscriberViewSet
+from .viewsets import LogoViewSet, CategoryViewSet, HeaderTextViewSet, SubCategoryViewSet, SubSubCategoryViewSet, FilterViewSet, ProductViewSet, FAQViewSet, UserMessageViewSet, CommentViewSet, DiscountProductViewSet, OrderViewSet, SubscriberViewSet, ProductUpdateViewSet
 from .views import AboutUsAPIView, CategoryBySubAPIView, CategoryBySubSubAPIView, LastLogoAPIView, LastHeaderTextAPIView, FiltersBySubSubAPIView, CategoryLineAPI, NumberAPIView, RemoveFromWishlist, SliderAPIView, BenefitAPIView, DisplayedCategoryAPI, ProductCreateAPIView, ProductUpdateDeleteAPIView, ProductFilterAPIView, FAQView, ProductByUserView, RatingListCreateAPIView, AddToWishlist, RemoveFromWishlist, WishlistByUser, PartnerAPIView, ProductAPIView, CategoryBannerView, ProductVersionCreateAPIView, ProductByUserIDView, SearchAPIView, RemoveFromCart, DiscountProductCreateAPIView, DiscountProductsView, CartByUser, StoreOrderAPIView, SocialLinkAPIView, FilterPricesAPIView
 from django.urls import path, include
 
@@ -16,6 +16,7 @@ router.register('sub-categories', SubCategoryViewSet, basename='sub-category')
 router.register('sub-sub-categories', SubSubCategoryViewSet, basename='sub-sub-category')
 router.register('filters', FilterViewSet, basename='filter')
 router.register('products', ProductViewSet, basename='products')
+router.register('update-products', ProductUpdateViewSet, basename='update-products')
 router.register('comments', CommentViewSet, basename='comments')
 router.register('user-messages', UserMessageViewSet, basename='user-message')
 
