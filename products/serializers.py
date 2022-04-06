@@ -139,6 +139,23 @@ class ProductSerializer(serializers.ModelSerializer):
         model = Product
         fields = ('id', 'title', 'description', 'price', 'short_desc1', 'short_desc2', 'short_desc3',  'main_image', 'sub_sub_category', 'images', 'filter_values', 'tag', 'category', 'sub_category','sub_sub_category', 'user', 'created_at', 'updated_at')
 
+    def update(self, instance, validated_data):
+        instance.title = validated_data.get('title', instance.title)
+        # instance.address = validated_data.get('address', instance.address)
+        instance.description = validated_data.get('description', instance.description)
+        instance.price = validated_data.get('price', instance.price)
+        instance.short_desc1 = validated_data.get('short_desc1', instance.short_desc1)
+        instance.short_desc2 = validated_data.get('short_desc2', instance.short_desc2)
+        instance.short_desc3 = validated_data.get('short_desc3', instance.short_desc3)
+        instance.main_image = validated_data.get('main_image', instance.main_image)
+        instance.sub_sub_category = validated_data.get('sub_sub_category', instance.sub_sub_category)
+        instance.tag = validated_data.get('tag', instance.tag)
+        instance.category = validated_data.get('category', instance.category)
+        instance.user = validated_data.get('user', instance.user)
+        instance.sub_category = validated_data.get('sub_category', instance.sub_category)
+        instance.save()
+        return instance
+
     def create(self, validated_data):
         print(validated_data['tag'])
         product = Product.objects.create(
