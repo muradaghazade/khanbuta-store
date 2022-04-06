@@ -343,3 +343,10 @@ class ProductUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
         fields = ('id', 'title', 'description', 'price', 'short_desc1', 'short_desc2', 'short_desc3',  'main_image', 'sub_sub_category', 'images', 'filter_values', 'tag', 'category', 'sub_category','sub_sub_category', 'user', 'created_at', 'updated_at')
+
+    def update(self, instance, validated_data):
+        # field = validated_data.pop("field")
+        requirement = super().update(instance, validated_data)
+        # ...
+        requirement.save()
+        return requirement
