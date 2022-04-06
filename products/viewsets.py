@@ -96,7 +96,7 @@ class FilterViewSet(viewsets.ViewSet):
         return Response(serializers_class.data)
 
 
-class ProductViewSet(viewsets.ViewSet):
+class ProductViewSet(viewsets.ModelViewSet):
     queryset = Product.objects.all()
     serializer_class = ProductShowSerializer
     # pagination_class = CustomPagination
