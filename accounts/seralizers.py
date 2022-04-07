@@ -203,3 +203,29 @@ class ResetPasswordSerializer(serializers.Serializer):
         if data['password'] != data['confirm_password']:
             raise serializers.ValidationError("Password and confirm password not match")
         return data
+
+
+class ForgetPasswordSerializer(serializers.Serializer):
+    number = serializers.CharField(max_length=15)
+
+    def validate_number(self, value):
+        if not User.objects.filter(number=value, is_active=True):
+            raise serializers.ValidationError("This number not found")
+        return value
+
+
+class ResetPasswordTwoSerializer(serializers.Serializer):
+    number = serializers.CharField(max_length=15)
+    code = serializers.CharField(max_length=6)
+    password = serializers.CharField(max_length=255)
+    confirm_password = serializers.CharField(max_length=255)
+
+    def validate(self, data):
+        user = User.objects.filter(number=data['number'])
+
+        if not user:
+            raise serializers.ValidationError("This number not found")
+            
+        if data['password'] != data['confirm_password']:
+            raise serializers.ValidationError("Password and confirm password not match")
+        return data

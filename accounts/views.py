@@ -1,7 +1,7 @@
-from itertools import product
+from accounts.utils import send_sms
 from rest_framework.generics import CreateAPIView, ListAPIView
 from rest_framework.views import APIView
-from accounts.seralizers import UserRegisterSerializer, UserSerializer, MyTokenObtainPairSerializer, AvenueSerializer, StreetSerializer, BuyerSerializer, UserSubSubCategorySerializer, UserCategorySerializer, UserSubCategorySerializer, UserShowSerializer, ResetPasswordSerializer
+from accounts.seralizers import UserRegisterSerializer, UserSerializer, MyTokenObtainPairSerializer, AvenueSerializer, StreetSerializer, BuyerSerializer, UserSubSubCategorySerializer, UserCategorySerializer, UserSubCategorySerializer, UserShowSerializer, ResetPasswordSerializer, ForgetPasswordSerializer, ResetPasswordTwoSerializer
 from accounts.models import Avenue, User, Street, UserSubSubCategory, UserCategory, UserSubCategory, OTPCode
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework_simplejwt.tokens import RefreshToken
@@ -242,6 +242,45 @@ class GetMixedStoresVendors(ListAPIView):
 
     def post(self, request, *args, **kwargs):
         return self.list(request, *args, **kwargs)
+
+
+class ForgetPasswordAPIView(generics.GenericAPIView):
+    permission_classes = (permissions.AllowAny,)
+    serializer_class = ForgetPasswordSerializer
+
+    def post(self, request):
+        user = User.objects.filter(number=request.data.get('number')).first()
+        serializer = self.serializer_class(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        otp = OTPCode.objects.filter(user=user).first()
+        send_sms(otp.code, user.number)
+        return Response({
+            'status': 'success',
+            'message': 'OTP sent successfully'
+        }, status=status.HTTP_200_OK)
+
+
+class ResetPasswordTwoAPIView(generics.GenericAPIView):
+    permission_classes = (permissions.AllowAny,)
+    serializer_class = ResetPasswordTwoSerializer
+
+    def post(self, request):
+        user = User.objects.filter(number=request.data.get('number')).first()
+        otp_code = OTPCode.objects.filter(user=user).first()
+        if otp_code.code != request.data.get('code'):
+            return Response({
+                'status': 'error',
+                'message': 'Invalid OTP'
+            }, status=status.HTTP_400_BAD_REQUEST)
+
+        serializer = self.serializer_class(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        user.set_password(request.data.get('password'))
+        user.save()
+        return Response({
+            'status': 'success',
+            'message': 'Password reset successfully'
+        }, status=status.HTTP_200_OK) 
 
 
 class ResetPasswordAPIView(generics.GenericAPIView):
