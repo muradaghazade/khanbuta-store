@@ -3,6 +3,7 @@ from .models import *
 from accounts.seralizers import UserCategorySerializer, CitySerializer, RegionSerializer, AvenueSerializer, StreetSerializer, BuyerSerializer
 from accounts.seralizers import UserSerializer, UserShowSerializer
 from drf_extra_fields.fields import Base64ImageField
+from drf_writable_nested.serializers import WritableNestedModelSerializer
 
 
 class LogoSerializer(serializers.ModelSerializer):
@@ -329,7 +330,7 @@ class VendorSerializer(serializers.ModelSerializer):
         fields = ('id', 'number', 'name', 'is_vendor', 'is_verified_by_admin', 'email', 'rating', 'city', 'region', 'avenue', 'street', 'address_addtional', 'cover_image', 'logo', 'created_at', 'updated_at', 'category', 'products')
 
 
-class ProductUpdateSerializer(serializers.ModelSerializer):
+class ProductUpdateSerializer(WritableNestedModelSerializer):
     main_image = Base64ImageField(required=False)
     # sub_sub_category = SubSubCategorySerializer(required=False)
     # sub_category = SubCategorySerializer(required=False)
@@ -343,10 +344,3 @@ class ProductUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
         fields = ('id', 'title', 'description', 'price', 'short_desc1', 'short_desc2', 'short_desc3',  'main_image', 'sub_sub_category', 'images', 'filter_values', 'tag', 'category', 'sub_category','sub_sub_category', 'user', 'created_at', 'updated_at')
-
-    def update(self, instance, validated_data):
-        # field = validated_data.pop("field")
-        requirement = super().update(instance, validated_data)
-        # ...
-        requirement.save()
-        return requirement
