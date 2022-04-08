@@ -3,6 +3,7 @@ from rest_framework import serializers
 from django.contrib.auth.password_validation import validate_password
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from drf_extra_fields.fields import Base64ImageField
+from drf_writable_nested.serializers import WritableNestedModelSerializer
 
 
 class ChangePasswordSerializer(serializers.Serializer):
@@ -74,7 +75,7 @@ class SocialIconCreateSerializer(serializers.ModelSerializer):
         fields = ('id', 'url', 'social_media', 'user', 'created_at', 'updated_at')
 
 
-class UserSerializer(serializers.ModelSerializer):
+class UserSerializer(WritableNestedModelSerializer):
     cover_image = Base64ImageField(required=False)
     logo = Base64ImageField(required=False)
     social_icons = SocialIconCreateSerializer(many=True, required=False)
@@ -83,45 +84,45 @@ class UserSerializer(serializers.ModelSerializer):
         model = User
         fields = ('id', 'number', 'name', 'is_vendor',  'email', 'rating', 'address_addtional', 'social_icons', 'cover_image', 'logo', 'city', 'category', 'region', 'avenue', 'street')
 
-    def update(self, instance, validated_data):
-        try:
-            social_icons = validated_data['social_icons']
-            print(social_icons)
-            icons = instance.social_icons.all()
-            # icons = list(icons)
-            # print(social_icons)
-            instance.name = validated_data.get('name', instance.name)
-            instance.number = validated_data.get('number', instance.number)
-            instance.email = validated_data.get('email', instance.email)
-            instance.address_addtional = validated_data.get('address_addtional', instance.address_addtional)
-            instance.cover_image = validated_data.get('cover_image', instance.cover_image)
-            instance.logo = validated_data.get('logo', instance.logo)
-            instance.category = validated_data.get('category', instance.category)
-            instance.city = validated_data.get('city', instance.city)
-            instance.region = validated_data.get('region', instance.region)
-            instance.avenue = validated_data.get('avenue', instance.avenue)
-            instance.street = validated_data.get('street', instance.street)
-            instance.save()
+    # def update(self, instance, validated_data):
+    #     try:
+    #         social_icons = validated_data['social_icons']
+    #         print(social_icons)
+    #         icons = instance.social_icons.all()
+    #         # icons = list(icons)
+    #         # print(social_icons)
+    #         instance.name = validated_data.get('name', instance.name)
+    #         instance.number = validated_data.get('number', instance.number)
+    #         instance.email = validated_data.get('email', instance.email)
+    #         instance.address_addtional = validated_data.get('address_addtional', instance.address_addtional)
+    #         instance.cover_image = validated_data.get('cover_image', instance.cover_image)
+    #         instance.logo = validated_data.get('logo', instance.logo)
+    #         instance.category = validated_data.get('category', instance.category)
+    #         instance.city = validated_data.get('city', instance.city)
+    #         instance.region = validated_data.get('region', instance.region)
+    #         instance.avenue = validated_data.get('avenue', instance.avenue)
+    #         instance.street = validated_data.get('street', instance.street)
+    #         instance.save()
 
-            for icon in range(len(social_icons)):
-                if len(icons) == 0:
-                    social_icon = SocialIcon(url=social_icons[icon]['url'], social_media=social_icons[icon]['social_media'], user=instance)
-                    social_icon.save()
-        except:
-            instance.name = validated_data.get('name', instance.name)
-            # instance.address = validated_data.get('address', instance.address)
-            instance.number = validated_data.get('number', instance.number)
-            instance.email = validated_data.get('email', instance.email)
-            instance.category = validated_data.get('category', instance.category)
-            instance.address_addtional = validated_data.get('address_addtional', instance.address_addtional)
-            instance.cover_image = validated_data.get('cover_image', instance.cover_image)
-            instance.logo = validated_data.get('logo', instance.logo)
-            instance.city = validated_data.get('city', instance.city)
-            instance.region = validated_data.get('region', instance.region)
-            instance.avenue = validated_data.get('avenue', instance.avenue)
-            instance.street = validated_data.get('street', instance.street)
-            instance.save()
-        return instance
+    #         for icon in range(len(social_icons)):
+    #             if len(icons) == 0:
+    #                 social_icon = SocialIcon(url=social_icons[icon]['url'], social_media=social_icons[icon]['social_media'], user=instance)
+    #                 social_icon.save()
+    #     except:
+    #         instance.name = validated_data.get('name', instance.name)
+    #         # instance.address = validated_data.get('address', instance.address)
+    #         instance.number = validated_data.get('number', instance.number)
+    #         instance.email = validated_data.get('email', instance.email)
+    #         instance.category = validated_data.get('category', instance.category)
+    #         instance.address_addtional = validated_data.get('address_addtional', instance.address_addtional)
+    #         instance.cover_image = validated_data.get('cover_image', instance.cover_image)
+    #         instance.logo = validated_data.get('logo', instance.logo)
+    #         instance.city = validated_data.get('city', instance.city)
+    #         instance.region = validated_data.get('region', instance.region)
+    #         instance.avenue = validated_data.get('avenue', instance.avenue)
+    #         instance.street = validated_data.get('street', instance.street)
+    #         instance.save()
+    #     return instance
 
 
 class SocialIconSerializer(serializers.ModelSerializer):
