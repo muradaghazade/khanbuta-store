@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from .models import *
-from accounts.seralizers import UserCategorySerializer, CitySerializer, RegionSerializer, AvenueSerializer, StreetSerializer, BuyerSerializer
+from accounts.seralizers import UserCategorySerializer, CitySerializer, RegionSerializer, AvenueSerializer, StreetSerializer, BuyerSerializer, SocialIconSerializer
 from accounts.seralizers import UserSerializer, UserShowSerializer
 from drf_extra_fields.fields import Base64ImageField
 from drf_writable_nested.serializers import WritableNestedModelSerializer
@@ -321,13 +321,14 @@ class SocialLinkSerializer(serializers.ModelSerializer):
 class VendorSerializer(serializers.ModelSerializer):
     category = UserCategorySerializer(required=False)
     products = ProductShowSerializer(required=False, many=True)
+    social_icons = SocialIconSerializer(required=False, many=True)
     city = CitySerializer(required=False)
     region = RegionSerializer(required=False)
     avenue = AvenueSerializer(required=False)
     street = StreetSerializer(required=False)
     class Meta:
         model = User
-        fields = ('id', 'number', 'name', 'is_vendor', 'is_verified_by_admin', 'email', 'rating', 'city', 'region', 'avenue', 'street', 'address_addtional', 'cover_image', 'logo', 'created_at', 'updated_at', 'category', 'products')
+        fields = ('id', 'number', 'name', 'is_vendor', 'is_verified_by_admin', 'email', 'social_icons', 'rating', 'city', 'region', 'avenue', 'street', 'address_addtional', 'cover_image', 'logo', 'created_at', 'updated_at', 'category', 'products')
 
 
 class ProductUpdateSerializer(WritableNestedModelSerializer):
