@@ -10,8 +10,8 @@ client = Client(sid, token)
 def send_sms(code, number):
     try:
         message = client.messages.create(
-            body=f'Your verification code is {code}',
-            from_='+19036183687',
+            body=f'Sizin təstiq kodunuz {code}',
+            from_='IPEKYOLU',
             to=f'{number}'
         )
         print(message.sid)
