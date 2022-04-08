@@ -1,5 +1,5 @@
 from django.urls import path, include
-from accounts.views import RegisterUserAPI, MyObtainTokenPairView, GetUserDataByTokenView, VerifyNumberView, AvenueByCityAPIView, AvenueByRegionAPIView, StreetByAvenueAPIView, UpdateUserView, CategoryBySubAPIView, CategoryBySubSubAPIView, GetAllStores, GetAllVendors, GetMixedStoresVendors, ResetPasswordAPIView, ResetPasswordTwoAPIView, ForgetPasswordAPIView
+from accounts.views import RegisterUserAPI, MyObtainTokenPairView, GetUserDataByTokenView, VerifyNumberView, AvenueByCityAPIView, AvenueByRegionAPIView, StreetByAvenueAPIView, UpdateUserView, CategoryBySubAPIView, CategoryBySubSubAPIView, GetAllStores, GetAllVendors, GetMixedStoresVendors, ResetPasswordAPIView, ResetPasswordTwoAPIView, ForgetPasswordAPIView, UserCategoryAPIView
 from rest_framework_simplejwt.views import TokenRefreshView
 from rest_framework.routers import DefaultRouter
 from accounts.viewsets import *
@@ -25,6 +25,7 @@ router.register('social-icons', SocialIconViewSet, basename='social-icon')
 
 urlpatterns = [
     path('', include(router.urls)),
+    path('categories/', UserCategoryAPIView.as_view(), name='category'),
     path('register/', RegisterUserAPI.as_view(), name='register'),
     path('stores/', GetAllStores.as_view(), name='store'),
     path('vendors/', GetAllVendors.as_view(), name='vendor'),

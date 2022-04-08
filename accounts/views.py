@@ -16,6 +16,12 @@ from django.db.models import Q
 from products.serializers import VendorSerializer
 
 
+class UserCategoryAPIView(ListAPIView):
+    model = UserCategory
+    serializer_class = UserCategorySerializer
+    queryset = UserCategory.objects.order_by("-id")
+
+
 class CategoryBySubAPIView(APIView):
     def get(self, request, *args, **kwargs):
         category = UserSubCategory.objects.filter(category__id=kwargs['id'])
