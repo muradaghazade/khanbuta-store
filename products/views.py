@@ -262,14 +262,14 @@ class DisplayedCategoryAPI(ListAPIView):
 
 class CategoryBySubAPIView(APIView):
     def post(self, request, *args, **kwargs):
-        category = SubCategory.objects.filter(category__id=self.request.data.get('id'))
+        category = SubCategory.objects.filter(category__id=kwargs["id"])
         serializer = SubCategorySerializer(category, many=True)
         return Response(serializer.data)
        
 
 class CategoryBySubSubAPIView(APIView):
     def post(self, request, *args, **kwargs):
-        category = SubSubCategory.objects.filter(category__id=self.request.data.get('id'))
+        category = SubSubCategory.objects.filter(category__id=kwargs["id"])
         serializer = SubSubCategorySerializer(category, many=True)
         return Response(serializer.data)
 
