@@ -146,7 +146,7 @@ class UserShowSerializer(serializers.ModelSerializer):
 class BuyerSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ('id', 'first_name', 'last_name', 'number', 'name', 'is_vendor', 'is_verified_by_admin', 'email', 'address_addtional')
+        fields = ('id', 'first_name', 'last_name', 'number', 'name', 'is_vendor', 'is_verified_by_admin', 'email', 'address_addtional', 'city', 'region', 'avenue', 'street')
 
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
