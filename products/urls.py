@@ -1,6 +1,6 @@
 from rest_framework.routers import DefaultRouter
 from .viewsets import LogoViewSet, CategoryViewSet, HeaderTextViewSet, SubCategoryViewSet, SubSubCategoryViewSet, FilterViewSet, ProductViewSet, FAQViewSet, UserMessageViewSet, CommentViewSet, DiscountProductViewSet, OrderViewSet, SubscriberViewSet, ProductUpdateViewSet
-from .views import AboutUsAPIView, CategoryBySubAPIView, CategoryBySubSubAPIView, LastLogoAPIView, LastHeaderTextAPIView, FiltersBySubSubAPIView, CategoryLineAPI, NumberAPIView, RemoveFromWishlist, SliderAPIView, BenefitAPIView, DisplayedCategoryAPI, ProductCreateAPIView, ProductUpdateDeleteAPIView, ProductFilterAPIView, FAQView, ProductByUserView, RatingListCreateAPIView, AddToWishlist, RemoveFromWishlist, WishlistByUser, PartnerAPIView, ProductAPIView, CategoryBannerView, ProductVersionCreateAPIView, ProductByUserIDView, SearchAPIView, RemoveFromCart, DiscountProductCreateAPIView, DiscountProductsView, CartByUser, StoreOrderAPIView, SocialLinkAPIView, FilterPricesAPIView
+from .views import AboutUsAPIView, CategoryBySubAPIView, CategoryBySubSubAPIView, LastLogoAPIView, LastHeaderTextAPIView, FiltersBySubSubAPIView, CategoryLineAPI, NumberAPIView, RemoveFromWishlist, SliderAPIView, BenefitAPIView, DisplayedCategoryAPI, ProductCreateAPIView, ProductUpdateDeleteAPIView, ProductFilterAPIView, FAQView, ProductByUserView, RatingListCreateAPIView, AddToWishlist, RemoveFromWishlist, WishlistByUser, PartnerAPIView, ProductAPIView, CategoryBannerView, ProductVersionCreateAPIView, ProductByUserIDView, SearchAPIView, RemoveFromCart, DiscountProductCreateAPIView, DiscountProductsView, CartByUser, StoreOrderAPIView, SocialLinkAPIView, FilterPricesAPIView, OrderByBuyerAPIView
 from django.urls import path, include
 
 app_name = "products"
@@ -23,7 +23,7 @@ router.register('user-messages', UserMessageViewSet, basename='user-message')
 
 urlpatterns = [
     path('', include(router.urls)),
-    # path('category-reklam/<int:id>/', CategoryReklamAPIView.as_view(), name='category-reklam'),
+    path('order-by-buyer/<int:pk>', OrderByBuyerAPIView.as_view(), name='region-by-city'),
     path('filter-prices/', FilterPricesAPIView.as_view(), name='filter-prices'),
     path('social-links/', SocialLinkAPIView.as_view(), name='social-link'),
     path('store-orders/', StoreOrderAPIView.as_view(), name='store-order'),

@@ -7,11 +7,18 @@ from rest_framework.views import APIView
 from rest_framework import status
 from django.shortcuts import get_object_or_404
 from rest_framework.response import Response
-from .models import AboutUs, Cart, Category, FAQCategory, SubCategory, SubSubCategory, Logo, HeaderText, Filter, CategoryLine, Slider, Benefit, DisplayedCategory, Product, Image, FilterValue, Tag, Rating, Wishlist, Partner, ProductVersion, CategoryBanner, DiscountProduct, Number, StoreOrder, SocialLink, CategoryReklam
-from .serializers import CategoryLineSerializer, FAQCategorySerializer, FilterSerializer, SubCategorySerializer, SubSubCategorySerializer, LogoSerializer, HeaderTextSerializer, FilterSerializer, SliderSerializer, BenefitSerializer, ProductSerializer, ImageSerializer, AboutUsSerializer, RatingSerializer, WishlistShowSerializer, PartnerSerializer, ProductShowSerializer, CategoryBannerSerializer, ProductVersionSerializer, DiscountProductSerializer, DiscountProductShowSerializer, NumberSerializer, CartShowSerializer, StoreOrderSerializer, SocialLinkSerializer, DisplayedCategorySerializer, CategoryReklamSerializer
+from .models import AboutUs, Cart, Category, FAQCategory, SubCategory, SubSubCategory, Logo, HeaderText, Filter, CategoryLine, Slider, Benefit, DisplayedCategory, Product, Image, FilterValue, Tag, Rating, Wishlist, Partner, ProductVersion, CategoryBanner, DiscountProduct, Number, StoreOrder, SocialLink, CategoryReklam, Order
+from .serializers import CategoryLineSerializer, FAQCategorySerializer, FilterSerializer, SubCategorySerializer, SubSubCategorySerializer, LogoSerializer, HeaderTextSerializer, FilterSerializer, SliderSerializer, BenefitSerializer, ProductSerializer, ImageSerializer, AboutUsSerializer, RatingSerializer, WishlistShowSerializer, PartnerSerializer, ProductShowSerializer, CategoryBannerSerializer, ProductVersionSerializer, DiscountProductSerializer, DiscountProductShowSerializer, NumberSerializer, CartShowSerializer, StoreOrderSerializer, SocialLinkSerializer, DisplayedCategorySerializer, CategoryReklamSerializer, OrderShowSerializer
 from django.db.models import Q
 from accounts.models import User
 from .paginations import CustomPagination
+
+
+class OrderByBuyerAPIView(APIView):
+    def get(self, request, *args, **kwargs):
+        street = Order.objects.filter(buyer__pk=kwargs['pk'])
+        serializer = OrderShowSerializer(street, many=True)
+        return Response(serializer.data)
 
 
 class FilterPricesAPIView(APIView):
