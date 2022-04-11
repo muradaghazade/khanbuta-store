@@ -8,10 +8,64 @@ from rest_framework import status
 from django.shortcuts import get_object_or_404
 from rest_framework.response import Response
 from .models import AboutUs, Cart, Category, FAQCategory, SubCategory, SubSubCategory, Logo, HeaderText, Filter, CategoryLine, Slider, Benefit, DisplayedCategory, Product, Image, FilterValue, Tag, Rating, Wishlist, Partner, ProductVersion, CategoryBanner, DiscountProduct, Number, StoreOrder, SocialLink, CategoryReklam, Order
-from .serializers import CategoryLineSerializer, FAQCategorySerializer, FilterSerializer, SubCategorySerializer, SubSubCategorySerializer, LogoSerializer, HeaderTextSerializer, FilterSerializer, SliderSerializer, BenefitSerializer, ProductSerializer, ImageSerializer, AboutUsSerializer, RatingSerializer, WishlistShowSerializer, PartnerSerializer, ProductShowSerializer, CategoryBannerSerializer, ProductVersionSerializer, DiscountProductSerializer, DiscountProductShowSerializer, NumberSerializer, CartShowSerializer, StoreOrderSerializer, SocialLinkSerializer, DisplayedCategorySerializer, CategoryReklamSerializer, OrderShowSerializer
+from .serializers import CategoryLineSerializer, FAQCategorySerializer, FilterSerializer, SubCategorySerializer, SubSubCategorySerializer, LogoSerializer, HeaderTextSerializer, FilterSerializer, SliderSerializer, BenefitSerializer, ProductSerializer, ImageSerializer, AboutUsSerializer, RatingSerializer, WishlistShowSerializer, PartnerSerializer, ProductShowSerializer, CategoryBannerSerializer, ProductVersionSerializer, DiscountProductSerializer, DiscountProductShowSerializer, NumberSerializer, CartShowSerializer, StoreOrderSerializer, SocialLinkSerializer, DisplayedCategorySerializer, CategoryReklamSerializer, OrderShowSerializer, CategorySerializer
 from django.db.models import Q
 from accounts.models import User
 from .paginations import CustomPagination
+
+
+class CategoryTitleAPIView(ListAPIView):
+    model = Category
+    serializer_class = CategorySerializer
+    queryset = Category.objects.order_by('-id')
+
+    def get_queryset(self):
+        print(self.request.data)
+        queryset = Category.objects.order_by('-id')
+        id = self.request.data.get('title')
+
+        if id:
+            queryset = queryset.filter(title=id)
+        return queryset
+
+    def post(self, request, *args, **kwargs):
+        return self.list(request, *args, **kwargs)
+
+
+class SubCategoryTitleAPIView(ListAPIView):
+    model = SubCategory
+    serializer_class = SubCategorySerializer
+    queryset = SubCategory.objects.order_by('-id')
+
+    def get_queryset(self):
+        print(self.request.data)
+        queryset = SubCategory.objects.order_by('-id')
+        id = self.request.data.get('title')
+
+        if id:
+            queryset = queryset.filter(title=id)
+        return queryset
+
+    def post(self, request, *args, **kwargs):
+        return self.list(request, *args, **kwargs)
+
+
+class SubSubCategoryTitleAPIView(ListAPIView):
+    model = SubSubCategory
+    serializer_class = SubSubCategorySerializer
+    queryset = SubSubCategory.objects.order_by('-id')
+
+    def get_queryset(self):
+        print(self.request.data)
+        queryset = SubSubCategory.objects.order_by('-id')
+        id = self.request.data.get('title')
+
+        if id:
+            queryset = queryset.filter(title=id)
+        return queryset
+
+    def post(self, request, *args, **kwargs):
+        return self.list(request, *args, **kwargs)
 
 
 class OrderByBuyerAPIView(APIView):
