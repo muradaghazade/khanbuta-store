@@ -143,10 +143,6 @@ class UserShowSerializer(serializers.ModelSerializer):
         fields = ('id', 'number', 'name', 'is_vendor', 'is_verified', 'email', 'rating', 'address_addtional', 'social_icons', 'cover_image', 'logo', 'category', 'sub_category', 'sub_sub_category')
 
 
-class BuyerSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = User
-        fields = ('id', 'first_name', 'last_name', 'number', 'name', 'is_vendor', 'is_verified_by_admin', 'email', 'address_addtional', 'city', 'region', 'avenue', 'street')
 
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
@@ -231,3 +227,13 @@ class ResetPasswordTwoSerializer(serializers.Serializer):
         if data['password'] != data['confirm_password']:
             raise serializers.ValidationError("Password and confirm password not match")
         return data
+
+
+class BuyerSerializer(serializers.ModelSerializer):
+    city = CitySerializer(required=False)
+    region = RegionSerializer(required=False)
+    avenue = AvenueSerializer(required=False)
+    street = StreetSerializer(required=False)
+    class Meta:
+        model = User
+        fields = ('id', 'first_name', 'last_name', 'number', 'name', 'is_vendor', 'is_verified_by_admin', 'email', 'address_addtional', 'city', 'region', 'avenue', 'street')
