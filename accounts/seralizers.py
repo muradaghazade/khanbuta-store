@@ -82,7 +82,7 @@ class UserSerializer(WritableNestedModelSerializer):
     
     class Meta:
         model = User
-        fields = ('id', 'number', 'name', 'is_vendor',  'email', 'rating', 'address_addtional', 'social_icons', 'cover_image', 'logo', 'city', 'category', 'region', 'avenue', 'street')
+        fields = ('id', 'number', 'name', 'is_vendor', 'first_name', 'last_name', 'email', 'rating', 'address_addtional', 'social_icons', 'cover_image', 'logo', 'city', 'category', 'region', 'avenue', 'street')
 
     # def update(self, instance, validated_data):
     #     try:
@@ -178,10 +178,9 @@ class AvenueSerializer(serializers.ModelSerializer):
 
 
 class RegionSerializer(serializers.ModelSerializer):
-    avenues = AvenueSerializer(many=True, required=False)
     class Meta:
         model = Region
-        fields = ('id', 'title', 'avenues', 'created_at', 'updated_at')
+        fields = ('id', 'title', 'city', 'created_at', 'updated_at')
 
 
 class CitySerializer(serializers.ModelSerializer):

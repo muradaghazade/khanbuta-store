@@ -1,8 +1,8 @@
 from accounts.utils import send_sms
 from rest_framework.generics import CreateAPIView, ListAPIView
 from rest_framework.views import APIView
-from accounts.seralizers import UserRegisterSerializer, UserSerializer, MyTokenObtainPairSerializer, AvenueSerializer, StreetSerializer, BuyerSerializer, UserSubSubCategorySerializer, UserCategorySerializer, UserSubCategorySerializer, UserShowSerializer, ResetPasswordSerializer, ForgetPasswordSerializer, ResetPasswordTwoSerializer
-from accounts.models import Avenue, User, Street, UserSubSubCategory, UserCategory, UserSubCategory, OTPCode
+from accounts.seralizers import UserRegisterSerializer, UserSerializer, MyTokenObtainPairSerializer, AvenueSerializer, StreetSerializer, BuyerSerializer, UserSubSubCategorySerializer, UserCategorySerializer, UserSubCategorySerializer, UserShowSerializer, ResetPasswordSerializer, ForgetPasswordSerializer, ResetPasswordTwoSerializer, RegionSerializer
+from accounts.models import Avenue, User, Street, UserSubSubCategory, UserCategory, UserSubCategory, OTPCode, Region
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.permissions import AllowAny, IsAuthenticated
@@ -112,6 +112,13 @@ class StreetByAvenueAPIView(APIView):
     def get(self, request, *args, **kwargs):
         street = Street.objects.filter(avenue__pk=kwargs['pk'])
         serializer = StreetSerializer(street, many=True)
+        return Response(serializer.data)
+
+
+class RegionByCityAPIView(APIView):
+    def get(self, request, *args, **kwargs):
+        street = Region.objects.filter(city__pk=kwargs['pk'])
+        serializer = RegionSerializer(street, many=True)
         return Response(serializer.data)
 
 

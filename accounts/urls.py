@@ -1,5 +1,5 @@
 from django.urls import path, include
-from accounts.views import RegisterUserAPI, MyObtainTokenPairView, GetUserDataByTokenView, VerifyNumberView, AvenueByCityAPIView, AvenueByRegionAPIView, StreetByAvenueAPIView, UpdateUserView, CategoryBySubAPIView, CategoryBySubSubAPIView, GetAllStores, GetAllVendors, GetMixedStoresVendors, ResetPasswordAPIView, ResetPasswordTwoAPIView, ForgetPasswordAPIView, UserCategoryAPIView
+from accounts.views import RegisterUserAPI, MyObtainTokenPairView, GetUserDataByTokenView, VerifyNumberView, AvenueByCityAPIView, AvenueByRegionAPIView, StreetByAvenueAPIView, UpdateUserView, CategoryBySubAPIView, CategoryBySubSubAPIView, GetAllStores, GetAllVendors, GetMixedStoresVendors, ResetPasswordAPIView, ResetPasswordTwoAPIView, ForgetPasswordAPIView, UserCategoryAPIView, RegionByCityAPIView
 from rest_framework_simplejwt.views import TokenRefreshView
 from rest_framework.routers import DefaultRouter
 from accounts.viewsets import *
@@ -37,6 +37,7 @@ urlpatterns = [
     path('verify-number/', VerifyNumberView.as_view(), name='verify-number'),
     path('sub-by-category/<int:id>/', CategoryBySubAPIView.as_view(), name='sub'),
     path('sub-by-subsub/<int:id>/', CategoryBySubSubAPIView.as_view(), name='sub-sub'),
+    path('region-by-city/<int:pk>', RegionByCityAPIView.as_view(), name='region-by-city'),
     path('avenue-by-city/<int:pk>', AvenueByCityAPIView.as_view(), name='avenue-by-city'),
     path('avenue-by-region/<int:pk>', AvenueByRegionAPIView.as_view(), name='avenue-by-region'),
     path('street-by-avenue/<int:pk>', StreetByAvenueAPIView.as_view(), name='street-by-avenue'),
