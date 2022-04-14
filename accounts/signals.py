@@ -8,4 +8,4 @@ def post_save_generate_code(sender, instance, created, *args, **kwargs):
     if created:
         code = OTPCode.objects.create(user=instance)
         print(code.user)
-        send_sms(code.code, code.user.number)
+        # send_sms(code.code, code.user.number)
