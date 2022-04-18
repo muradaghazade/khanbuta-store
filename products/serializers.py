@@ -350,7 +350,7 @@ class VendorSerializer(serializers.Serializer):
     cover_image = serializers.ImageField()
     logo = serializers.ImageField()
     category = UserCategorySerializer(required=False)
-    products = ProductShowSerializer(required=False, many=True)
+    # products = ProductShowSerializer(required=False, many=True)
     created_at = serializers.DateTimeField()
 
 
