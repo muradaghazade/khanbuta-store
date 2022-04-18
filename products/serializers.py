@@ -318,40 +318,40 @@ class SocialLinkSerializer(serializers.ModelSerializer):
         fields = ('id', 'title', 'url', 'logo', 'created_at', 'updated_at')
 
 
-class VendorSerializer(serializers.ModelSerializer):
-    category = UserCategorySerializer(required=False)
-    products = ProductShowSerializer(required=False, many=True)
-    social_icons = SocialIconSerializer(required=False, many=True)
-    city = CitySerializer(required=False)
-    region = RegionSerializer(required=False)
-    avenue = AvenueSerializer(required=False)
-    street = StreetSerializer(required=False)
-
-    class Meta:
-        model = User
-        fields = ('id', 'number', 'name', 'is_vendor', 'is_verified_by_admin', 'email', 'social_icons', 'rating', 'city', 'region', 'avenue', 'street', 'address_addtional', 'cover_image', 'logo', 'created_at', 'updated_at', 'category', 'products')
-        # read_only_fields = fields
-
-
-# class VendorSerializer(serializers.Serializer):
-#     id = serializers.IntegerField()
-#     number = serializers.CharField()
-#     name = serializers.CharField()
-#     is_vendor = serializers.BooleanField()
-#     is_verified_by_admin = serializers.BooleanField()
-#     email = serializers.EmailField()
+# class VendorSerializer(serializers.ModelSerializer):
+#     category = UserCategorySerializer(required=False)
+#     products = ProductShowSerializer(required=False, many=True)
 #     social_icons = SocialIconSerializer(required=False, many=True)
-#     rating = serializers.IntegerField()
 #     city = CitySerializer(required=False)
 #     region = RegionSerializer(required=False)
 #     avenue = AvenueSerializer(required=False)
 #     street = StreetSerializer(required=False)
-#     address_addtional = serializers.CharField()
-#     cover_image = serializers.ImageField()
-#     logo = serializers.ImageField()
-#     category = UserCategorySerializer(required=False)
-#     products = ProductShowSerializer(required=False, many=True)
-#     created_at = serializers.DateTimeField()
+
+#     class Meta:
+#         model = User
+#         fields = ('id', 'number', 'name', 'is_vendor', 'is_verified_by_admin', 'email', 'social_icons', 'rating', 'city', 'region', 'avenue', 'street', 'address_addtional', 'cover_image', 'logo', 'created_at', 'updated_at', 'category', 'products')
+        # read_only_fields = fields
+
+
+class VendorSerializer(serializers.Serializer):
+    id = serializers.IntegerField()
+    number = serializers.CharField()
+    name = serializers.CharField()
+    is_vendor = serializers.BooleanField()
+    is_verified_by_admin = serializers.BooleanField()
+    email = serializers.EmailField()
+    social_icons = SocialIconSerializer(required=False, many=True)
+    rating = serializers.IntegerField()
+    city = CitySerializer(required=False)
+    region = RegionSerializer(required=False)
+    avenue = AvenueSerializer(required=False)
+    street = StreetSerializer(required=False)
+    address_addtional = serializers.CharField()
+    cover_image = serializers.ImageField()
+    logo = serializers.ImageField()
+    category = UserCategorySerializer(required=False)
+    # products = ProductShowSerializer(required=False, many=True)
+    created_at = serializers.DateTimeField()
 
 
 class ProductUpdateSerializer(WritableNestedModelSerializer):
