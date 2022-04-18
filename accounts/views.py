@@ -227,7 +227,7 @@ class GetAllStores(ListAPIView):
 class GetAllVendors(ListAPIView):
     model = User
     serializer_class = VendorSerializer
-    # pagination_class = CustomPagination
+    pagination_class = CustomPagination
     queryset = User.objects.order_by("-id")
 
     def get_queryset(self):
