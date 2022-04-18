@@ -125,7 +125,7 @@ class SearchAPIView(ListAPIView):
         title = self.request.data.get('title')
 
         if title:
-            queryset = queryset.filter(title__icontains=title)
+            queryset = queryset.filter(Q(title__icontains=title) | Q(description__icontains=title))
         return queryset
 
     def post(self, request, *args, **kwargs):
