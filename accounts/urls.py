@@ -1,5 +1,5 @@
 from django.urls import path, include
-from accounts.views import RegisterUserAPI, MyObtainTokenPairView, GetUserDataByTokenView, VerifyNumberView, AvenueByCityAPIView, AvenueByRegionAPIView, StreetByAvenueAPIView, UpdateUserView, CategoryBySubAPIView, CategoryBySubSubAPIView, GetAllStores, GetAllVendors, GetMixedStoresVendors, ResetPasswordAPIView, ResetPasswordTwoAPIView, ForgetPasswordAPIView, UserCategoryAPIView, RegionByCityAPIView
+from accounts.views import GetAllVendorsTwo, RegisterUserAPI, MyObtainTokenPairView, GetUserDataByTokenView, VerifyNumberView, AvenueByCityAPIView, AvenueByRegionAPIView, StreetByAvenueAPIView, UpdateUserView, CategoryBySubAPIView, CategoryBySubSubAPIView, GetAllStores, GetAllVendors, GetMixedStoresVendors, ResetPasswordAPIView, ResetPasswordTwoAPIView, ForgetPasswordAPIView, UserCategoryAPIView, RegionByCityAPIView
 from rest_framework_simplejwt.views import TokenRefreshView
 from rest_framework.routers import DefaultRouter
 from accounts.viewsets import *
@@ -28,7 +28,7 @@ urlpatterns = [
     path('categories/', UserCategoryAPIView.as_view(), name='category'),
     path('register/', RegisterUserAPI.as_view(), name='register'),
     path('stores/', GetAllStores.as_view(), name='store'),
-    path('vendors/', GetAllVendors.as_view(), name='vendor'),
+    path('vendors/', GetAllVendorsTwo.as_view(), name='vendor'),
     path('stores-vendors/', GetMixedStoresVendors.as_view(), name='stores-vendors'),
     path('user/<int:pk>', UpdateUserView.as_view(), name='user'),
     path('login/', MyObtainTokenPairView.as_view(), name='token_obtain_pair'),
