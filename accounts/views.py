@@ -184,39 +184,39 @@ class GetAllVendors(ListAPIView):
     queryset = User.objects.filter(is_store=False, is_vendor=True).order_by("-id")
 
     def get_queryset(self):
-        az = self.request.data.get('az')
-        za = self.request.data.get('za')
-        min_rating = self.request.data.get('min_rating')
-        max_rating = self.request.data.get('max_rating')
-        category = self.request.data.get('category')
+        # az = self.request.data.get('az')
+        # za = self.request.data.get('za')
+        # min_rating = self.request.data.get('min_rating')
+        # max_rating = self.request.data.get('max_rating')
+        # category = self.request.data.get('category')
         title = self.request.data.get('title')
-        sub_category = self.request.data.get('sub_category')
-        sub_sub_category = self.request.data.get('sub_sub_category')
+        # sub_category = self.request.data.get('sub_category')
+        # sub_sub_category = self.request.data.get('sub_sub_category')
         queryset = User.objects.filter(is_store=False, is_vendor=True).order_by("-id")
 
         if title:
             queryset = queryset.filter(title__icontains=title)
 
-        if category:
-            queryset = queryset.filter(category__title__icontains=category)
+        # if category:
+        #     queryset = queryset.filter(category__title__icontains=category)
 
-        if sub_category:
-            queryset = queryset.filter(sub_category__title__icontains=category)
+        # if sub_category:
+        #     queryset = queryset.filter(sub_category__title__icontains=category)
 
-        if sub_sub_category:
-            queryset = queryset.filter(sub_sub_category__title__icontains=category)
+        # if sub_sub_category:
+        #     queryset = queryset.filter(sub_sub_category__title__icontains=category)
 
-        if az:
-            queryset = queryset.order_by('title')
+        # if az:
+        #     queryset = queryset.order_by('title')
 
-        if za:
-            queryset = queryset.order_by('-title')
+        # if za:
+        #     queryset = queryset.order_by('-title')
 
-        if min_rating:
-            queryset = queryset.order_by('rating')
+        # if min_rating:
+        #     queryset = queryset.order_by('rating')
 
-        if max_rating:
-            queryset = queryset.order_by('-rating')
+        # if max_rating:
+        #     queryset = queryset.order_by('-rating')
         
         return queryset
 
