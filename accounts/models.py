@@ -21,7 +21,7 @@ class User(AbstractUser):
             'unique': ("A user with that username already exists."),
         },
     )
-    email = models.EmailField(('email adress'), unique=True, null=True, blank=True)
+    email = models.EmailField(('email adress'), unique=False, null=True, blank=True)
     name = models.CharField(max_length=100, null=True, blank=True)
     number = models.CharField(('Number'),max_length=100, unique=True, null=True, blank=True)
     # address = models.CharField(max_length=3000, null=True, blank=True)
