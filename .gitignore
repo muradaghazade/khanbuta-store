@@ -16,7 +16,6 @@ __pycache__/
 # C extensions
 *.so
 media/pycharm-professional-2020.3.5.tar.gz
-db.sqlite3
 # Distribution / packaging
 .Python
 build/
