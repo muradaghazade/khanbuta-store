@@ -1,3 +1,4 @@
+from django import views
 from django.db import models
 from .common import slugify
 from accounts.models import User
@@ -306,6 +307,7 @@ class Product(models.Model):
     sub_sub_category = models.ForeignKey(SubSubCategory, on_delete=models.CASCADE, related_name='products', blank=True, null=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, db_index=True, related_name='products', null=True, blank=True)
     tag = models.ManyToManyField('Tag', db_index=True, related_name='products', null=True, blank=True)
+    views = models.IntegerField('Views', null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
