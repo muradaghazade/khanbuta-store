@@ -108,7 +108,8 @@ class ProductViewSet(viewsets.ViewSet):
 
     def retrieve(self, request, pk=None):
         f = get_object_or_404(self.queryset, pk=pk)
-        print(f)
+        views = f.views + 1
+        f.update(views=views)
         serializers_class = ProductShowSerializer(f)
         return Response(serializers_class.data)
 
