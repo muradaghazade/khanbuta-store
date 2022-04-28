@@ -23,6 +23,7 @@ class User(AbstractUser):
     )
     email = models.EmailField(('email adress'), unique=False, null=True, blank=True)
     name = models.CharField(max_length=100, null=True, blank=True)
+    push_id = models.CharField(max_length=100, null=True, blank=True)
     number = models.CharField(('Number'),max_length=100, unique=True, null=True, blank=True)
     # address = models.CharField(max_length=3000, null=True, blank=True)
     address_addtional = models.CharField(max_length=300, null=True, blank=True)

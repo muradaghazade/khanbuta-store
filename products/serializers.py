@@ -335,6 +335,7 @@ class SocialLinkSerializer(serializers.ModelSerializer):
 
 class VendorSerializer(serializers.Serializer):
     id = serializers.IntegerField()
+    push_id = serializers.CharField()
     number = serializers.CharField()
     name = serializers.CharField()
     is_vendor = serializers.BooleanField()

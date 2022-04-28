@@ -82,7 +82,7 @@ class UserSerializer(WritableNestedModelSerializer):
     
     class Meta:
         model = User
-        fields = ('id', 'number', 'name', 'is_vendor', 'first_name', 'last_name', 'email', 'rating', 'address_addtional', 'social_icons', 'cover_image', 'logo', 'city', 'category', 'region', 'avenue', 'street')
+        fields = ('id', 'push_id', 'number', 'name', 'is_vendor', 'first_name', 'last_name', 'email', 'rating', 'address_addtional', 'social_icons', 'cover_image', 'logo', 'city', 'category', 'region', 'avenue', 'street')
 
     # def update(self, instance, validated_data):
     #     try:
@@ -140,7 +140,7 @@ class UserShowSerializer(serializers.ModelSerializer):
     social_icons = SocialIconSerializer(required=False)
     class Meta:
         model = User
-        fields = ('id', 'number', 'name', 'is_vendor', 'is_verified', 'email', 'rating', 'address_addtional', 'social_icons', 'cover_image', 'logo', 'category', 'sub_category', 'sub_sub_category')
+        fields = ('id', 'push_id', 'number', 'name', 'is_vendor', 'is_verified', 'email', 'rating', 'address_addtional', 'social_icons', 'cover_image', 'logo', 'category', 'sub_category', 'sub_sub_category')
 
 
 
@@ -236,4 +236,4 @@ class BuyerSerializer(serializers.ModelSerializer):
     street = StreetSerializer(required=False)
     class Meta:
         model = User
-        fields = ('id', 'first_name', 'last_name', 'number', 'name', 'is_vendor', 'is_verified_by_admin', 'email', 'address_addtional', 'city', 'region', 'avenue', 'street')
+        fields = ('id', 'push_id', 'first_name', 'last_name', 'number', 'name', 'is_vendor', 'is_verified_by_admin', 'email', 'address_addtional', 'city', 'region', 'avenue', 'street')
