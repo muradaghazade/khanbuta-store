@@ -7,4 +7,4 @@ RUN pip install -r requirements.txt
 ADD . .
 
 
-CMD [ "gunicorn", "--bind", "0.0.0.0", "-p", "8000",  "ffa.wsgi" ]
+CMD [ "gunicorn", "--bind", "0.0.0.0", "-p", "8000",  "khanbuta_store.wsgi" ]
