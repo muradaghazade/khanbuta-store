@@ -40,6 +40,7 @@ class SubCategoryTitleAPIView(ListAPIView):
     def get_queryset(self):
         print(self.request.data)
         queryset = SubCategory.objects.order_by('-id')
+        print("resring")
         id = self.request.data.get('title')
 
         if id:
