@@ -11,4 +11,4 @@ WORKDIR /code
 RUN pip install -r requirements.txt
 ADD . .
 # RUN python manage.py collectstatic --noinput
-CMD [ "gunicorn", "--bind", "0.0.0.0", "-p", "8000",  "construction.wsgi" ]
+CMD [ "gunicorn", "--bind", "0.0.0.0", "-p", "8000",  "khanbuta_store.wsgi" ]

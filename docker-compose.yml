@@ -26,7 +26,7 @@ services:
       - LC_ALL=C.UTF-8
 
   web:
-    container_name: construction
+    container_name: ipekyolu
     build: .
     restart: "always"
     env_file: ./.env
