@@ -21,19 +21,14 @@ services:
             - ./postgre_db:/var/lib/postgresql/
         env_file: ./.env
     web:
-        container_name: ffa
         build: .
         restart: "always"
         ports:
-            - "8000:8000"
-        
+            - "80:8000"
+        command: python manage.py runserver 0.0.0.0:8000
         volumes:
             - .:/code/
-            # - ./static/:/code/static
-            # - ./media/:/code/media
-        depends_on:
-            - "postgres"
-        env_file: ./.env
+            - ./media/:/code/media/
 
 
 networks:
