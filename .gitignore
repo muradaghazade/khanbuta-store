@@ -5,6 +5,7 @@
 ### Python ###
 # database vloume
 pgdb/
+pgdb
 8000
 venv/
 .venv/
