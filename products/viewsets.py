@@ -99,17 +99,12 @@ class FilterViewSet(viewsets.ViewSet):
 class ProductViewSet(viewsets.ViewSet):
     queryset = Product.objects.all()
     serializer_class = ProductShowSerializer
-    # pagination_class = CustomPagination
-
-    # def list(self, request):
-    #     self.queryset = Product.objects.all()
-    #     serializers_class = ProductShowSerializer(self.queryset, many=True)
-    #     return Response(serializers_class.data)
 
     def retrieve(self, request, pk=None):
-        f = get_object_or_404(self.queryset, pk=pk)
-        views = f.views + 1
-        f.update(views=views)
+        f = Product.objects.get(id=pk)
+        # f = get_object_or_404(self.queryset, pk=pk)
+        f.views += 1
+        f.save()
         serializers_class = ProductShowSerializer(f)
         return Response(serializers_class.data)
 
@@ -117,17 +112,6 @@ class ProductViewSet(viewsets.ViewSet):
 class ProductUpdateViewSet(viewsets.ModelViewSet):
     queryset = Product.objects.all()
     serializer_class = ProductUpdateSerializer
-    # # pagination_class = CustomPagination
-
-    # # def list(self, request):
-    # #     self.queryset = Product.objects.all()
-    # #     serializers_class = ProductShowSerializer(self.queryset, many=True)
-    # #     return Response(serializers_class.data)
-
-    # def retrieve(self, request, pk=None):
-    #     f = get_object_or_404(self.queryset, pk=pk)
-    #     serializers_class = ProductShowSerializer(f)
-    #     return Response(serializers_class.data)
 
 
 class FAQViewSet(viewsets.ViewSet):

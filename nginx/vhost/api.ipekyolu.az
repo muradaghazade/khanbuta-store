@@ -1,0 +1,6 @@
+location /static/ {
+    alias /khanbuta_store/static/;
+}
+location /media/ {
+    alias /khanbuta_store/media/;
+}
