@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'ckeditor_uploader',
     'rest_framework',
     'corsheaders',
+    'django_cleanup.apps.CleanupConfig',
 
     #local apps
     'products.apps.ProductsConfig',
